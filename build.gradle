@@ -52,7 +52,7 @@ model {
             }
             binaries.all {
                 cppCompiler.args('-g')
-                linker.args("-L../CORERobotLib/lib",'-lCORERobotLib')
+                linker.args("-L../CORERobotLib/lib/release",'-lCORERobotLib')
                 linker.args("-L../CORERobotLib/3rdparty/seasocks/Linux/arm",'-lseasocks')
             }
             sources.cpp {
