@@ -63,8 +63,8 @@ model {
                 exportedHeaders {
                     srcDir 'src'
                     srcDirs '../CORERobotLib/src'
-                    srcDirs '../CORERobotLib/3rdparty/seasocks/src/main/c' 
-                    srcDirs '../CORERobotLib/3rdparty/json/src/'
+                    srcDir "../CORERobotLib/3rdparty/json/src/"
+                    srcDir "../CORERobotLib/3rdparty/seasocks/src/main/c"
                     if (includeSrcInIncludeRoot) {
                         srcDir 'src'
                     }

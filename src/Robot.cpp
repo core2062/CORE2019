@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-#include <frc/smartDashboard/SmartDashboard.h>
+#include <frc/WPILib.h>
 Robot::Robot() : driveSubsystem() {
   
 }
@@ -30,4 +30,8 @@ void Robot::TestInit() {
   
 }
 
-frc::StartRobot<Robot>()
+#ifndef RUNNING_FRC_TESTS
+int main() { 
+	return frc::StartRobot<Robot>(); 
+}
+#endif
