@@ -1,6 +1,7 @@
 #include <DriveSubsystem.h>
 #include <Robot.h>
 #include <frc/WPILib.h>
+#include <COREFramework/COREScheduler.h>
 
 using namespace CORE;
 
@@ -20,17 +21,29 @@ DriveSubsystem::DriveSubsystem() : driveTurnkP("Drive Turn P Value", .05),
 }
 
 void DriveSubsystem::RobotInit() {
+	driverJoystick->RegisterAxis(CORE::COREJoystick::LEFT_STICK_Y);
+	driverJoystick->RegisterAxis(CORE::COREJoystick::RIGHT_STICK_Y);
     InitTalons();
 }
 
 void DriveSubsystem::TeleopInit() {
 	COREEtherDrive::SetAB(m_etherAValue.Get(), m_etherBValue.Get());
 	COREEtherDrive::SetQuickturn(m_etherQuickTurnValue.Get());
+	InitTalons();
 }
 
 
 void DriveSubsystem::Teleop() {
-	InitTalons();
+	if(driverJoystick != nullptr) {
+    	double left = -driverJoystick->GetAxis(CORE::COREJoystick::JoystickAxis::LEFT_STICK_Y);
+		double right = driverJoystick->GetAxis(CORE::COREJoystick::JoystickAxis::RIGHT_STICK_Y);
+		cout << "Not a nullptr" << endl;
+		SetMotorSpeed(left, right);
+	} else {
+		SetMotorSpeed(0, 0);
+		cout << "Nullptr" << endl;
+	}
+
 }
 
 void DriveSubsystem::PostLoopTask() {

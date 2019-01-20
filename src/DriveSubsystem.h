@@ -4,13 +4,14 @@
 #include <CORERobotLib.h>
 #include <frc/WPILib.h>
 #include <ctre/Phoenix.h>
+#include <COREFramework/COREScheduler.h>
+#include <COREHardware/COREJoystick.h>
 
 enum class DriveSide{LEFT = 1, RIGHT = 2, BOTH = 3};
 
-using namespace CORE;
 using namespace frc;
 
-class DriveSubsystem : public CORESubsystem {
+class DriveSubsystem : public CORESubsystem, public CORETask {
 public:
     DriveSubsystem();
     void RobotInit() override;
