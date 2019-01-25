@@ -5,3 +5,24 @@
 HatchScorerSubsystem::HatchScorerSubsystem() {
 
 }
+
+void HatchScorerSubsystem::robotInit(){
+
+}
+
+void HatchScorerSubsystem::teleopInit(){
+    
+}
+
+void HatchScorerSubsystem::teleop(){
+    
+}
+
+void HatchScorerSubsystem::ActuateClaw(){
+
+}
+
+void HatchScorerSubsystem::SetClawState(){
+
+}
+
