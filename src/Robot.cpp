@@ -3,19 +3,19 @@
 #include <iostream>
 
 #include <frc/WPILib.h>
-Robot::Robot() : driveSubsystem() {
-  
+Robot::Robot() {
+
 }
 
 void Robot::Teleop() {
 
 }
 
-void Robot::RobotInit() {
+void Robot::robotInit() {
 
 }
 
-void Robot::TeleopInit() {
+void Robot::teleopInit() {
     
 }
 
@@ -23,7 +23,7 @@ void Robot::Test() {
 
 }
 
-void Robot::TestInit() {
+void Robot::testInit() {
   
 }
 

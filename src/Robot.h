@@ -26,10 +26,10 @@ using namespace std;
 class Robot : public CORERobot {
 public: 
  	Robot();
-	void RobotInit() override;
-    void TeleopInit() override;
+	void robotInit() override;
+    void teleopInit() override;
     void Teleop() override;
 	void Test() override;
-	void TestInit() override;
+	void testInit() override;
 	DriveSubsystem driveSubsystem;
 };

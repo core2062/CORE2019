@@ -20,13 +20,15 @@ DriveSubsystem::DriveSubsystem() : driveTurnkP("Drive Turn P Value", .05),
 								   m_turnPIDMultiplier("Turn PID Multiplier", 0.1) {
 }
 
-void DriveSubsystem::RobotInit() {
+void DriveSubsystem::robotInit() {
+	cout << "Robot init" << endl;
 	driverJoystick->RegisterAxis(CORE::COREJoystick::LEFT_STICK_Y);
 	driverJoystick->RegisterAxis(CORE::COREJoystick::RIGHT_STICK_Y);
     InitTalons();
 }
 
-void DriveSubsystem::TeleopInit() {
+void DriveSubsystem::teleopInit() {
+	cout << "teleop init" << endl;
 	COREEtherDrive::SetAB(m_etherAValue.Get(), m_etherBValue.Get());
 	COREEtherDrive::SetQuickturn(m_etherQuickTurnValue.Get());
 	InitTalons();
@@ -34,6 +36,7 @@ void DriveSubsystem::TeleopInit() {
 
 
 void DriveSubsystem::Teleop() {
+	cout << "teleop" << endl;
 	if(driverJoystick != nullptr) {
     	double left = -driverJoystick->GetAxis(CORE::COREJoystick::JoystickAxis::LEFT_STICK_Y);
 		double right = driverJoystick->GetAxis(CORE::COREJoystick::JoystickAxis::RIGHT_STICK_Y);
@@ -41,7 +44,7 @@ void DriveSubsystem::Teleop() {
 		SetMotorSpeed(left, right);
 	} else {
 		SetMotorSpeed(0, 0);
-		cout << "Nullptr" << endl;
+		// cout << "Nullptr" << endl;
 	}
 
 }

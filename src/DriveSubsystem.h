@@ -11,11 +11,11 @@ enum class DriveSide{LEFT = 1, RIGHT = 2, BOTH = 3};
 
 using namespace frc;
 
-class DriveSubsystem : public CORESubsystem, public CORETask {
+class DriveSubsystem : public CORESubsystem {
 public:
     DriveSubsystem();
-    void RobotInit() override;
-    void TeleopInit() override;
+    void robotInit() override;
+    void teleopInit() override;
     void Teleop() override;
     void PostLoopTask() override;
     void InitTalons();
