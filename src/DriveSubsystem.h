@@ -16,8 +16,7 @@ public:
     DriveSubsystem();
     void robotInit() override;
     void teleopInit() override;
-    void Teleop() override;
-    void PostLoopTask() override;
+    void teleop() override;
     void InitTalons();
     void ToggleGear();
     void ResetEncoders(DriveSide whichSide);

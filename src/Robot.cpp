@@ -7,7 +7,7 @@ Robot::Robot() {
 
 }
 
-void Robot::Teleop() {
+void Robot::teleop() {
 
 }
 
@@ -19,7 +19,7 @@ void Robot::teleopInit() {
     
 }
 
-void Robot::Test() {
+void Robot::test() {
 
 }
 

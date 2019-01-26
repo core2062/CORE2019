@@ -35,7 +35,7 @@ void DriveSubsystem::teleopInit() {
 }
 
 
-void DriveSubsystem::Teleop() {
+void DriveSubsystem::teleop() {
 	if(driverJoystick != nullptr) {
     	double left = -driverJoystick->GetAxis(CORE::COREJoystick::JoystickAxis::LEFT_STICK_Y);
 		double right = -driverJoystick->GetAxis(CORE::COREJoystick::JoystickAxis::RIGHT_STICK_Y);
@@ -47,10 +47,6 @@ void DriveSubsystem::Teleop() {
 	} else {
 		SetMotorSpeed(0, 0);
 	}
-
-}
-
-void DriveSubsystem::PostLoopTask() {
 
 }
 
