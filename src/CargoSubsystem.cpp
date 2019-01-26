@@ -25,20 +25,19 @@ void CargoSubsystem::teleopInit(){
 void CargoSubsystem::teleop(){
     
     if(IsIntaking()){
-        m_rightSideIntake.Set(ControlMode::PercentOutput, 0);
-        m_leftSideIntake.Set(ControlMode::PercentOutput, 0);
+       if(operatorJoystick->GetButton(CORE::COREJoystick::JoystickButton::LEFT_BUTTON)) {
+           SetIntake();
+        }else if (operatorJoystick->GetButton(CORE::COREJoystick::JoystickButton::LEFT_TRIGGER)) {
+            SetOuttake();
     }
     else{
-        if(operatorJoystick->GetButton(CORE::COREJoystick::JoystickButton::LEFT_BUTTON)) {
-
-        }else if (operatorJoystick->GetButton(CORE::COREJoystick::JoystickButton::LEFT_TRIGGER)) {
-
-        } else {
-            m_rightSideIntake.Set(ControlMode::PercentOutput, 0);
+         m_rightSideIntake.Set(ControlMode::PercentOutput, 0);
          m_leftSideIntake.Set(ControlMode::PercentOutput, 0);
-    }
+
+        }
     }
 }
+
 
 void CargoSubsystem::SetIntake(){
     m_rightSideIntake.Set(ControlMode::PercentOutput, 0.2);
