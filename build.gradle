@@ -53,7 +53,6 @@ model {
             binaries.all {
                 cppCompiler.args('-g')
                 linker.args("-L../CORERobotLib/lib/debug",'-lCORERobotLib')
-                linker.args("-L../CORERobotLib/3rdparty/seasocks/Linux/arm",'-lseasocks')
             }
             sources.cpp {
                 source {
@@ -62,7 +61,7 @@ model {
                 }
                 exportedHeaders {
                     srcDir 'src'
-                    srcDirs '../CORERobotLib/src'
+                    srcDirs '../CORERobotLib/src' 
                     srcDir "../CORERobotLib/3rdparty/json/src/"
                     srcDir "../CORERobotLib/3rdparty/seasocks/src/main/c"
                     if (includeSrcInIncludeRoot) {
