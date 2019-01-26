@@ -27,7 +27,7 @@ void CargoSubsystem::teleop(){
     if(IsIntaking()){
        if(operatorJoystick->GetButton(CORE::COREJoystick::JoystickButton::LEFT_BUTTON)) {
            SetIntake();
-        }else if (operatorJoystick->GetButton(CORE::COREJoystick::JoystickButton::LEFT_TRIGGER)) {
+        }else if (operatorJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::LEFT_TRIGGER)) {
             SetOuttake();
     }
     else{
@@ -38,12 +38,12 @@ void CargoSubsystem::teleop(){
     }
 }
 
-
+//spins wheels to intake the cargo
 void CargoSubsystem::SetIntake(){
     m_rightSideIntake.Set(ControlMode::PercentOutput, 0.2);
     m_leftSideIntake.Set(ControlMode::PercentOutput, 0.2);
 }
-
+//returns true if the intake 
 bool CargoSubsystem::IsIntaking(){
     if(m_cargoLimitSwitch.Get()){
         return false;
@@ -52,7 +52,7 @@ bool CargoSubsystem::IsIntaking(){
         return true;
     }
 }
-
+//spins wheels to outtake the cargo
 void CargoSubsystem::SetOuttake(){
     m_rightSideIntake.Set(ControlMode::PercentOutput, -0.2);
     m_leftSideIntake.Set(ControlMode::PercentOutput, -0.2);
