@@ -17,18 +17,18 @@ DriveSubsystem::DriveSubsystem() : driveTurnkP("Drive Turn P Value", .05),
                                    m_leftDriveShifter(LEFT_DRIVE_SHIFTER_PCM, LEFT_DRIVE_SHIFTER_HIGH_GEAR_PORT, LEFT_DRIVE_SHIFTER_LOW_GEAR_PORT),
                                    m_rightDriveShifter(RIGHT_DRIVE_SHIFTER_PCM, RIGHT_DRIVE_SHIFTER_HIGH_GEAR_PORT, RIGHT_DRIVE_SHIFTER_LOW_GEAR_PORT),
 								   m_highGear(true),
-								   m_turnPIDMultiplier("Turn PID Multiplier", 0.1) {
+								   m_turnPIDMultiplier("Turn PID Multiplier", 0.1),
+								   compressor(COMPRESSOR_PCM) {
 }
 
 void DriveSubsystem::robotInit() {
-	cout << "Robot init" << endl;
 	driverJoystick->RegisterAxis(CORE::COREJoystick::LEFT_STICK_Y);
 	driverJoystick->RegisterAxis(CORE::COREJoystick::RIGHT_STICK_Y);
+	driverJoystick->RegisterButton(CORE::COREJoystick::RIGHT_TRIGGER);
     InitTalons();
 }
 
 void DriveSubsystem::teleopInit() {
-	cout << "teleop init" << endl;
 	COREEtherDrive::SetAB(m_etherAValue.Get(), m_etherBValue.Get());
 	COREEtherDrive::SetQuickturn(m_etherQuickTurnValue.Get());
 	InitTalons();
@@ -36,15 +36,16 @@ void DriveSubsystem::teleopInit() {
 
 
 void DriveSubsystem::Teleop() {
-	cout << "teleop" << endl;
 	if(driverJoystick != nullptr) {
     	double left = -driverJoystick->GetAxis(CORE::COREJoystick::JoystickAxis::LEFT_STICK_Y);
-		double right = driverJoystick->GetAxis(CORE::COREJoystick::JoystickAxis::RIGHT_STICK_Y);
-		cout << "Not a nullptr" << endl;
+		double right = -driverJoystick->GetAxis(CORE::COREJoystick::JoystickAxis::RIGHT_STICK_Y);
 		SetMotorSpeed(left, right);
+		if(driverJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::RIGHT_TRIGGER)) {
+			ToggleGear();
+		}
+		FillCompressor();
 	} else {
 		SetMotorSpeed(0, 0);
-		// cout << "Nullptr" << endl;
 	}
 
 }
@@ -52,24 +53,17 @@ void DriveSubsystem::Teleop() {
 void DriveSubsystem::PostLoopTask() {
 
 }
-void DriveSubsystem::SetHighGear(bool highGear) {
-    m_leftDriveShifter.Set(DoubleSolenoid::kForward);
-    m_rightDriveShifter.Set(DoubleSolenoid::kForward);
-    m_highGear = true;
-}
 
-void DriveSubsystem::SetLowGear(bool lowGear) {
-    m_leftDriveShifter.Set(DoubleSolenoid::kReverse);
-    m_rightDriveShifter.Set(DoubleSolenoid::kReverse);
-    m_highGear = false;
-}
-
-bool DriveSubsystem::GetHighGear() {
-    return (m_leftDriveShifter.Get() == DoubleSolenoid::kForward);
-}
-
-bool DriveSubsystem::GetLowGear() {
-    return (m_leftDriveShifter.Get() == DoubleSolenoid::kReverse);
+void DriveSubsystem::ToggleGear() {
+	if (m_highGear) {
+		m_leftDriveShifter.Set(DoubleSolenoid::kForward);
+		m_rightDriveShifter.Set(DoubleSolenoid::kForward);
+		m_highGear = false;
+	} else {
+		m_leftDriveShifter.Set(DoubleSolenoid::kReverse);
+		m_rightDriveShifter.Set(DoubleSolenoid::kReverse);
+		m_highGear = true;
+	}
 }
 
 void DriveSubsystem::ResetEncoders(DriveSide whichSide){
@@ -143,4 +137,12 @@ double DriveSubsystem::GetForwardPower() {
 		power = (power < 0)?0:power;
 	}
 	return power;
+}
+
+void DriveSubsystem::FillCompressor() {
+	if (compressor.GetPressureSwitchValue()) {
+		compressor.SetClosedLoopControl(false);
+	} else {
+		compressor.SetClosedLoopControl(true);
+	}
 }

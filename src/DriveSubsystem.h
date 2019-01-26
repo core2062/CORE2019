@@ -19,18 +19,17 @@ public:
     void Teleop() override;
     void PostLoopTask() override;
     void InitTalons();
-    void SetHighGear(bool highGear = true);
-    void SetLowGear(bool lowGear = true);
-    bool GetHighGear();
-    bool GetLowGear();
+    void ToggleGear();
     void ResetEncoders(DriveSide whichSide);
     double GetDistanceInInches(DriveSide whichSide);
     void SetMotorSpeed(double speedInFraction, DriveSide);
     void SetMotorSpeed(double leftPercent, double rightPercent);
     double GetForwardPower();
+    void FillCompressor();
 
     COREConstant<double> driveTurnkP;
 private:
+    Compressor compressor;
     COREConstant<double> m_etherAValue, m_etherBValue, m_etherQuickTurnValue, m_ticksPerInch;
     TalonSRX m_leftMaster, m_rightMaster, m_leftSlave, m_rightSlave;
     DoubleSolenoid m_leftDriveShifter, m_rightDriveShifter;
