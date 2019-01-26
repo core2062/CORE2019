@@ -37,16 +37,21 @@ void CargoSubsystem::teleop(){
     }
 }
 
-void CargoSubsystem::setIntake(){
+void CargoSubsystem::SetIntake(){
     m_rightSideIntake.Set(ControlMode::PercentOutput, 0.2);
     m_leftSideIntake.Set(ControlMode::PercentOutput, 0.2);
 }
 
-bool CargoSubsystem::isIntaking(){
+bool CargoSubsystem::IsIntaking(){
     if(m_cargoLimitSwitch.Get()){
-        return true;
-    }
-    else{
         return false;
     }
+    else{
+        return ;true
+    }
+}
+
+void CargoSubsystem::SetOuttake(){
+    m_rightSideIntake.Set(ControlMode::PercentOutput, -0.2);
+    m_leftSideIntake.Set(ControlMode::PercentOutput, -0.2);
 }

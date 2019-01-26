@@ -11,9 +11,9 @@ public:
 	void robotInit() override;
 	void teleopInit() override;
 	void teleop() override;
-	void setIntake();
-	bool isIntaking();
-	void setOuttake();
+	void SetIntake();
+	bool IsIntaking();
+	void SetOuttake();
 	
 	TalonSRX m_rightSideIntake, leftSideIntake;
 private:
