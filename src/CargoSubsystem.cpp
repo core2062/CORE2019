@@ -2,7 +2,9 @@
 
 #include "Robot.h"
 
-CargoSubsystem::CargoSubsystem() {
+CargoSubsystem::CargoSubsystem() : m_rightSideIntake(RIGHT_INTAKE_PORT),
+                                   m_leftSideIntake(LEFT_INTAKE_PORT),
+                                   m_cargoLimitSwitch(DIGITAL_INPUT_PORT) {
 
 }
 
@@ -11,8 +13,9 @@ m_rightSideIntake.Set(ControlMode::PercentOutput, 0);
 m_leftSideIntake.Set(ControlMode::PercentOutput, 0);
 m_leftSideIntake.SetInverted(true);
 m_rightSideIntake.SetInverted(false);
-operatorJoystick->registerButton(CORE::COREJoystick::JoystickButton::LEFT_BUTTON);
-operatorJoystick->registerButton(CORE::COREJoystick::JoystickButton::LEFT_TRIGGER);
+operatorJoystick->RegisterButton(CORE::COREJoystick::JoystickButton::LEFT_BUTTON);
+operatorJoystick->RegisterButton(CORE::COREJoystick::JoystickButton::LEFT_TRIGGER);
+
 }
 
 void CargoSubsystem::teleopInit(){
@@ -21,7 +24,7 @@ void CargoSubsystem::teleopInit(){
 
 void CargoSubsystem::teleop(){
     
-    if(isIntaking()){
+    if(IsIntaking()){
         m_rightSideIntake.Set(ControlMode::PercentOutput, 0);
         m_leftSideIntake.Set(ControlMode::PercentOutput, 0);
     }
@@ -46,8 +49,8 @@ bool CargoSubsystem::IsIntaking(){
     if(m_cargoLimitSwitch.Get()){
         return false;
     }
-    else{
-        return ;true
+    else{   
+        return true;
     }
 }
 

@@ -1,7 +1,8 @@
 #pragma once
 
-#include "ctre/Phoenix.h"
+#include <ctre/Phoenix.h>
 #include <CORERobotLib.h>
+#include <frc/WPILib.h>
 
 using namespace CORE;
 
@@ -15,7 +16,7 @@ public:
 	bool IsIntaking();
 	void SetOuttake();
 	
-	TalonSRX m_rightSideIntake, leftSideIntake;
 private:
-	DigitalInput m_cargoLimitSwitch
+	TalonSRX m_rightSideIntake, m_leftSideIntake;
+	frc::DigitalInput m_cargoLimitSwitch; 
 };

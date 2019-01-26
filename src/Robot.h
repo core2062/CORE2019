@@ -11,6 +11,9 @@
 #define RIGHT_BACK_PORT 11
 #define LEFT_FRONT_PORT 12
 #define LEFT_BACK_PORT 13
+#define LEFT_INTAKE_PORT 14
+#define RIGHT_INTAKE_PORT 15
+#define DIGITAL_INPUT_PORT 16
 
 /* Solenoids */
 #define LEFT_DRIVE_SHIFTER_PCM 1
