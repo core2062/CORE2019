@@ -24,7 +24,7 @@ DriveSubsystem::DriveSubsystem() : driveTurnkP("Drive Turn P Value", .05),
 void DriveSubsystem::robotInit() {
 	// Registers joystick axis and buttons, does inital setup for talons
 	driverJoystick->RegisterAxis(CORE::COREJoystick::LEFT_STICK_Y);
-	driverJoystick->RegisterAxis(CORE::COREJoystick::RIGHT_STICK_Y);
+	driverJoystick->RegisterAxis(CORE::COREJoystick::RIGHT_STICK_X);
 	driverJoystick->RegisterButton(CORE::COREJoystick::RIGHT_TRIGGER);
     InitTalons();
 }
@@ -40,17 +40,16 @@ void DriveSubsystem::teleopInit() {
 void DriveSubsystem::teleop() {
 	// Code for teleop. Sets motor speed based on the values for the joystick, runs compressor, 
 	// toggles gears
-	if(driverJoystick != nullptr) {
-    	double left = -driverJoystick->GetAxis(CORE::COREJoystick::JoystickAxis::LEFT_STICK_Y);
-		double right = -driverJoystick->GetAxis(CORE::COREJoystick::JoystickAxis::RIGHT_STICK_Y);
-		SetMotorSpeed(left, right);
-		if(driverJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::RIGHT_TRIGGER)) {
-			ToggleGear();
-		}
-		FillCompressor();
-	} else {
-		SetMotorSpeed(0, 0);
+    double mag = driverJoystick->GetAxis(CORE::COREJoystick::JoystickAxis::LEFT_STICK_Y);
+	double rot = driverJoystick->GetAxis(CORE::COREJoystick::JoystickAxis::RIGHT_STICK_X);
+
+	VelocityPair speeds = COREEtherDrive::Calculate(mag, rot, .1);
+	SetMotorSpeed(speeds.left, speeds.right);
+
+	if(driverJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::RIGHT_TRIGGER)) {
+		ToggleGear();
 	}
+	FillCompressor();
 
 }
 
