@@ -23,6 +23,9 @@ void HatchScorerSubsystem::teleop(){
 
 void HatchScorerSubsystem::ActuateClaw(){
 
+/*use a bool to tell if the claw is opened or not. if it is when the button is pressed it will close.
+if it is closed it will open*/
+
 }
 
 void HatchScorerSubsystem::SetClawState(){
