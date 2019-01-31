@@ -22,6 +22,7 @@ DriveSubsystem::DriveSubsystem() : driveTurnkP("Drive Turn P Value", .05),
 }
 
 void DriveSubsystem::robotInit() {
+	// Registers joystick axis and buttons, does inital setup for talons
 	driverJoystick->RegisterAxis(CORE::COREJoystick::LEFT_STICK_Y);
 	driverJoystick->RegisterAxis(CORE::COREJoystick::RIGHT_STICK_Y);
 	driverJoystick->RegisterButton(CORE::COREJoystick::RIGHT_TRIGGER);
@@ -29,13 +30,16 @@ void DriveSubsystem::robotInit() {
 }
 
 void DriveSubsystem::teleopInit() {
+	// Sets ether drive values, inits talons
 	COREEtherDrive::SetAB(m_etherAValue.Get(), m_etherBValue.Get());
 	COREEtherDrive::SetQuickturn(m_etherQuickTurnValue.Get());
 	InitTalons();
 }
 
 
-void DriveSubsystem::Teleop() {
+void DriveSubsystem::teleop() {
+	// Code for teleop. Sets motor speed based on the values for the joystick, runs compressor, 
+	// toggles gears
 	if(driverJoystick != nullptr) {
     	double left = -driverJoystick->GetAxis(CORE::COREJoystick::JoystickAxis::LEFT_STICK_Y);
 		double right = -driverJoystick->GetAxis(CORE::COREJoystick::JoystickAxis::RIGHT_STICK_Y);
@@ -50,11 +54,8 @@ void DriveSubsystem::Teleop() {
 
 }
 
-void DriveSubsystem::PostLoopTask() {
-
-}
-
 void DriveSubsystem::ToggleGear() {
+	// Shifts from high gear to low gear or vice versa
 	if (m_highGear) {
 		m_leftDriveShifter.Set(DoubleSolenoid::kForward);
 		m_rightDriveShifter.Set(DoubleSolenoid::kForward);
@@ -67,7 +68,8 @@ void DriveSubsystem::ToggleGear() {
 }
 
 void DriveSubsystem::ResetEncoders(DriveSide whichSide){
-	//Encoders only on front drive motors
+	// Resets encoders
+	// Encoders only on front drive motors
 	if (whichSide == DriveSide::BOTH || whichSide == DriveSide::RIGHT){
 		m_rightMaster.GetSensorCollection().SetQuadraturePosition(0, 10);
 		m_rightMaster.SetSelectedSensorPosition(0, 0, 10);
@@ -79,6 +81,7 @@ void DriveSubsystem::ResetEncoders(DriveSide whichSide){
 }
 
 double DriveSubsystem::GetDistanceInInches(DriveSide whichSide) {
+	// Returns inches traveled based on the sensor position
 	double accumulator = 0;
 	//Encoders only on front drive motors
 	if (whichSide == DriveSide::BOTH || whichSide == DriveSide::RIGHT) {
@@ -94,6 +97,7 @@ double DriveSubsystem::GetDistanceInInches(DriveSide whichSide) {
 }
 
 void DriveSubsystem::SetMotorSpeed(double speedInFraction, DriveSide whichSide) {
+	// Sets motor speed based on drive side and desired speed
 	if (whichSide == DriveSide::BOTH || whichSide == DriveSide::RIGHT) {
 		m_rightMaster.Set(ControlMode::PercentOutput, speedInFraction);
 	}
@@ -103,11 +107,13 @@ void DriveSubsystem::SetMotorSpeed(double speedInFraction, DriveSide whichSide) 
 }
 
 void DriveSubsystem::SetMotorSpeed(double leftPercent, double rightPercent) {
+	// Sets speed based on percent output desired 
 	SetMotorSpeed(leftPercent, DriveSide::LEFT);
 	SetMotorSpeed(rightPercent, DriveSide::RIGHT);
 }
 
 void DriveSubsystem::InitTalons() {
+	// Sets up talons
     m_leftMaster.Set(ControlMode::Follower, LEFT_BACK_PORT);
     m_rightMaster.Set(ControlMode::Follower, RIGHT_BACK_PORT);
 
@@ -128,6 +134,7 @@ void DriveSubsystem::InitTalons() {
 }
 
 double DriveSubsystem::GetForwardPower() {
+	// Returns current power being exerted
 	double left = m_leftMaster.GetSelectedSensorPosition(0);
 	double right = m_rightMaster.GetSelectedSensorPosition(0);
 	double power  = 0;
@@ -140,6 +147,7 @@ double DriveSubsystem::GetForwardPower() {
 }
 
 void DriveSubsystem::FillCompressor() {
+	// Code to run the compressor. Maybe should be moved to Robot?
 	if (compressor.GetPressureSwitchValue()) {
 		compressor.SetClosedLoopControl(false);
 	} else {

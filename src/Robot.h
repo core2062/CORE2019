@@ -36,8 +36,8 @@ public:
  	Robot();
 	void robotInit() override;
     void teleopInit() override;
-    void Teleop() override;
-	void Test() override;
+    void teleop() override;
+	void test() override;
 	void testInit() override;
 	DriveSubsystem driveSubsystem;
 };
