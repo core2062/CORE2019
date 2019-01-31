@@ -27,7 +27,6 @@ public:
 	void ResetEncoder();
 private:
 	double heightMultiplier;
-	COREConstant<double> m_firstLevelHatch, m_firstLevelCargo, m_secondLevelHatch, m_secondLevelScorer,
-		m_thirdLevelHatch, m_thirdLevelScorer;
+	COREConstant<double> m_firstLevelHatch, m_firstLevelCargo, m_secondLevelHatch, m_secondLevelScorer, m_thirdLevelHatch, m_thirdLevelScorer;
 	TalonSRX m_rightLiftMotor, m_leftLiftMotor;
 };

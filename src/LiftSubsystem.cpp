@@ -1,6 +1,7 @@
 #include <LiftSubsystem.h>
 #include <frc/WPILib.h>
 #include <Robot.h>
+#include <CORERobotLib.h>
 
 using namespace CORE;
 
@@ -11,7 +12,7 @@ LiftSubsystem::LiftSubsystem() : m_firstLevelHatch("First Level Hatch Height", 0
                                  m_thirdLevelHatch("Third Level Hatch Height", 0.0),
                                  m_thirdLevelCargo("Third Level Cargo Height", 0.0),
                                  m_rightLiftMotor(16),
-                                 m_rightLiftMotor(17) {
+                                 m_leftLiftMotor(17) {
 
 }
 
