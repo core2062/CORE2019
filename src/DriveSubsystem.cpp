@@ -40,11 +40,13 @@ void DriveSubsystem::teleopInit() {
 void DriveSubsystem::teleop() {
 	// Code for teleop. Sets motor speed based on the values for the joystick, runs compressor, 
 	// toggles gears
-    double mag = driverJoystick->GetAxis(CORE::COREJoystick::JoystickAxis::LEFT_STICK_Y);
+    double mag = -driverJoystick->GetAxis(CORE::COREJoystick::JoystickAxis::LEFT_STICK_Y);
 	double rot = driverJoystick->GetAxis(CORE::COREJoystick::JoystickAxis::RIGHT_STICK_X);
 
 	VelocityPair speeds = COREEtherDrive::Calculate(mag, rot, .1);
 	SetMotorSpeed(speeds.left, speeds.right);
+	SmartDashboard::PutNumber("Left side speed", speeds.left);
+	SmartDashboard::PutNumber("Right side speed", speeds.right);
 
 	if(driverJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::RIGHT_TRIGGER)) {
 		ToggleGear();
