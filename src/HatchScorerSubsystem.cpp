@@ -2,7 +2,10 @@
 
 #include "Robot.h"
 
-HatchScorerSubsystem::HatchScorerSubsystem() {
+//TODO:Fill these in with actuall port numbers
+HatchScorerSubsystem::HatchScorerSubsystem() :m_hatchScorerSolenoid(0, 0, 0)
+
+{
 
 }
 
