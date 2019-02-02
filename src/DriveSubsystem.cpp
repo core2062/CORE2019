@@ -9,7 +9,7 @@ DriveSubsystem::DriveSubsystem() : driveTurnkP("Drive Turn P Value", .05),
 								   m_etherAValue("Ether A Value", .6),
                                    m_etherBValue("Ether B Value", .4),
 								   m_etherQuickTurnValue("Ether Quick Turn Value", 1.0),
-                                   m_ticksPerInch("Ticks Per Inch", (4 * 3.1415) / 1024),
+                                   m_ticksPerInch("Ticks Per Inch", (4 * 3.1416) / 1024),
 								   m_leftMaster(LEFT_FRONT_PORT),
 								   m_rightMaster(RIGHT_FRONT_PORT),
 								   m_leftSlave(LEFT_BACK_PORT),
@@ -141,7 +141,7 @@ double DriveSubsystem::GetForwardPower() {
 	double power  = 0;
 	if(left > 0 || right > 0) {
 		power = left + right;
-		power*=.25;
+		power*=0.25;
 		power = (power < 0)?0:power;
 	}
 	return power;
