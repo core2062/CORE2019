@@ -36,7 +36,43 @@ void LiftSubsystem::teleopInit(){
 }
 
 void LiftSubsystem::teleop() {
-    
+    SmartDashboard::PutNumber("Lift requested position", m_requestedPosition);
+    SmartDashboard::PutNumber("Lift position in inches", m_rightLiftMotor.GetSelectedSensorPosition(0) /
+        m_ticksPerInch.Get());
+    SmartDashboard::PutNumber("Lift position in ticks", m_rightLiftMotor.GetSelectedSensorPosition(0));
+    // Add code to run the lift 
+    // Check to see which way the lift would run if this value is positive
+    // Make sure that the lift is giving very little power when it is first being tested
+    double liftPosition = GetLiftInches();
+
+    SetRequestedSpeed(operatorJoystick->GetAxis(CORE::COREJoystick::JoystickAxis::RIGHT_STICK_Y));
+
+    if (m_requestedSpeed < -0.01 || m_requestedSpeed > 0.1) {
+        if (m_requestedSpeed < 0) {
+            m_requestedSpeed *= 0.1;
+        } else {
+            m_requestedSpeed *= 0.2;
+        }
+        SetRequestedPosition(liftPosition);
+    }
+    double liftRequestedPosition = m_requestedPosition;
+
+    if (m_requestedSpeed > 0 && liftPosition > m_topLimit.Get()) {
+        m_requestedSpeed = 0;
+        SetRequestedPosition(m_topLimit.Get());
+    } else if (LiftDown()) {
+        if(m_requestedSpeed < 0) {
+            m_requestedSpeed = 0;
+            SetRequestedPosition(0);
+        }
+        ResetEncoder();
+    }
+
+    if (m_requestedSpeed < -0.01 || m_requestedSpeed > 0.1) {
+        m_rightLiftMotor.Set(ControlMode::PercentOutput, m_requestedSpeed);
+    } else {
+        m_rightLiftMotor.Set(ControlMode::MotionMagic, liftRequestedPosition);
+    }
 }
 
 void LiftSubsystem::SetRequestedPosition(double positionInInches){
