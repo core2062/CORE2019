@@ -12,7 +12,7 @@
 #define LEFT_FRONT_PORT 12
 #define LEFT_BACK_PORT 13
 
-/* Solenoids */
+/* Solenoids and pneumatics */
 #define LEFT_DRIVE_SHIFTER_PCM 1
 #define RIGHT_DRIVE_SHIFTER_PCM 1
 #define COMPRESSOR_PCM 2
@@ -20,6 +20,10 @@
 #define RIGHT_DRIVE_SHIFTER_HIGH_GEAR_PORT 2 
 #define LEFT_DRIVE_SHIFTER_LOW_GEAR_PORT 1
 #define RIGHT_DRIVE_SHIFTER_LOW_GEAR_PORT 3
+
+/* Sensors */
+#define ULTRASONIC_CARGO_CHANNEL 0
+#define ULTRASONIC_HATCH_CHANNEL 1
 
 using namespace CORE;
 using namespace std;
