@@ -14,7 +14,9 @@ public:
 	void robotInit() override;
 	void teleopInit() override;
 	void teleop() override;
-	double GetDistance();
+	double GetCargoUltraDistance();
+	double GetHatchUltraDistance();
 private:
-	AnalogInput m_cargoUltra, m_hatchUltra;
+	const double m_scale = (1024.0 / 2.54); 
+	AnalogInput m_cargoLeftUltra, m_cargoRightUltra, m_hatchLeftUltra, m_hatchRightUltra, m_jumper;
 };
