@@ -8,8 +8,7 @@ using namespace CORE;
 
 #include "Robot.h"
 
-enum class WantedState
-{
+enum class WantedState {
 	WantToPickupGroundHatch,
 	WantToPickupGroundCargo,
 	WantToPickupFeederHatch,
@@ -22,12 +21,12 @@ enum class WantedState
 	WantToScoreCargoMiddleRocket,
 	WantToScoreCargoTopRocket,
 	WantToScoreCargoCargoShip,
+	WantToDoNothing,
 	MANUAL
 };
 
 
-enum class SystemState
-{
+enum class SystemState {
 	Transit,
 	GrabbingCargo,
 	GrabbingHatch,
@@ -44,9 +43,10 @@ enum class SystemState
 
 };
 
-class SuperStructure : public CORESubsystem
-{
+class SuperStructure : public CORESubsystem {
   public:
 	SuperStructure();
-	
+	void robotInit() override;
+	void teleopInit() override;
+	void teleop() override;
 };
