@@ -4,6 +4,7 @@
 #include <CORERobotLib.h>
 #include <frc/WPILib.h>
 
+
 using namespace CORE;
 
 class CargoSubsystem : public CORESubsystem {
@@ -19,4 +20,5 @@ public:
 private:
 	TalonSRX m_rightSideIntake, m_leftSideIntake;
 	frc::DigitalInput m_cargoLimitSwitch; 
+
 };
