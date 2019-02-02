@@ -43,7 +43,6 @@ void LiftSubsystem::teleop() {
     SmartDashboard::PutNumber("Lift position in inches", m_rightLiftMotor.GetSelectedSensorPosition(0) /
         m_ticksPerInch.Get());
     SmartDashboard::PutNumber("Lift position in ticks", m_rightLiftMotor.GetSelectedSensorPosition(0));
-    // Add code to run the lift 
     // Check to see which way the lift would run if this value is positive
     // Make sure that the lift is giving very little power when it is first being tested
     double liftPosition = GetLiftInches();
