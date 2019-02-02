@@ -3,7 +3,7 @@
 #include <ctre/Phoenix.h>
 #include <CORERobotLib.h>
 #include <frc/WPILib.h>
-
+#include "Robot.h"
 
 using namespace CORE;
 
@@ -14,11 +14,10 @@ public:
 	void teleopInit() override;
 	void teleop() override;
 	void SetIntake();
-	bool IsIntaking();
+	bool IsCargoSecured();
 	void SetOuttake();
-	
+
 private:
 	TalonSRX m_rightSideIntake, m_leftSideIntake;
-	frc::DigitalInput m_cargoLimitSwitch; 
-
+	frc::DigitalInput m_cargoLimitSwitch;
 };
