@@ -15,9 +15,9 @@ public:
 	void teleop() override;
 	void ActuateClaw();
 	void SetClawState();
+	bool isExtended;
+	bool isOpen;
+
 private:
-	
-	DoubleSolenoid m_solenoidExtend, m_solenoidGrab, m_solenoidRelease;
-	
-	
+	DoubleSolenoid m_solenoidExtendOne, m_solenoidExtendTwo, m_solenoidClaw; 
 };
