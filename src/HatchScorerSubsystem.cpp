@@ -3,48 +3,65 @@
 #include "Robot.h"
 
 //TODO:Fill these in with actual port numbers
-HatchScorerSubsystem::HatchScorerSubsystem() : m_solenoidExtendOne(0, 0, 0),
-                                               m_solenoidExtendTwo(0, 0, 0),
+HatchScorerSubsystem::HatchScorerSubsystem() : m_solenoidPunchOne(0, 0, 0),
+                                               m_solenoidPunchTwo(0, 0, 0),
                                                m_solenoidClaw(0, 0, 0) {
 
 }
 
 void HatchScorerSubsystem::robotInit() {
     operatorJoystick->RegisterButton(CORE::COREJoystick::JoystickButton::X_BUTTON);
-    operatorJoystick->RegisterButton(CORE::COREJoystick::JoystickButton::Y_BUTTON);
 }
 
 void HatchScorerSubsystem::teleopInit() {
 }
 
 void HatchScorerSubsystem::teleop() {
+    int iterationCount;
     if (operatorJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::X_BUTTON)) {
-        ActuateClaw();
+        PunchHatch();
+        StartTimer();
+        iterationCount++;
     }
-    if (operatorJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::Y_BUTTON)) {
-        SetClawState();        
+    if (GetTime() >= 3 && iterationCount == 1) {
+        ToggleClaw();
+        StartTimer();
+        iterationCount++;
+    }
+    if (GetTime() >= 3 && iterationCount == 2) {
+         PunchHatch();
+         m_delayTimer.Reset();
+         iterationCount = 0;
     }
 }
-
-void HatchScorerSubsystem::ActuateClaw() {
-    if (!isExtended) {
-        m_solenoidExtendOne.Set(frc::DoubleSolenoid::kForward);
-        m_solenoidExtendTwo.Set(frc::DoubleSolenoid::kForward);
-        isExtended = true;
+void HatchScorerSubsystem::PunchHatch() {
+    if (!m_isExtended) {
+        m_solenoidPunchOne.Set(frc::DoubleSolenoid::kForward);
+        m_solenoidPunchTwo.Set(frc::DoubleSolenoid::kForward);
+        m_isExtended = true;
     } else {
-        m_solenoidExtendOne.Set(frc::DoubleSolenoid::kReverse);
-        m_solenoidExtendTwo.Set(frc::DoubleSolenoid::kReverse);
-        isExtended = false;
+        m_solenoidPunchOne.Set(frc::DoubleSolenoid::kReverse);
+        m_solenoidPunchTwo.Set(frc::DoubleSolenoid::kReverse);
+        m_isExtended = false;
     }
 }
 
-void HatchScorerSubsystem::SetClawState() {
-    if (!isOpen) {
+void HatchScorerSubsystem::StartTimer() {
+    m_delayTimer.Reset();
+    m_delayTimer.Start();
+}
+
+double HatchScorerSubsystem::GetTime() {
+    return m_delayTimer.Get(); 
+}
+
+void HatchScorerSubsystem::ToggleClaw() {
+    if (!m_isOpen) {
         m_solenoidClaw.Set(frc::DoubleSolenoid::kForward);
-        isOpen = true;
+        m_isOpen = true;
 
     } else {
         m_solenoidClaw.Set(frc::DoubleSolenoid::kReverse);
-        isOpen = false;
+        m_isOpen = false;
     }
 }

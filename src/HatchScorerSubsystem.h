@@ -13,11 +13,15 @@ public:
 	void robotInit() override; 
 	void teleopInit() override;
 	void teleop() override;
-	void ActuateClaw();
-	void SetClawState();
-	bool isExtended;
-	bool isOpen;
+	void PunchHatch();
+	void ToggleClaw();
 
 private:
-	DoubleSolenoid m_solenoidExtendOne, m_solenoidExtendTwo, m_solenoidClaw; 
+	DoubleSolenoid m_solenoidPunchOne, m_solenoidPunchTwo, m_solenoidClaw; 
+	bool m_isExtended = false;
+	bool m_isOpen = false;
+	CORETimer m_delayTimer;
+	void StartTimer();
+	double GetTime();
+
 };
