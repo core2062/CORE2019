@@ -19,10 +19,7 @@ public:
 	bool GetHatchState();
 	bool isDown;
 
-	frc::DigitalInput m_photoeye;
-	TalonSRX m_hatchIntake;
-
-
 private:
-	frc::DoubleSolenoid m_hatchIntakeSolenoid;
+	TalonSRX m_hatchIntake, m_hatchActuator;
+	frc::DigitalInput m_photoeye;
 };
