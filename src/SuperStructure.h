@@ -2,6 +2,11 @@
 
 #include "ctre/Phoenix.h"
 #include <CORERobotLib.h>
+#include <CargoSubsystem.h>
+#include <DriveSubsystem.h>
+#include <HatchIntakeSubsystem.h>
+#include <HatchScorerSubsystem.h>
+#include <LiftSubsystem.h>
 
 using namespace CORE;
 
@@ -43,10 +48,31 @@ enum class SystemState {
 
 };
 
-class SuperStructure : public CORESubsystem {
+class SuperStructure : public CORESubsystem, public CORETask {
   public:
 	SuperStructure();
 	void robotInit() override;
 	void teleopInit() override;
 	void teleop() override;
+	void PostLoopTask() override;
+
+private:
+	CargoSubsystem * m_cargoSubsystem;
+	HatchIntakeSubsystem * m_hatchIntakeSubsystem;
+	HatchScorerSubsystem * m_hatchScorerSubsystem;
+	LiftSubsystem * m_liftSubsystem;
+
+	SystemState	m_actualSystemState;
+
+	SystemState handleTransit();
+	SystemState handleTopRocketCargoScoring();
+	SystemState handleMiddleRocketCargoScoring();
+	SystemState handleBottemRocketCargoScoring();
+	SystemState handleTopRocketHatchScoring();
+	SystemState handleMiddleRocketHatchScoring();
+	SystemState	handleBottemRocketHatchScoring();
+	SystemState handleCargoShipCargoScoring();
+	SystemState handleFeederCargo();
+	SystemState handFeederHatch();
+
 };
