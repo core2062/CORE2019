@@ -5,8 +5,9 @@
 HatchIntakeSubsystem::HatchIntakeSubsystem() : m_hatchIntake(HATCH_INTAKE_PORT),
                                                m_hatchActuator(HATCH_ACTUATOR_PORT),
                                                m_photoeye(HATCH_INTAKE_PHOTOEYE)
+                                               m_actautorBottomLimit("Bottom limit of the hatch intake")
+                                               m_actautorTopLimit("Top limit of the hatch intake")
 {
-    isDown = false;
 }
 
 void HatchIntakeSubsystem::robotInit(){
@@ -44,17 +45,18 @@ void HatchIntakeSubsystem::SetIntakeOff(){
     m_hatchIntake.Set(ControlMode::PercentOutput, 0.0);
 }
 
-// Changes the orientation of the hatch intake by 90 degrees.
-void HatchIntakeSubsystem::ToggleHatchIntake(){
-    if(!isDown){
-        m_hatchIntakeSolenoid.Set(frc::DoubleSolenoid::kForward);
-        isDown = true;
+//Actuates the intake up.
+void HatchIntakeSubsystem::HatchActuatorUp(){
+    if(m_){
+    m_hatchActuator.Set(ControlMode::PercentOutput, 0.2);
     }
-    else{
-        m_hatchIntakeSolenoid.Set(frc::DoubleSolenoid::kReverse);
-        isDown = false;
+}
+
+//Actuates the intake down.
+void HatchIntakeSubsystem::HatchActuatorDown(){
+    if(){
+    m_hatchActuator.Set(ControlMode::PercentOutput, 0.2);
     }
-    
 }
 
 // Returns true if the hatch is completely in, else false.

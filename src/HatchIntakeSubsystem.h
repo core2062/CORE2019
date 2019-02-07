@@ -14,12 +14,13 @@ public:
 	void teleopInit() override;
 	void teleop() override;
 	void SetIntakeOn();
-	void ToggleHatchIntake();
 	void SetIntakeOff();
-	bool GetHatchState();
-	bool isDown;
+	void HatchActuatorUp();
+	void HatchActuatorDown();
 
 private:
 	TalonSRX m_hatchIntake, m_hatchActuator;
 	frc::DigitalInput m_photoeye;
+
+	COREConstant<double> m_actuatorTopLimit, m_actautorBottomLimit;
 };
