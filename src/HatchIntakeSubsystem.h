@@ -3,9 +3,11 @@
 #include "ctre/Phoenix.h"
 #include <CORERobotLib.h>
 #include <frc/WPILib.h>
+#include <COREUtilities/COREConstant.h>
 
 
 using namespace CORE;
+using namespace frc;
 
 class HatchIntakeSubsystem : public CORESubsystem {
 public:
@@ -15,12 +17,14 @@ public:
 	void teleop() override;
 	void SetIntakeOn();
 	void SetIntakeOff();
+	bool GetHatchState();
 	void HatchActuatorUp();
 	void HatchActuatorDown();
 
 private:
 	TalonSRX m_hatchIntake, m_hatchActuator;
-	frc::DigitalInput m_photoeye;
+	DigitalInput m_photoeye;
 
-	COREConstant<double> m_actuatorTopLimit, m_actautorBottomLimit;
+	COREConstant<double> m_actuatorTopLimit;
+	COREConstant<double> m_actuatorBottomLimit;
 };
