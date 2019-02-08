@@ -5,7 +5,8 @@
 
 using namespace CORE;
 
-DriveSubsystem::DriveSubsystem() : driveTurnkP("Drive Turn P Value", .05),
+DriveSubsystem::DriveSubsystem() : lookAhead("Waypoint follower look ahead point"),
+								   driveTurnkP("Drive Turn P Value", .05),
 								   m_etherAValue("Ether A Value", .6),
                                    m_etherBValue("Ether B Value", .4),
 								   m_etherQuickTurnValue("Ether Quick Turn Value", 1.0),
@@ -18,7 +19,13 @@ DriveSubsystem::DriveSubsystem() : driveTurnkP("Drive Turn P Value", .05),
                                    m_rightDriveShifter(RIGHT_DRIVE_SHIFTER_PCM, RIGHT_DRIVE_SHIFTER_HIGH_GEAR_PORT, RIGHT_DRIVE_SHIFTER_LOW_GEAR_PORT),
 								   m_highGear(true),
 								   m_turnPIDMultiplier("Turn PID Multiplier", 0.1),
-								   compressor(COMPRESSOR_PCM) {
+								   compressor(COMPRESSOR_PCM),
+								   m_pursuit(0, 0, 0, .1, Path(), false, 0) {
+	try {
+        	m_gyro = new AHRS(SPI::Port::kMXP);
+    } catch (std::exception ex) {
+        CORELog::LogError("Error initializing gyro: " + string(ex.what()));
+    }
 }
 
 void DriveSubsystem::robotInit() {
@@ -154,3 +161,56 @@ void DriveSubsystem::FillCompressor() {
 		compressor.SetClosedLoopControl(true);
 	}
 }
+
+Rotation2d DriveSubsystem::GetGyroAngle() {
+	return Rotation2d::FromRadians(m_gyro->GetYaw());
+}
+
+void DriveSubsystem::SetPosition(Position2d pos) {
+	
+}
+
+void DriveSubsystem::FollowPath(Path path, bool reversed, double maxAccel, double tolerance, 
+	bool gradualStop) {
+	m_pursuit = AdaptivePursuit(lookAhead.Get(), driveTurnkP.Get(), maxAccel, 0.025, path, reversed, tolerance, 
+		gradualStop);
+}
+
+bool DriveSubsystem::PathDone() {
+	return m_pursuit.IsDone();
+}
+
+void DriveSubsystem::PreLoopTask() {
+	RunTracker();
+	if(CORE::COREDriverstation::GetMode() == CORE::COREDriverstation::AUTON) {
+
+	}
+}
+
+void DriveSubsystem::RunTracker() {
+	
+}
+
+void DriveSubsystem::ResetTracker() {
+
+}
+
+// void DriveWaypointController::UpdatePathFollower() {
+// 	Position2d pos;
+// 	if(frame == nullptr){
+// 		pos = m_tracker->getLatestFieldToVehicle();
+// 	} else {
+// 		pos = frame->getLatest();
+
+// 	Position2d::Delta command = m_pursuit.update(pos, Timer::GetFPGATimestamp());
+
+// 	VelocityPair setpoint = TankKinematics::inverseKinematics(command);
+// 	double maxVel = 0.0;
+// 	maxVel = max(maxVel, setpoint.left);
+// 	maxVel = max(maxVel, setpoint.right);
+// 	if (maxVel > 100){
+// 		double scaling = 100 / maxVel;
+// 		setpoint = VelocityPair(setpoint.left * scaling, setpoint.right * scaling);
+// 	}
+// 	Robot->driveSubsystem.setMotorSpeed(setpoint.left * .01, setpoint.right * .01);
+// }
