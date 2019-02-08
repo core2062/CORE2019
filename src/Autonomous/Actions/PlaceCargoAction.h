@@ -1,10 +1,12 @@
 #pragma once
 
 #include <CORERobotLib.h>
-#include <CargoSubsystem.h>
+
+
 
 class PlaceCargoAction : public COREAutonAction {
 public:
+    PlaceCargoAction();
     void ActionInt();
     actionStatus Action() override;
     void ActionEnd();
