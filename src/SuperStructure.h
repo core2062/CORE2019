@@ -62,7 +62,8 @@ private:
 	HatchScorerSubsystem * m_hatchScorerSubsystem;
 	LiftSubsystem * m_liftSubsystem;
 
-	SystemState	m_actualSystemState;
+
+	SystemState	m_systemState;
 
 	SystemState handleTransit();
 	SystemState handleTopRocketCargoScoring();
@@ -73,7 +74,8 @@ private:
 	SystemState	handleBottemRocketHatchScoring();
 	SystemState handleCargoShipCargoScoring();
 	SystemState handleFeederCargo();
-	SystemState handFeederHatch();
+	SystemState handleFeederHatch();
+
 
 //e.
 };

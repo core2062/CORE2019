@@ -38,26 +38,27 @@ void SuperStructure::PostLoopTask() {
             newState = handleBottemRocketCargoScoring();
             break;
 
-        case TopRocketHatchScoring:
+        case SystemState::TopRocketHatchScoring:
             newState = handleTopRocketHatchScoring();
             break;
 
-        case MiddleRocketHatchScoring:
+        case SystemState::MiddleRocketHatchScoring:
             newState = handleMiddleRocketHatchScoring();
             break;
 
-        case BottomRocketHatchScoring:
+        case SystemState::BottomRocketHatchScoring:
             newState = handleBottemRocketHatchScoring();
             break;
 
-        case CargoShipCargoScoring:
+        case SystemState::CargoShipCargoScoring:
             newState = handleCargoShipCargoScoring();
             break;
 
-        case FeederCargo:
+        case SystemState::FeederCargo:
             newState = handleFeederCargo();
             break;
-        case FeederHatch:
+            
+        case SystemState::FeederHatch:
             newState = handleFeederHatch();
             break;
 
