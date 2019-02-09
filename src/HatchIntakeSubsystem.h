@@ -15,10 +15,9 @@ public:
 	void robotInit() override;
 	void teleopInit() override;
 	void teleop() override;
-	void SetIntake(bool setIntakeDirection, bool activation);
+	void SetIntake(bool setIntakeDirection, bool conditionMet);
 	bool HatchIn();
-	void SetHatchActuatorUp();
-	void SetHatchActuatorDown();
+	void SetHatchActuator(bool goUp);
 
 private:
 	TalonSRX m_hatchIntake, m_hatchActuator;
