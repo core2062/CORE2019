@@ -5,9 +5,10 @@
 class DriveDistanceAction : public COREAutonAction {
 public:
     DriveDistanceAction();
-    void ActionInit();
+    void ActionInit() override;
 CORE::COREAutonAction::actionStatus Action() override;
-    void ActionEnd();
+    void ActionEnd() override;
 private:
+    CORETimer Timer;
 };
 

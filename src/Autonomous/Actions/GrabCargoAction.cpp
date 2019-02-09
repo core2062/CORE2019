@@ -12,7 +12,7 @@ void GrabCargoAction::ActionInit(GrabCargo i) {
 CORE::COREAutonAction::actionStatus GrabCargoAction::Action() {
     switch(m_GrabCargoRequestedAction)
         case INTAKE:
-            // Robot::GetInstance()->CargoSubsystem.SetIntake()
+            Robot::GetInstance()->cargoSubsystem.SetIntake();
     
     return COREAutonAction::actionStatus::END;
 

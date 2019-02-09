@@ -9,11 +9,11 @@ GrabHatchAction::GrabHatchAction(GrabHatch i){
 void GrabHatchAction::ActionInit(){
     switch(m_GrabHatchRequestedAction){
         case OPEN:
-            // Robot::GetInstance()->HatchScorerSubsystem.ToggleClaw();
+            Robot::GetInstance()->hatchScorerSubsystem.ToggleClaw();
             break;
         case EXTEND: 
-            // Robot::GetInstance()->HatchSorerSubsystem.PunchHatch();
-        ;
+            Robot::GetInstance()->hatchScorerSubsystem.PunchHatch();
+    
     }
 }
 
