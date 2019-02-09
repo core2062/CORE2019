@@ -57,7 +57,7 @@ void SuperStructure::PostLoopTask() {
         case SystemState::FeederCargo:
             newState = handleFeederCargo();
             break;
-            
+
         case SystemState::FeederHatch:
             newState = handleFeederHatch();
             break;
@@ -66,3 +66,33 @@ void SuperStructure::PostLoopTask() {
     }
 
 }
+	SystemState SuperStructure::handleTransit(){
+        
+    }
+	SystemState SuperStructure::handleTopRocketCargoScoring(){
+        
+    }
+	SystemState SuperStructure::handleMiddleRocketCargoScoring(){
+        
+    }
+	SystemState SuperStructure::handleBottemRocketCargoScoring(){
+        
+    }
+	SystemState SuperStructure::handleTopRocketHatchScoring(){
+        
+    }
+	SystemState SuperStructure::handleMiddleRocketHatchScoring(){
+        
+    }
+	SystemState	SuperStructure::handleBottemRocketHatchScoring(){
+        
+    }
+	SystemState SuperStructure::handleCargoShipCargoScoring(){
+        
+    }
+	SystemState SuperStructure::handleFeederCargo(){
+        
+    }
+	SystemState SuperStructure::handleFeederHatch(){
+        
+    }

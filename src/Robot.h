@@ -47,4 +47,8 @@ public:
 	void test() override;
 	void testInit() override;
 	DriveSubsystem driveSubsystem;
+
+private:
+	static Robot * m_instance;
+
 };

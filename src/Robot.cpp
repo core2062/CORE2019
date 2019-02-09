@@ -3,7 +3,7 @@
 #include <iostream>
 
 #include <frc/WPILib.h>
-Robot * robot::m_instance;
+Robot * Robot::m_instance;
 
 Robot::Robot() {
 	m_instance = this;
