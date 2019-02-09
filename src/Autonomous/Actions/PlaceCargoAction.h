@@ -2,13 +2,16 @@
 
 #include <CORERobotLib.h>
 
-
+enum PlaceCargo{
+    OUTTAKE
+};
 
 class PlaceCargoAction : public COREAutonAction {
 public:
     PlaceCargoAction();
-    void ActionInt();
-    actionStatus Action() override;
+    void ActionInit(PlaceCargo i);
+    CORE::COREAutonAction::actionStatus Action() override;
     void ActionEnd();
 private:
+    PlaceCargo m_PlaceCargoRequestedAction;
 };

@@ -7,12 +7,15 @@
 DriveDistanceAction::DriveDistanceAction() {
     
 }
-void DriveDistanceAction::ActionInt() {
+void DriveDistanceAction::ActionInit() {
 }
 
 CORE::COREAutonAction::actionStatus DriveDistanceAction::Action() {
+    return COREAutonAction::actionStatus::END;
+
+
 }
 
-void ActionEnd() {
+void DriveDistanceAction::ActionEnd() {
 
 }

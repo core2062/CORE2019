@@ -2,12 +2,18 @@
 
 #include <CORERobotLib.h>
 
+enum GrabCargo{
+    INTAKE
+};
+
 class GrabCargoAction : public COREAutonAction {
 public:
     GrabCargoAction();
-    void ActionInt();
-    actionStatus Action() override;
+    void ActionInit(GrabCargo i);
+    CORE::COREAutonAction::actionStatus Action() override;
     void ActionEnd();
 private:
+GrabCargo m_GrabCargoRequestedAction;
+
 };
 

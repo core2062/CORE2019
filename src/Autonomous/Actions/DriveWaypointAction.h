@@ -2,11 +2,12 @@
 
 #include <CORERobotLib.h>
 
+
 class DriveWaypointAction : public COREAutonAction {
 public:
     DriveWaypointAction();
-    void ActionInt();
-    actionStatus Action() override;
+    void ActionInit();
+    CORE::COREAutonAction::actionStatus Action() override;
     void ActionEnd();
 private:
 };
