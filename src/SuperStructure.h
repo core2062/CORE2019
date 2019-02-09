@@ -73,6 +73,5 @@ private:
 	SystemState handleMiddleRocketHatchScoring();
 	SystemState	handleBottemRocketHatchScoring();
 	SystemState handleCargoShipCargoScoring();
-	SystemState handleFeederCargo();
 	SystemState handleFeederHatch();
 };

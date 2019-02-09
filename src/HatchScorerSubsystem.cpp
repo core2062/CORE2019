@@ -17,34 +17,66 @@ void HatchScorerSubsystem::teleopInit() {
 }
 
 void HatchScorerSubsystem::teleop() {
-    int iterationCount;
-    if (operatorJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::X_BUTTON)) {
-        PunchHatch();
+   if (operatorJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::X_BUTTON)){
+       TogglePunchHatch();
+   }
+}
+
+void HatchScorerSubsystem::TogglePunchHatch() {
+    if (!m_isOperating){
+        //not yet started
+        m_isOperating = true;
+        ExtendPunch();
+        ToggleClaw();
         StartTimer();
-        iterationCount++;
+        //iterationCount++;
+    }  else {
+        //we have started 
+        //get timer value, check against desired value.
+        if (GetTime() >= 3) {
+            RetractPunch();
+            m_isRetracting = true;
+        } else if (GetTime() >= 6) {
+
+        }
+        //if dersired value has been reached, retract punch
+        //if desiered value two has been reached, stop timer when punch fully retracted
+        
+
+        if (!m_isRetracting){
+        //
+        }  else {
+
+        }
     }
+
     if (GetTime() >= 3 && iterationCount == 1) {
         ToggleClaw();
         StartTimer();
         iterationCount++;
     }
     if (GetTime() >= 3 && iterationCount == 2) {
-         PunchHatch();
+         RetractPunch();
          m_delayTimer.Reset();
          iterationCount = 0;
     }
 }
-void HatchScorerSubsystem::PunchHatch() {
-    if (!m_isExtended) {
-        m_solenoidPunchOne.Set(frc::DoubleSolenoid::kForward);
-        m_solenoidPunchTwo.Set(frc::DoubleSolenoid::kForward);
-        m_isExtended = true;
-    } else {
-        m_solenoidPunchOne.Set(frc::DoubleSolenoid::kReverse);
-        m_solenoidPunchTwo.Set(frc::DoubleSolenoid::kReverse);
-        m_isExtended = false;
-    }
+
+void HatchScorerSubsystem::ExtendPunch() {
+    m_solenoidPunchOne.Set(frc::DoubleSolenoid::kForward);
+    m_solenoidPunchTwo.Set(frc::DoubleSolenoid::kForward);
+    m_isExtended = true;
+
 }
+
+void HatchScorerSubsystem::RetractPunch() {
+    m_solenoidPunchOne.Set(frc::DoubleSolenoid::kReverse);
+    m_solenoidPunchTwo.Set(frc::DoubleSolenoid::kReverse);
+    m_isExtended = false;
+
+
+}
+
 
 void HatchScorerSubsystem::StartTimer() {
     m_delayTimer.Reset();
