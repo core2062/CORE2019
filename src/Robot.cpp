@@ -30,6 +30,10 @@ void Robot::testInit() {
   
 }
 
+Robot * GetInstance() {
+	return m_instance;
+}
+
 #ifndef RUNNING_FRC_TESTS
 int main() { 
 	return frc::StartRobot<Robot>(); 

@@ -46,9 +46,15 @@ public:
     void teleop() override;
 	void test() override;
 	void testInit() override;
+	static Robot * GetInstance();
+
 	DriveSubsystem driveSubsystem;
+	CargoSubsystem cargoSubsystem;
+	HatchIntakeSubsystem hatchSubsystem;
+	HatchScorerSubsystem hatchScorerSubsystem;
+	LiftSubsystem liftSubsystem;
+	SuperStructure superStructure;
 
 private:
 	static Robot * m_instance;
-
 };

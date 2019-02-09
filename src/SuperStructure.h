@@ -43,7 +43,6 @@ enum class SystemState {
 	BottomRocketHatchScoring,
 	CargoShipHatchScoring,
 	CargoShipCargoScoring,
-	FeederCargo,
 	FeederHatch
 
 };
@@ -55,13 +54,14 @@ class SuperStructure : public CORESubsystem, public CORETask {
 	void teleopInit() override;
 	void teleop() override;
 	void PostLoopTask() override;
+	SuperStructure setWantedState();
 
 private:
 	CargoSubsystem * m_cargoSubsystem;
 	HatchIntakeSubsystem * m_hatchIntakeSubsystem;
 	HatchScorerSubsystem * m_hatchScorerSubsystem;
 	LiftSubsystem * m_liftSubsystem;
-
+	DriveSubsystem * m_driveSubsystem;
 
 	SystemState	m_systemState;
 
@@ -75,7 +75,4 @@ private:
 	SystemState handleCargoShipCargoScoring();
 	SystemState handleFeederCargo();
 	SystemState handleFeederHatch();
-
-
-//e.
 };
