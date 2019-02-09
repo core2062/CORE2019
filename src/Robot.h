@@ -5,6 +5,10 @@
 #include <frc/WPILib.h>
 #include <CORERobotLib.h>
 #include <DriveSubsystem.h>
+#include <CargoSubsystem.h>
+#include <LiftSubsystem.h>
+#include <HatchIntakeSubsystem.h>
+#include <HatchScorerSubsystem.h>
 
 /* Drive ports */
 #define RIGHT_FRONT_PORT 10
@@ -46,5 +50,14 @@ public:
     void teleop() override;
 	void test() override;
 	void testInit() override;
+	static Robot * GetInstance();
+
 	DriveSubsystem driveSubsystem;
+	CargoSubsystem cargoSubsystem;
+	HatchIntakeSubsystem hatchSubsystem;
+	HatchScorerSubsystem hatchScorerSubsystem;
+	LiftSubsystem liftSubsystem;
+
+private:
+	static Robot * m_instance;
 };

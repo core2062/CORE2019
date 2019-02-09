@@ -3,7 +3,10 @@
 #include <iostream>
 
 #include <frc/WPILib.h>
+Robot * Robot::m_instance;
+
 Robot::Robot() {
+	m_instance = this;
 
 }
 
@@ -25,6 +28,10 @@ void Robot::test() {
 
 void Robot::testInit() {
   
+}
+
+Robot * GetInstance() {
+	return m_instance;
 }
 
 #ifndef RUNNING_FRC_TESTS
