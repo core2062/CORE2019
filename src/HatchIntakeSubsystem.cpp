@@ -31,44 +31,24 @@ void HatchIntakeSubsystem::teleop() {
     // Actuates the intake first then changes the diection of the intake wheel based 
     // on which button is pressed, the motor turns off when the hatch is either in 
     // or out depending on the button pressed.
-    // Right Button is spit hatch out and Right Trigger is take hatch in.
+    // Right Button is to outtake the hatch and Right Trigger is take hatch in.
     if (operatorJoystick->GetButton(CORE::COREJoystick::JoystickButton::RIGHT_BUTTON)) {
-        SetHatchActuator(false);
-        SetIntake(false, HatchIn());
+        SetIntake(false, HatchIn(), false);
     }
     if (operatorJoystick->GetButton(CORE::COREJoystick::JoystickButton::RIGHT_TRIGGER)) {
-        SetHatchActuator(false);
-        SetIntake(true, !HatchIn());
+        SetIntake(true, !HatchIn(), false);
     }
 
-    // Actuates the intake back up when the button is no longer being pressed
+    // Actuates the intake back up when the button is no longer being pressed and stops the intake.
     if(!(operatorJoystick->GetButton(CORE::COREJoystick::JoystickButton::RIGHT_BUTTON) || operatorJoystick->GetButton(CORE::COREJoystick::JoystickButton::RIGHT_TRIGGER))){
-        SetHatchActuator(true);
+        SetIntake(true, !HatchIn(), true);
         m_hatchIntake.Set(ControlMode::PercentOutput, 0.0);
-        m_hatchActuator.Set(ControlMode::PercentOutput, 0.0);
     }
 }
 
 // setIntakeDirection determines direction, true = in, false = out.
-// conditionMet is whether the hatch needs to be outtaked or intaked.
-void HatchIntakeSubsystem::SetIntake(bool setIntakeDirection, bool conditionMet) {
-    if(setIntakeDirection) {
-        if(conditionMet) {
-            m_hatchActuator.Set(ControlMode::PercentOutput, 0.0);
-        }else {         
-            m_hatchActuator.Set(ControlMode::PercentOutput, 0.2);
-        }
-    } else {
-        if(conditionMet) {
-            m_hatchActuator.Set(ControlMode::PercentOutput, 0.0);
-        }else {        
-            m_hatchActuator.Set(ControlMode::PercentOutput, -0.2);
-        }
-        }
-}
-
-//Actuates the intake, deadbanded.
-void HatchIntakeSubsystem::SetHatchActuator(bool goUp) {
+// isHatchIn is whether the hatch needs to be outtaked or intaked.
+void HatchIntakeSubsystem::SetIntake(bool setIntakeDirection, bool isHatchIn, bool goUp) {
     if(goUp){
         if (m_hatchActuatorDeadband.Get() <= abs(m_actuatorTopLimit.Get() - m_hatchActuator.GetSelectedSensorPosition())) {
             m_hatchActuator.Set(ControlMode::PercentOutput, 0.2);
@@ -78,12 +58,27 @@ void HatchIntakeSubsystem::SetHatchActuator(bool goUp) {
     }
     else {
         if (m_hatchActuatorDeadband.Get() <= abs(m_actuatorBottomLimit.Get() - m_hatchActuator.GetSelectedSensorPosition())) {
-        m_hatchActuator.Set(ControlMode::PercentOutput, 0.2);
+        m_hatchActuator.Set(ControlMode::PercentOutput, -0.2);
         } else {
             m_hatchActuator.Set(ControlMode::PercentOutput, 0.0);
         }
     }
+
+    if(setIntakeDirection) {
+        if(isHatchIn) {
+            m_hatchIntake.Set(ControlMode::PercentOutput, 0.0);
+        }else {         
+            m_hatchIntake.Set(ControlMode::PercentOutput, 0.2);
+        }
+    } else {
+        if(isHatchIn) {
+            m_hatchIntake.Set(ControlMode::PercentOutput, 0.0);
+        } else {        
+            m_hatchIntake.Set(ControlMode::PercentOutput, -0.2);
+        }
+    }
 }
+
 // Returns true if the hatch is completely in, else false.
 bool HatchIntakeSubsystem::HatchIn() {
     return m_photoeye.Get() != 0;
