@@ -16,7 +16,7 @@ public:
 	void teleopInit() override;
 	void teleop() override;
 	void SetIntake(bool setIntakeDirection, bool activation);
-	bool GetHatchState();
+	bool HatchIn();
 	void SetHatchActuatorUp();
 	void SetHatchActuatorDown();
 
