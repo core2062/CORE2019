@@ -33,30 +33,29 @@ void HatchIntakeSubsystem::teleop() {
     // or out depending on the button pressed.
     // Right Button is to outtake the hatch and Right Trigger is take hatch in.
     if (operatorJoystick->GetButton(CORE::COREJoystick::JoystickButton::RIGHT_BUTTON)) {
-        SetIntake(false, HatchIn(), false);
+        SetIntake(IntakeState::OUT, IntakeState::DOWN);
     }
     if (operatorJoystick->GetButton(CORE::COREJoystick::JoystickButton::RIGHT_TRIGGER)) {
-        SetIntake(true, !HatchIn(), false);
+        SetIntake(IntakeState::IN, IntakeState::DOWN);
     }
 
-    // Actuates the intake back up when the button is no longer being pressed and stops the intake.
+    // Actuates the intake back up when neither button nor trigger is being pressed and stops the intake.
     if(!(operatorJoystick->GetButton(CORE::COREJoystick::JoystickButton::RIGHT_BUTTON) || operatorJoystick->GetButton(CORE::COREJoystick::JoystickButton::RIGHT_TRIGGER))){
-        SetIntake(true, !HatchIn(), true);
+        SetIntake(IntakeState::IN, IntakeState::UP);
         m_hatchIntake.Set(ControlMode::PercentOutput, 0.0);
     }
 }
 
-// setIntakeDirection determines direction, true = in, false = out.
-// isHatchIn is whether the hatch needs to be outtaked or intaked.
-void HatchIntakeSubsystem::SetIntake(bool setIntakeDirection, bool isHatchIn, bool goUp) {
-    if(goUp){
+// setIntakeDirection determines direction.
+void HatchIntakeSubsystem::SetIntake(IntakeState wheelDirection, IntakeState actuator) {
+    if(actuator == IntakeState::UP) {
         if (m_hatchActuatorDeadband.Get() <= abs(m_actuatorTopLimit.Get() - m_hatchActuator.GetSelectedSensorPosition())) {
             m_hatchActuator.Set(ControlMode::PercentOutput, 0.2);
         } else {
             m_hatchActuator.Set(ControlMode::PercentOutput, 0.0);
         }
     }
-    else {
+    else if(actuator == IntakeState::DOWN) {
         if (m_hatchActuatorDeadband.Get() <= abs(m_actuatorBottomLimit.Get() - m_hatchActuator.GetSelectedSensorPosition())) {
         m_hatchActuator.Set(ControlMode::PercentOutput, -0.2);
         } else {
@@ -64,17 +63,17 @@ void HatchIntakeSubsystem::SetIntake(bool setIntakeDirection, bool isHatchIn, bo
         }
     }
 
-    if(setIntakeDirection) {
-        if(isHatchIn) {
+    if(wheelDirection == IntakeState::IN) {
+        if(HatchIn()) {
             m_hatchIntake.Set(ControlMode::PercentOutput, 0.0);
         }else {         
             m_hatchIntake.Set(ControlMode::PercentOutput, 0.2);
         }
-    } else {
-        if(isHatchIn) {
-            m_hatchIntake.Set(ControlMode::PercentOutput, 0.0);
-        } else {        
+    } else if(wheelDirection == IntakeState::OUT) {
+        if(HatchIn()) {
             m_hatchIntake.Set(ControlMode::PercentOutput, -0.2);
+        } else {
+            m_hatchIntake.Set(ControlMode::PercentOutput, 0.0);
         }
     }
 }

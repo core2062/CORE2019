@@ -9,13 +9,21 @@
 using namespace CORE;
 using namespace frc;
 
+enum class IntakeState
+{
+	UP = 0,
+	DOWN = 1,
+	IN = 2,
+	OUT = 3
+};
+
 class HatchIntakeSubsystem : public CORESubsystem {
 public:
 	HatchIntakeSubsystem();
 	void robotInit() override;
 	void teleopInit() override;
 	void teleop() override;
-	void SetIntake(bool setIntakeDirection, bool isHatchIn, bool goUp);
+	void SetIntake(IntakeState wheelDirection, IntakeState actuator);
 	bool HatchIn();
 
 private:
