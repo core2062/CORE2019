@@ -6,11 +6,11 @@ PlaceCargoAction::PlaceCargoAction(){
     
 }
 void PlaceCargoAction::ActionInit(PlaceCargo Action) {
-    m_PlaceCargoRequestedAction = Action;
+    m_placeCargoRequestedAction = Action;
 }
 
 CORE::COREAutonAction::actionStatus PlaceCargoAction::Action() {
-    switch(m_PlaceCargoRequestedAction)
+    switch(m_placeCargoRequestedAction)
         case OUTTAKE:
             Robot::GetInstance()->cargoSubsystem.SetOuttake();
     

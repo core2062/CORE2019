@@ -3,11 +3,11 @@
 #include <CORERobotLib.h>
 
 GrabHatchAction::GrabHatchAction(GrabHatch Action){
-    m_GrabHatchRequestedAction = Action;
+    m_grabHatchRequestedAction = Action;
 }
 
 void GrabHatchAction::ActionInit(){
-    switch(m_GrabHatchRequestedAction){
+    switch(m_grabHatchRequestedAction){
         case OPEN:
             Robot::GetInstance()->hatchScorerSubsystem.ToggleClaw();
             break;

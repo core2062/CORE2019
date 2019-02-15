@@ -13,7 +13,7 @@ public:
     CORE::COREAutonAction::actionStatus Action() override;
     void ActionEnd();
 private:
-GrabCargo m_GrabCargoRequestedAction;
+GrabCargo m_grabCargoRequestedAction;
 
 };
 

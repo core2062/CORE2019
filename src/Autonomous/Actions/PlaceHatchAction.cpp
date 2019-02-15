@@ -3,13 +3,13 @@
 #include <CORERobotLib.h>
 
 PlaceHatchAction::PlaceHatchAction(PlaceHatch Action){
-    m_PlaceHatchRequestedAction = Action;
+    m_placeHatchRequestedAction = Action;
 }
 void PlaceHatchAction::ActionInit() {
 }
 
 CORE::COREAutonAction::actionStatus PlaceHatchAction::Action() {
-    switch(m_PlaceHatchRequestedAction){
+    switch(m_placeHatchRequestedAction){
         case CLOSE:
             Robot::GetInstance()->hatchScorerSubsystem.ToggleClaw();
             break;

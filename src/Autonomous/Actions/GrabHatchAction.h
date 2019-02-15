@@ -15,6 +15,6 @@ public:
     CORE::COREAutonAction::actionStatus Action() override;
     void ActionEnd();
 private:
-    GrabHatch m_GrabHatchRequestedAction;
+    GrabHatch m_grabHatchRequestedAction;
 };
 

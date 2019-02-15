@@ -15,5 +15,5 @@ public:
     CORE::COREAutonAction::actionStatus Action() override;
     void ActionEnd();
 private:
-    PlaceHatch m_PlaceHatchRequestedAction;
+    PlaceHatch m_placeHatchRequestedAction;
 };

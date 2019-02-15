@@ -4,14 +4,14 @@
 #include <COREUtilities/COREConstant.h>
 
 RaiseLiftAction::RaiseLiftAction(RaiseLift Action):
-    m_FirstLevelCargo("Bottom cargo height value"),
-    m_SecondLevelCargo("Middle cargo height value"),
-    m_ThirdLevelCargo("Top cargo height value"),
-    m_FirstLevelHatch("Bottom hatch height value"),
-    m_SecondLevelHatch("Middle hatch height value"),
-    m_ThirdLevelHatch("Top hatch height value")
+    m_firstLevelCargo("Bottom cargo height value"),
+    m_secondLevelCargo("Middle cargo height value"),
+    m_thirdLevelCargo("Top cargo height value"),
+    m_firstLevelHatch("Bottom hatch height value"),
+    m_secondLevelHatch("Middle hatch height value"),
+    m_thirdLevelHatch("Top hatch height value")
     {
-    m_RaiseLiftRequestedAction = Action;
+    m_raiseLiftRequestedAction = Action;
 }
 
 void RaiseLiftAction::ActionInit() {
@@ -20,24 +20,24 @@ void RaiseLiftAction::ActionInit() {
 
 CORE::COREAutonAction::actionStatus RaiseLiftAction::Action() {
     
-    switch(m_RaiseLiftRequestedAction) {
+    switch(m_raiseLiftRequestedAction) {
         case FirstLevelCargo:
-		Robot::GetInstance()->liftSubsystem.SetRequestedPosition(m_FirstLevelCargo.Get());
+		Robot::GetInstance()->liftSubsystem.SetRequestedPosition(m_firstLevelCargo.Get());
 		break;
         case SecondLevelCargo:
-		Robot::GetInstance()->liftSubsystem.SetRequestedPosition(m_SecondLevelCargo.Get());
+		Robot::GetInstance()->liftSubsystem.SetRequestedPosition(m_secondLevelCargo.Get());
 		break;
         case ThirdLevelCargo:
-		Robot::GetInstance()->liftSubsystem.SetRequestedPosition(m_ThirdLevelCargo.Get());
+		Robot::GetInstance()->liftSubsystem.SetRequestedPosition(m_thirdLevelCargo.Get());
 		break;
         case FirstLevelHatch:
-		Robot::GetInstance()->liftSubsystem.SetRequestedPosition(m_FirstLevelHatch.Get());
+		Robot::GetInstance()->liftSubsystem.SetRequestedPosition(m_firstLevelHatch.Get());
 		break;
         case SecondLevelHatch:
-		Robot::GetInstance()->liftSubsystem.SetRequestedPosition(m_SecondLevelHatch.Get());
+		Robot::GetInstance()->liftSubsystem.SetRequestedPosition(m_secondLevelHatch.Get());
 		break;
         case ThirdLevelHatch:
-		Robot::GetInstance()->liftSubsystem.SetRequestedPosition(m_ThirdLevelHatch.Get());
+		Robot::GetInstance()->liftSubsystem.SetRequestedPosition(m_thirdLevelHatch.Get());
 		break;
     }
     return COREAutonAction::actionStatus::END;

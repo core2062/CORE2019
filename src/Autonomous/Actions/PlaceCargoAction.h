@@ -13,5 +13,5 @@ public:
     CORE::COREAutonAction::actionStatus Action() override;
     void ActionEnd();
 private:
-    PlaceCargo m_PlaceCargoRequestedAction;
+    PlaceCargo m_placeCargoRequestedAction;
 };
