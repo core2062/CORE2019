@@ -1,4 +1,5 @@
 #include <CargoSubsystem.h>
+#include <Robot.h>
 
 CargoSubsystem::CargoSubsystem() : m_rightSideIntake(RIGHT_INTAKE_PORT),
                                    m_leftSideIntake(LEFT_INTAKE_PORT),

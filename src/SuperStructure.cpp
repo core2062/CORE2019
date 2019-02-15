@@ -4,9 +4,7 @@ SuperStructure::SuperStructure() {
 }
 
 void SuperStructure::robotInit() {
-    //  m_liftSubsystem = &CORE2018::GetInstance()->liftSubsystem;
     m_cargoSubsystem  = &Robot::GetInstance()->cargoSubsystem;
-    //paul is a paul
     m_hatchIntakeSubsystem = &Robot::GetInstance()->hatchIntakeSubsystem;
     m_hatchScorerSubsystem = &Robot::GetInstance()->hatchScorerSubsystem;
     m_liftSubsystem = &Robot::GetInstance()->liftSubsystem;
@@ -55,10 +53,6 @@ void SuperStructure::PostLoopTask() {
             newState = handleCargoShipCargoScoring();
             break;
 
-        case SystemState::FeederCargo:
-            newState = handleFeederCargo();
-            break;
-
         case SystemState::FeederHatch:
             newState = handleFeederHatch();
             break;
@@ -71,7 +65,7 @@ void SuperStructure::PostLoopTask() {
 
 }
 
-void SuperStructure::setWantedState(WantedState, wantedState) {
+void SuperStructure::setWantedState(WantedState wantedState) {
     m_wantedState = wantedState;
 }
 

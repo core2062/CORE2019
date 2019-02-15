@@ -5,6 +5,11 @@
 #include <frc/WPILib.h>
 #include <CORERobotLib.h>
 #include <DriveSubsystem.h>
+#include <HatchIntakeSubsystem.h>
+#include <HatchScorerSubsystem.h>
+#include <SuperStructure.h>
+#include <CargoSubsystem.h>
+#include <Robot.h>
 
 /* Drive ports */
 #define RIGHT_FRONT_PORT 10
@@ -50,7 +55,7 @@ public:
 
 	DriveSubsystem driveSubsystem;
 	CargoSubsystem cargoSubsystem;
-	HatchIntakeSubsystem hatchSubsystem;
+	HatchIntakeSubsystem hatchIntakeSubsystem;
 	HatchScorerSubsystem hatchScorerSubsystem;
 	LiftSubsystem liftSubsystem;
 	SuperStructure superStructure;

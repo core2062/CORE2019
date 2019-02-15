@@ -17,7 +17,7 @@ void HatchScorerSubsystem::teleopInit() {
 }
 
 void HatchScorerSubsystem::teleop() {
-   if (operatorJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::X_BUTTON)){
+   if (operatorJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::X_BUTTON) || !m_isOperating){
        TogglePunchHatch();
    }
 }
@@ -33,32 +33,13 @@ void HatchScorerSubsystem::TogglePunchHatch() {
     }  else {
         //we have started 
         //get timer value, check against desired value.
-        if (GetTime() >= 3) {
+        if (GetTime() >= 3 && !m_isRetracting) {
             RetractPunch();
             m_isRetracting = true;
         } else if (GetTime() >= 6) {
-
+            m_isOperating = false;
+            m_isRetracting = false;
         }
-        //if dersired value has been reached, retract punch
-        //if desiered value two has been reached, stop timer when punch fully retracted
-        
-
-        if (!m_isRetracting){
-        //
-        }  else {
-
-        }
-    }
-
-    if (GetTime() >= 3 && iterationCount == 1) {
-        ToggleClaw();
-        StartTimer();
-        iterationCount++;
-    }
-    if (GetTime() >= 3 && iterationCount == 2) {
-         RetractPunch();
-         m_delayTimer.Reset();
-         iterationCount = 0;
     }
 }
 
@@ -89,11 +70,18 @@ double HatchScorerSubsystem::GetTime() {
 
 void HatchScorerSubsystem::ToggleClaw() {
     if (!m_isOpen) {
-        m_solenoidClaw.Set(frc::DoubleSolenoid::kForward);
-        m_isOpen = true;
-
+        openClaw();
     } else {
-        m_solenoidClaw.Set(frc::DoubleSolenoid::kReverse);
-        m_isOpen = false;
+        closedClaw();
     }
+}
+
+void HatchScorerSubsystem::OpenClaw() {
+    m_solenoidClaw.Set(frc::DoubleSolenoid::kForward);
+    m_isOpen = true;
+}
+
+void HatchScorerSubsystem::CloseClaw() {
+    m_solenoidClaw.Set(frc::DoubleSolenoid::kReverse);
+    m_isOpen = false;
 }

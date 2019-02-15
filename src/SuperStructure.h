@@ -7,11 +7,12 @@
 #include <HatchIntakeSubsystem.h>
 #include <HatchScorerSubsystem.h>
 #include <LiftSubsystem.h>
+#include <Robot.h>
 
 using namespace CORE;
 
 
-#include "Robot.h"
+
 
 enum class WantedState {
 	WantToPickupGroundHatch,
@@ -47,7 +48,7 @@ enum class SystemState {
 
 };
 
-class SuperStructure : public CORESubsystem, public CORETask {
+class SuperStructure : public CORESubsystem, public CORE::CORETask {
   public:
 	SuperStructure();
 	void robotInit() override;

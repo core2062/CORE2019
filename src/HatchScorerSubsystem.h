@@ -4,6 +4,7 @@
 #include <CORERobotLib.h>
 #include <frc/WPILib.h>
 
+
 using namespace CORE;
 using namespace frc;
 
@@ -14,7 +15,8 @@ public:
 	void teleopInit() override;
 	void teleop() override;
 	void TogglePunchHatch();
-	void ToggleClaw();
+	void openClaw();
+	void closeClaw();
 	void ExtendPunch();
 	void RetractPunch();
 
