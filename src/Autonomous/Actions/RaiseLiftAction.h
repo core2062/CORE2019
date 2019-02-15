@@ -14,7 +14,7 @@ enum RaiseLift{
 
 class RaiseLiftAction : public COREAutonAction {
 public:
-    RaiseLiftAction(RaiseLift i);
+    RaiseLiftAction(RaiseLift Action);
     void ActionInit();
     CORE::COREAutonAction::actionStatus Action() override;
     void ActionEnd();

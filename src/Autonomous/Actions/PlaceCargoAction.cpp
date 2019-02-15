@@ -5,14 +5,14 @@
 PlaceCargoAction::PlaceCargoAction(){
     
 }
-void PlaceCargoAction::ActionInit(PlaceCargo i) {
-    m_PlaceCargoRequestedAction = i;
+void PlaceCargoAction::ActionInit(PlaceCargo Action) {
+    m_PlaceCargoRequestedAction = Action;
 }
 
 CORE::COREAutonAction::actionStatus PlaceCargoAction::Action() {
     switch(m_PlaceCargoRequestedAction)
         case OUTTAKE:
-            // Robot::GetInstance()->CargoSubsystem.SetOuttake()
+            Robot::GetInstance()->cargoSubsystem.SetOuttake();
     
     return COREAutonAction::actionStatus::END;
 

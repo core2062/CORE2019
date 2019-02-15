@@ -5,14 +5,15 @@
 GrabCargoAction::GrabCargoAction(){
     
 }
-void GrabCargoAction::ActionInit(GrabCargo i) {
-    m_GrabCargoRequestedAction = i;
+void GrabCargoAction::ActionInit(GrabCargo Action) {
+    m_GrabCargoRequestedAction = Action;
 }
 
 CORE::COREAutonAction::actionStatus GrabCargoAction::Action() {
-    switch(m_GrabCargoRequestedAction)
+    switch(m_GrabCargoRequestedAction){
         case INTAKE:
             Robot::GetInstance()->cargoSubsystem.SetIntake();
+    }
     
     return COREAutonAction::actionStatus::END;
 

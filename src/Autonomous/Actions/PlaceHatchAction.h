@@ -10,7 +10,7 @@ enum PlaceHatch{
 
 class PlaceHatchAction : public COREAutonAction {
 public:
-    PlaceHatchAction(PlaceHatch i);
+    PlaceHatchAction(PlaceHatch Action);
     void ActionInit();
     CORE::COREAutonAction::actionStatus Action() override;
     void ActionEnd();

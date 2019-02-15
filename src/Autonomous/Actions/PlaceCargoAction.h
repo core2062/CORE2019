@@ -9,7 +9,7 @@ enum PlaceCargo{
 class PlaceCargoAction : public COREAutonAction {
 public:
     PlaceCargoAction();
-    void ActionInit(PlaceCargo i);
+    void ActionInit(PlaceCargo Action);
     CORE::COREAutonAction::actionStatus Action() override;
     void ActionEnd();
 private:

@@ -10,7 +10,7 @@ enum GrabHatch{
 
 class GrabHatchAction : public COREAutonAction {
 public:
-    GrabHatchAction(GrabHatch i);
+    GrabHatchAction(GrabHatch Action);
     void ActionInit();
     CORE::COREAutonAction::actionStatus Action() override;
     void ActionEnd();

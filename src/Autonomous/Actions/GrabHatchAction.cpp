@@ -2,8 +2,8 @@
 #include <Robot.h>
 #include <CORERobotLib.h>
 
-GrabHatchAction::GrabHatchAction(GrabHatch i){
-    m_GrabHatchRequestedAction = i;
+GrabHatchAction::GrabHatchAction(GrabHatch Action){
+    m_GrabHatchRequestedAction = Action;
 }
 
 void GrabHatchAction::ActionInit(){

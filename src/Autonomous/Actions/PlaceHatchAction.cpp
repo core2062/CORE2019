@@ -2,8 +2,8 @@
 #include <Robot.h>
 #include <CORERobotLib.h>
 
-PlaceHatchAction::PlaceHatchAction(PlaceHatch i){
-    m_PlaceHatchRequestedAction = i;
+PlaceHatchAction::PlaceHatchAction(PlaceHatch Action){
+    m_PlaceHatchRequestedAction = Action;
 }
 void PlaceHatchAction::ActionInit() {
 }
