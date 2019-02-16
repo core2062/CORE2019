@@ -70,7 +70,7 @@ double HatchScorerSubsystem::GetTime() {
 
 void HatchScorerSubsystem::ToggleClaw() {
     if (!m_isOpen) {
-        openClaw();
+        OpenClaw();
     } else {
         closedClaw();
     }

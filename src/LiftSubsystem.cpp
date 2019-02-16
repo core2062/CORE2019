@@ -40,7 +40,7 @@ void LiftSubsystem::teleopInit(){
 void LiftSubsystem::teleop() {
     // Data for reference on SmartDashboard
     SmartDashboard::PutNumber("Lift requested position", m_requestedPosition);
-    SmartDashboard::PutNumber("Lift position in inches", m_rightLiftMotor.GetSelectedSensorPosition(0) /
+    SmartDashboard::PutNumber("Lift position in inches", m_rightLiftMotor.GetSelectedSensorPosition(0)
         m_ticksPerInch.Get());
     SmartDashboard::PutNumber("Lift position in ticks", m_rightLiftMotor.GetSelectedSensorPosition(0));
     // Check to see which way the lift would run if this value is positive
@@ -147,7 +147,17 @@ void LiftSubsystem::SetThirdLevelCargoHeight() {
     SetRequestedPosition(m_thirdLevelHatch.Get());
 }
 
-// Below are 6 functions that check if the lift is within 2 inches of the desired field target
+void LiftSubsystem::SetCargoShipCargoLevel() {
+    SetRequestedPosition(m_cargoShipCargoLevel.Get());
+}
+
+void LiftSubsystem::SetCargoShipHatchLevel() {
+    SetRequestedPosition(m_cargoShipHatchLevel.Get());
+}
+
+void LiftSubsystem::Set
+
+// Below are 8 functions that check if the lift is within 2 inches of the desired field target
 
 bool LiftSubsystem::IsFirstLevelCargo() {
     return abs(GetLiftInches() - m_firstLevelCargo.Get()) < 2;
@@ -171,4 +181,12 @@ bool LiftSubsystem::IsThirdLevelCargo() {
 
 bool LiftSubsystem::IsThirdLevelHatch() {
     return abs(GetLiftInches() - m_thirdLevelHatch.Get()) < 2;
+}
+
+bool LiftSubsystem::IsCargoShipCargoLevel() {
+    return abs(GetLiftInches()) - m_cargoShipCargoLevel.Get()) < 2;
+}
+
+bool LiftSubsystem::IsCargoShipHatchLevel() {
+    return abs(GetLiftInches()) - m_cargoShipHatchLevel.Get()) < 2;
 }

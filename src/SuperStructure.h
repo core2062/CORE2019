@@ -67,12 +67,13 @@ private:
 	SystemState	m_systemState;
 
 	SystemState handleTransit();
-	SystemState handleTopRocketCargoScoring();
-	SystemState handleMiddleRocketCargoScoring();
-	SystemState handleBottemRocketCargoScoring();
-	SystemState handleTopRocketHatchScoring();
-	SystemState handleMiddleRocketHatchScoring();
-	SystemState	handleBottemRocketHatchScoring();
-	SystemState handleCargoShipCargoScoring();
-	SystemState handleFeederHatch();
+	SystemState HandleTopRocketCargoScoring();
+	SystemState HandleMiddleRocketCargoScoring();
+	SystemState HandleBottomRocketCargoScoring();
+	SystemState HandleTopRocketHatchScoring();
+	SystemState HandleMiddleRocketHatchScoring();
+	SystemState	HandleBottomRocketHatchScoring();
+	SystemState HandleCargoShipCargoScoring();
+	SystemState HandleCargoShipHatchScoring();
+	SystemState HandleFeederHatch();
 };

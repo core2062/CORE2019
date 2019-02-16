@@ -26,35 +26,38 @@ void SuperStructure::PostLoopTask() {
             break;
 
         case SystemState::TopRocketCargoScoring:
-            newState = handleTopRocketCargoScoring();
+            newState = HandleTopRocketCargoScoring();
             break;
 
         case SystemState::MiddleRocketCargoScoring:
-            newState = handleMiddleRocketCargoScoring();
+            newState = HandleMiddleRocketCargoScoring();
             break;
 
         case SystemState::BottomRocketCargoScoring:
-            newState = handleBottemRocketCargoScoring();
+            newState = HandleBottomRocketCargoScoring();
             break;
 
         case SystemState::TopRocketHatchScoring:
-            newState = handleTopRocketHatchScoring();
+            newState = HandleTopRocketHatchScoring();
             break;
 
         case SystemState::MiddleRocketHatchScoring:
-            newState = handleMiddleRocketHatchScoring();
+            newState = HandleMiddleRocketHatchScoring();
             break;
 
         case SystemState::BottomRocketHatchScoring:
-            newState = handleBottemRocketHatchScoring();
+            newState = HandleBottomRocketHatchScoring();
             break;
 
         case SystemState::CargoShipCargoScoring:
-            newState = handleCargoShipCargoScoring();
+            newState = HandleCargoShipCargoScoring();
             break;
 
+        case SystemState::CargoShipHatchScoring:
+            newState = HandleCargoShipHatchScoring();
+
         case SystemState::FeederHatch:
-            newState = handleFeederHatch();
+            newState = HandleFeederHatch();
             break;
     }
 
@@ -72,7 +75,7 @@ void SuperStructure::setWantedState(WantedState wantedState) {
 SystemState SuperStructure::handleTransit() {
 }
 
-SystemState SuperStructure::handleTopRocketCargoScoring() {
+SystemState SuperStructure::HandleTopRocketCargoScoring() {
     //set lift to top rocket level
     m_liftSubsystem->SetThirdLevelCargoHeight();
     //spin cargo in reverse to eject cargo into rocket ship
@@ -81,7 +84,7 @@ SystemState SuperStructure::handleTopRocketCargoScoring() {
     m_liftSubsystem->SetFirstLevelCargoHeight();
 }
 
-SystemState SuperStructure::handleMiddleRocketCargoScoring() {
+SystemState SuperStructure::HandleMiddleRocketCargoScoring() {
     //set lift to middle rocket level
     m_liftSubsystem->SetSecondLevelCargoHeight();
     //eject cargo into rocket ship
@@ -90,7 +93,7 @@ SystemState SuperStructure::handleMiddleRocketCargoScoring() {
     m_liftSubsystem->SetFirstLevelCargoHeight();
 }
 
-SystemState SuperStructure::handleBottemRocketCargoScoring() {
+SystemState SuperStructure::HandleBottomRocketCargoScoring() {
     //set lift to bottom rocket level
     m_liftSubsystem->SetFirstLevelCargoHeight();
     //eject cargo into rocket ship
@@ -99,51 +102,53 @@ SystemState SuperStructure::handleBottemRocketCargoScoring() {
     //Already There..
 }
 
-SystemState SuperStructure::handleTopRocketHatchScoring() {
+SystemState SuperStructure::HandleTopRocketHatchScoring() {
     //set lift to top rocket
     m_liftSubsystem->SetThirdLevelHatchHeight();
-    //single function
-        //{extend hatch scorer
-        m_hatchScorerSubsystem->
-        //open hatch scorer
-        //punch hatch scorer
-        //close hatch scorer
-        //retract hatch scorer}
+    //score the hatch
+    m_hatchScorerSubsystem->TogglePunchHatch();
     //set the lift to the default state
+    m_liftSubsystem->SetFirstLevelHatchHeight();
 }
 
-SystemState SuperStructure::handleMiddleRocketHatchScoring() {
+SystemState SuperStructure::HandleMiddleRocketHatchScoring() {
     //set lift to middle rocket
-    //single function
-        //{extend hatch scorer
-        //open hatch scorer
-        //punch hatch scorer
-        //close hatch scorer
-        //retract hatch scorer}
+    m_liftSubsystem->SetSecondLevelHatchHeight();
+    //score the hatch
+    m_hatchScorerSubsystem->TogglePunchHatch();
     //set the lift to the default state
+    m_liftSubsystem->SetFirstLevelHatchHeight();
 }
 
-SystemState	SuperStructure::handleBottemRocketHatchScoring() {
+SystemState	SuperStructure::HandleBottomRocketHatchScoring() {
     //set lift to bottom rocket
-    //single function
-        //{extend hatch scorer
-        //open hatch scorer
-        //punch hatch scorer
-        //close hatch scorer
-        //retract hatch scorer}
+    m_liftSubsystem->SetFirstLevelHatchHeight();
+    //score the hatch
+    m_hatchScorerSubsystem->TogglePunchHatch();
     //set the lift to the default state
+    //Already there
+    
 }
 
-SystemState SuperStructure::handleCargoShipCargoScoring() {
+SystemState SuperStructure::HandleCargoShipCargoScoring() {
     //make sure the lift is at the correct hight [Set lift to correct height of cargo ship]
+    m_liftSubsystem->SetCargoShipCargoLevel();
     //spin cargo intake in reverse to eject cargo into cargo ship
+    m_cargoSubsystem->SetOuttake();
     //set the lift to the default state
 }
 
-SystemState SuperStructure::handleFeederHatch() {
+SystemState SuperStructure::HandleCargoShipHatchScoring() {
+//make sure the lift is at the correct height [Set lift to correct height of cargo ship]
+    m_liftSubsystem->SetCargoShipHatchLevel();
+    m_hatchScorerSubsystem->ScoreHatchScorer();
+
+}
+
+SystemState SuperStructure::HandleFeederHatch() {
     //make sure the lift is in the right height
-    //close hatch scorer
-    //extend hatch scorer
-    //open hatch scorer
-    //retract hatch scorer
+    m_liftSubsystem->SetFeederHeight();
+    //score the hatch
+    m_hatchScorerSubsystem->TogglePunchHatch();
+    
 }

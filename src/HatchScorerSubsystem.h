@@ -15,8 +15,8 @@ public:
 	void teleopInit() override;
 	void teleop() override;
 	void TogglePunchHatch();
-	void openClaw();
-	void closeClaw();
+	void OpenClaw();
+	void CloseClaw();
 	void ExtendPunch();
 	void RetractPunch();
 
