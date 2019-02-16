@@ -3,9 +3,8 @@
 #include "Robot.h"
 
 //TODO:Fill these in with actual port numbers
-HatchScorerSubsystem::HatchScorerSubsystem() : m_solenoidPunchOne(0, 0, 0),
-                                               m_solenoidPunchTwo(0, 0, 0),
-                                               m_solenoidClaw(0, 0, 0) {
+HatchScorerSubsystem::HatchScorerSubsystem() : m_solenoidPunchOne(0, HATCH_SCORER_PUNCH_IN, HATCH_SCORER_PUNCH_OUT),
+                                               m_solenoidClaw(0, HATCH_SCORER_CLAW_IN, HATCH_SCORER_CLAW_OUT) {
 
 }
 
@@ -37,11 +36,9 @@ void HatchScorerSubsystem::teleop() {
 void HatchScorerSubsystem::PunchHatch() {
     if (!m_isExtended) {
         m_solenoidPunchOne.Set(frc::DoubleSolenoid::kForward);
-        m_solenoidPunchTwo.Set(frc::DoubleSolenoid::kForward);
         m_isExtended = true;
     } else {
         m_solenoidPunchOne.Set(frc::DoubleSolenoid::kReverse);
-        m_solenoidPunchTwo.Set(frc::DoubleSolenoid::kReverse);
         m_isExtended = false;
     }
 }

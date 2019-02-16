@@ -14,8 +14,7 @@ DriveSubsystem::DriveSubsystem() : driveTurnkP("Drive Turn P Value", .05),
 								   m_rightMaster(RIGHT_FRONT_PORT),
 								   m_leftSlave(LEFT_BACK_PORT),
 								   m_rightSlave(RIGHT_BACK_PORT),
-                                   m_leftDriveShifter(LEFT_DRIVE_SHIFTER_PCM, LEFT_DRIVE_SHIFTER_HIGH_GEAR_PORT, LEFT_DRIVE_SHIFTER_LOW_GEAR_PORT),
-                                   m_rightDriveShifter(RIGHT_DRIVE_SHIFTER_PCM, RIGHT_DRIVE_SHIFTER_HIGH_GEAR_PORT, RIGHT_DRIVE_SHIFTER_LOW_GEAR_PORT),
+                                   m_leftDriveShifter(DRIVE_SHIFTER_PCM, DRIVE_SHIFTER_HIGH_GEAR_PORT, DRIVE_SHIFTER_LOW_GEAR_PORT),
 								   m_highGear(true),
 								   m_turnPIDMultiplier("Turn PID Multiplier", 0.1),
 								   compressor(COMPRESSOR_PCM) {
@@ -59,11 +58,9 @@ void DriveSubsystem::ToggleGear() {
 	// Shifts from high gear to low gear or vice versa
 	if (m_highGear) {
 		m_leftDriveShifter.Set(DoubleSolenoid::kForward);
-		m_rightDriveShifter.Set(DoubleSolenoid::kForward);
 		m_highGear = false;
 	} else {
 		m_leftDriveShifter.Set(DoubleSolenoid::kReverse);
-		m_rightDriveShifter.Set(DoubleSolenoid::kReverse);
 		m_highGear = true;
 	}
 }

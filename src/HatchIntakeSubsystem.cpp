@@ -3,7 +3,7 @@
 #include "Robot.h"
 
 HatchIntakeSubsystem::HatchIntakeSubsystem() : m_hatchIntake(HATCH_INTAKE_PORT),
-                                               m_hatchIntakeSolenoid(HATCH_INTAKE_SOLENOID_IN_PORT, HATCH_INTAKE_SOLENOID_OUT_PORT),
+                                               m_hatchIntakeSolenoid(0, 12),
                                                m_photoeye(HATCH_INTAKE_PHOTOEYE)
 {
     isDown = false;
