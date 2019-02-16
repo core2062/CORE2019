@@ -5,8 +5,8 @@
 //TODO:Fill these in with actual port numbers
 HatchScorerSubsystem::HatchScorerSubsystem() : m_solenoidPunchOne(0, HATCH_SCORER_PUNCH_IN, HATCH_SCORER_PUNCH_OUT),
                                                m_solenoidClaw(0, HATCH_SCORER_CLAW_IN, HATCH_SCORER_CLAW_OUT),
-                                               m_punchSeconds("PUNCH_OUT_SECONDS"),
-                                               m_retractSeconds("RETRACT_IN_SECONDS") {
+                                               m_punchSeconds("Hatch Scorer Punch Time (seconds)"),
+                                               m_retractSeconds("Hatch Scorer Retract Time (seconds)") {
 
 }
 
@@ -18,7 +18,7 @@ void HatchScorerSubsystem::teleopInit() {
 }
 
 void HatchScorerSubsystem::teleop() {
-   if (operatorJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::X_BUTTON) || !m_isOperating){
+   if (operatorJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::X_BUTTON) || m_isOperating){
        ScoreHatch();
    }
 }
@@ -28,13 +28,12 @@ void HatchScorerSubsystem::ScoreHatch() {
         //not yet started
         m_isOperating = true;
         ExtendPunch();
-        ToggleClaw();
+        CloseClaw();
         StartTimer();
-        //iterationCount++;
     }  else {
         //we have started 
         //get timer value, check against desired value.
-        if (GetTime() >= m_punchSeconds.Get()&& !m_isRetracting) {
+        if (GetTime() >= m_punchSeconds.Get() && !m_isRetracting) {
             RetractPunch();
             m_isRetracting = true;
         } else if (GetTime() >= m_retractSeconds.Get()) {
