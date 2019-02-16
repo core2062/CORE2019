@@ -74,9 +74,9 @@ public:
 	static Robot * GetInstance();
 
 	DriveSubsystem driveSubsystem;
-	CargoSubsystem cargoSubsystem;
+	//CargoSubsystem cargoSubsystem;
 	//HatchIntakeSubsystem hatchSubsystem;
-	//HatchScorerSubsystem hatchScorerSubsystem;
+	HatchScorerSubsystem hatchScorerSubsystem;
 	//LiftSubsystem liftSubsystem;
 
 private:

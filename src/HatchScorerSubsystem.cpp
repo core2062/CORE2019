@@ -10,27 +10,33 @@ HatchScorerSubsystem::HatchScorerSubsystem() : m_solenoidPunchOne(0, HATCH_SCORE
 
 void HatchScorerSubsystem::robotInit() {
     operatorJoystick->RegisterButton(CORE::COREJoystick::JoystickButton::X_BUTTON);
+    operatorJoystick->RegisterButton(CORE::COREJoystick::JoystickButton::Y_BUTTON);
 }
 
 void HatchScorerSubsystem::teleopInit() {
 }
 
 void HatchScorerSubsystem::teleop() {
-    int iterationCount;
-    if (operatorJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::X_BUTTON)) {
+    // int iterationCount;
+    // if (operatorJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::X_BUTTON)) {
+    //     PunchHatch();
+    //     StartTimer();
+    //     iterationCount++;
+    // }
+    // if (GetTime() >= 3 && iterationCount == 1) {
+    //     ToggleClaw();
+    //     StartTimer();
+    //     iterationCount++;
+    // }
+    // if (GetTime() >= 3 && iterationCount == 2) {
+    //      PunchHatch();
+    //      m_delayTimer.Reset();
+    //      iterationCount = 0;
+    // }
+    if(operatorJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::X_BUTTON)) {
         PunchHatch();
-        StartTimer();
-        iterationCount++;
-    }
-    if (GetTime() >= 3 && iterationCount == 1) {
+    } else if (operatorJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::Y_BUTTON)) {
         ToggleClaw();
-        StartTimer();
-        iterationCount++;
-    }
-    if (GetTime() >= 3 && iterationCount == 2) {
-         PunchHatch();
-         m_delayTimer.Reset();
-         iterationCount = 0;
     }
 }
 void HatchScorerSubsystem::PunchHatch() {
