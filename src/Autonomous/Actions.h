@@ -1,9 +1,9 @@
 #pragma once
 
-#include "DriveDistanceAction.h"
-#include "DriveWaypointAction.h"
-#include "GrabCargoAction.h"
-#include "GrabHatchAction.h"
-#include "PlaceCargoAction.h"
-#include "PlaceHatchAction.h"
-#include "RaiseLiftAction.h"
+#include "Actions/DriveDistanceAction.h"
+#include "Actions/DriveWaypointAction.h"
+#include "Actions/GrabCargoAction.h"
+#include "Actions/GrabHatchAction.h"
+#include "Actions/PlaceCargoAction.h"
+#include "Actions/PlaceHatchAction.h"
+#include "Actions/RaiseLiftAction.h"
