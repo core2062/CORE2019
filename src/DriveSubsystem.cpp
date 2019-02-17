@@ -5,8 +5,8 @@
 
 using namespace CORE;
 
-DriveSubsystem::DriveSubsystem() : lookAhead("Waypoint follower look ahead point"),
-								   driveTurnkP("Drive Turn P Value", .05),
+DriveSubsystem::DriveSubsystem() : m_lookAhead("Waypoint follower look ahead point"),
+								   m_driveTurnkP("Drive Turn P Value", .05),
 								   m_etherAValue("Ether A Value", .6),
                                    m_etherBValue("Ether B Value", .4),
 								   m_etherQuickTurnValue("Ether Quick Turn Value", 1.0),
@@ -20,12 +20,14 @@ DriveSubsystem::DriveSubsystem() : lookAhead("Waypoint follower look ahead point
 								   m_highGear(true),
 								   m_turnPIDMultiplier("Turn PID Multiplier", 0.1),
 								   compressor(COMPRESSOR_PCM),
-								   m_pursuit(0, 0, 0, .1, Path(), false, 0) {
+								   m_pursuit(0, 0, .1, m_path, false, 0),
+								   m_tracker(TankTracker::GetInstance()) {
 	try {
         	m_gyro = new AHRS(SPI::Port::kMXP);
     } catch (std::exception ex) {
         CORELog::LogError("Error initializing gyro: " + string(ex.what()));
     }
+	TankTracker::GetInstance()->Init();
 }
 
 void DriveSubsystem::robotInit() {
@@ -162,17 +164,17 @@ void DriveSubsystem::FillCompressor() {
 	}
 }
 
-Rotation2d DriveSubsystem::GetGyroAngle() {
-	return Rotation2d::FromRadians(m_gyro->GetYaw());
+TankRotation2d DriveSubsystem::GetGyroAngle() {
+	return TankRotation2d::FromRadians(m_gyro->GetYaw());
 }
 
-void DriveSubsystem::SetPosition(Position2d pos) {
+void DriveSubsystem::SetPosition(TankPosition2d pos) {
 	
 }
 
-void DriveSubsystem::FollowPath(Path path, bool reversed, double maxAccel, double tolerance, 
+void DriveSubsystem::FollowPath(TankPath path, bool reversed, double maxAccel, double tolerance, 
 	bool gradualStop) {
-	m_pursuit = AdaptivePursuit(lookAhead.Get(), driveTurnkP.Get(), maxAccel, 0.025, path, reversed, tolerance, 
+	m_pursuit = TankAdaptivePursuit(m_lookAhead.Get(), m_driveTurnkP.Get(), maxAccel, 0.025, path, reversed, tolerance, 
 		gradualStop);
 }
 

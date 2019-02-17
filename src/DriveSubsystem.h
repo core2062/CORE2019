@@ -6,7 +6,7 @@
 #include <ctre/Phoenix.h>
 #include <COREFramework/COREScheduler.h>
 #include <COREHardware/COREJoystick.h>
-#include <WaypointFollower/WaypointFollower.h>
+#include <WaypointFollower/tank/TankWaypointFollower.h>
 #include <AHRS.h>
 
 enum class DriveSide{LEFT = 1, RIGHT = 2, BOTH = 3};
@@ -31,23 +31,24 @@ public:
     void FillCompressor();
 
     // Autonomous functions
-    Rotation2d GetGyroAngle();
-    void SetPosition(Position2d pos);
-    void FollowPath(Path path, bool reversed = false, double maxAccel = 25.0, 
+    TankRotation2d GetGyroAngle();
+    void SetPosition(TankPosition2d pos);
+    void FollowPath(TankPath path, bool reversed = false, double maxAccel = 25.0, 
         double tolerance = 0.25, bool gradualStop = true);
-    AdaptivePursuit m_pursuit;
-        bool PathDone();
+    TankAdaptivePursuit m_pursuit;
+    bool PathDone();
     void RunTracker(); 
     void ResetTracker();
 
-    AHRS * m_gyro;
-
-    COREConstant<double> driveTurnkP, lookAhead;
 private:
+    TankPath m_path;
+    TankTracker * m_tracker;
+    AHRS * m_gyro;
     Compressor compressor;
     COREConstant<double> m_etherAValue, m_etherBValue, m_etherQuickTurnValue, m_ticksPerInch;
     TalonSRX m_leftMaster, m_rightMaster, m_leftSlave, m_rightSlave;
     DoubleSolenoid m_leftDriveShifter, m_rightDriveShifter;
     bool m_highGear;
     COREConstant<double> m_turnPIDMultiplier;
+    COREConstant<double> m_driveTurnkP, m_lookAhead;
 };
