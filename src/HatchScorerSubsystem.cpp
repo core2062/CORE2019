@@ -24,7 +24,7 @@ void HatchScorerSubsystem::teleop() {
 }
 
 void HatchScorerSubsystem::ScoreHatch() {
-    if (!m_isOperating){
+    if (!m_isOperating && !m_isOpen){
         //not yet started
         m_isOperating = true;
         ExtendPunch();
@@ -38,7 +38,7 @@ void HatchScorerSubsystem::ScoreHatch() {
             m_isRetracting = true;
         } else if (GetTime() >= m_retractSeconds.Get()) {
             m_isOperating = false;
-            m_isRetracting = false;
+            m_isRetracting = false; 
         }
     }
 }
