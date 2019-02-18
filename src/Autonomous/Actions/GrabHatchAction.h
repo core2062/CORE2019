@@ -4,8 +4,8 @@
 
 enum GrabHatch{
     OPEN,
-    EXTEND,
-    RETRACT
+    PUSH,
+    PULL
 };
 
 class GrabHatchAction : public COREAutonAction {

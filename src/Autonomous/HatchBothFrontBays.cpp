@@ -6,7 +6,7 @@ HatchBothFrontBays::HatchBothFrontBays() :
 }
 
 void HatchBothFrontBays::addNodes() {
-    addFirstNode(m_driveForwardToFrontCargoBay);
+    AddFirstNode(m_driveForwardToFrontCargoBay);
     m_driveForwardToFrontCargoBay = new Node(10, new DriveWaypointAction());
     m_placeHatchOnFrontCargoBay = new Node(10, new PlaceHatchAction());
 }
