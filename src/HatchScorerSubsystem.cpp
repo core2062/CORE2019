@@ -17,22 +17,22 @@ void HatchScorerSubsystem::teleopInit() {
 }
 
 void HatchScorerSubsystem::teleop() {
-    int iterationCount;
-    if (operatorJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::X_BUTTON)) {
-        PunchHatch();
-        StartTimer();
-        iterationCount++;
-    }
-    if (GetTime() >= 3 && iterationCount == 1) {
-        ToggleClaw();
-        StartTimer();
-        iterationCount++;
-    }
-    if (GetTime() >= 3 && iterationCount == 2) {
-         PunchHatch();
-         m_delayTimer.Reset();
-         iterationCount = 0;
-    }
+    // int iterationCount;
+    // if (operatorJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::X_BUTTON)) {
+    //     PunchHatch();
+    //     StartTimer();
+    //     iterationCount++;
+    // }
+    // if (GetTime() >= 3 && iterationCount == 1) {
+    //     ToggleClaw();
+    //     StartTimer();
+    //     iterationCount++;
+    // }
+    // if (GetTime() >= 3 && iterationCount == 2) {
+    //      PunchHatch();
+    //      m_delayTimer.Reset();
+    //      iterationCount = 0;
+    // }
 }
 void HatchScorerSubsystem::PunchHatch() {
     if (!m_isExtended) {

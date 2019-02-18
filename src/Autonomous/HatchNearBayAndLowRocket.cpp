@@ -6,6 +6,6 @@ HatchNearBayAndLowRocket::HatchNearBayAndLowRocket() :
 }
 
 void HatchNearBayAndLowRocket::addNodes() {
-    AddFirstNode(m_moveForward);
-    m_moveForward = new Node(5, new DriveDistanceAction());
+    AddFirstNode(m_driveForwardFirstBaySideCargoShip);
+    m_driveForwardFirstBaySideCargoShip = new Node(5, new DriveDistanceAction());
 }

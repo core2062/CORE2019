@@ -13,6 +13,6 @@ public:
 
 private:
 	Node * m_driveForwardToRocket = nullptr;
-    Node * m_placeHatchOnTopRocket;
+    Node * m_placeHatchOnTopRocket = nullptr;
     Node * m_lowerLiftToFirstLevel = nullptr;
 };
