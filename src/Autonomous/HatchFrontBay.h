@@ -9,7 +9,7 @@ using namespace CORE;
 class HatchFrontBay : public COREAuton {
 public:
 	HatchFrontBay();
-	void addNodes() override;
+	void AddNodes() override;
 
 private:
 	Node * m_driveForwardToFrontCargoBay = nullptr;
