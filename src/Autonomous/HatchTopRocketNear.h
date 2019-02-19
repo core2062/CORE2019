@@ -9,7 +9,7 @@ using namespace CORE;
 class HatchTopRocketNear : public COREAuton {
 public:
 	HatchTopRocketNear();
-	void addNodes();
+	void AddNodes();
 
 private:
 	Node * m_driveForwardToRocket = nullptr;
