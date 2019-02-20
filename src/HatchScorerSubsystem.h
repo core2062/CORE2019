@@ -4,6 +4,7 @@
 #include <CORERobotLib.h>
 #include <frc/WPILib.h>
 
+
 using namespace CORE;
 using namespace frc;
 
@@ -13,15 +14,22 @@ public:
 	void robotInit() override; 
 	void teleopInit() override;
 	void teleop() override;
-	void PunchHatch();
+	void ScoreHatch();
+	void OpenClaw();
+	void CloseClaw();
 	void ToggleClaw();
+	void ExtendPunch();
+	void RetractPunch();
 
 private:
 	DoubleSolenoid m_solenoidPunchOne, m_solenoidClaw; 
 	bool m_isExtended = false;
 	bool m_isOpen = false;
+	bool m_isOperating = false;
+	bool m_isRetracting = false;
 	CORETimer m_delayTimer;
 	void StartTimer();
 	double GetTime();
+	COREConstant<double> m_punchSeconds, m_retractSeconds;
 
 };
