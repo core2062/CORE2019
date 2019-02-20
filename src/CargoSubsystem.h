@@ -19,4 +19,5 @@ public:
 private:
 	TalonSRX m_rightSideIntake, m_leftSideIntake;
 	frc::DigitalInput m_cargoLimitSwitch;
+
 };

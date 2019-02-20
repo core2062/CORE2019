@@ -29,6 +29,9 @@ void LiftSubsystem::robotInit(){
     m_leftLiftMotor.SetInverted(true);
     //m_leftLiftMotor.Follow(m_rightLiftMotor);
     operatorJoystick->RegisterAxis(CORE::COREJoystick::JoystickAxis::RIGHT_STICK_Y);
+    m_leftLiftMotor.ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::CTRE_MagEncoder_Relative, 0, 0);
+    m_leftLiftMotor.SetSelectedSensorPosition(0,0,0);
+    m_leftLiftMotor.SetSensorPhase(true);
 }
 
 // Configuration for teleop
@@ -121,7 +124,7 @@ double LiftSubsystem::GetLiftInches(){
 //Returns whether the lift is at the bottom or not 
 
 bool LiftSubsystem::LiftDown() {
-    return m_limitSwitch.Get();
+    return !m_limitSwitch.Get();
 }
 
 // Resets lift encoders
