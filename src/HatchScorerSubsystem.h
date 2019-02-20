@@ -17,7 +17,7 @@ public:
 	void ToggleClaw();
 
 private:
-	DoubleSolenoid m_solenoidPunchOne, m_solenoidPunchTwo, m_solenoidClaw; 
+	DoubleSolenoid m_solenoidPunchOne, m_solenoidClaw; 
 	bool m_isExtended = false;
 	bool m_isOpen = false;
 	CORETimer m_delayTimer;

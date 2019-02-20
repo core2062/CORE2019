@@ -3,45 +3,48 @@
 #include "Robot.h"
 
 //TODO:Fill these in with actual port numbers
-HatchScorerSubsystem::HatchScorerSubsystem() : m_solenoidPunchOne(0, 0, 0),
-                                               m_solenoidPunchTwo(0, 0, 0),
-                                               m_solenoidClaw(0, 0, 0) {
+HatchScorerSubsystem::HatchScorerSubsystem() : m_solenoidPunchOne(0, HATCH_SCORER_PUNCH_IN, HATCH_SCORER_PUNCH_OUT),
+                                               m_solenoidClaw(0, HATCH_SCORER_CLAW_IN, HATCH_SCORER_CLAW_OUT) {
 
 }
 
 void HatchScorerSubsystem::robotInit() {
     operatorJoystick->RegisterButton(CORE::COREJoystick::JoystickButton::X_BUTTON);
+    operatorJoystick->RegisterButton(CORE::COREJoystick::JoystickButton::Y_BUTTON);
 }
 
 void HatchScorerSubsystem::teleopInit() {
 }
 
 void HatchScorerSubsystem::teleop() {
-    int iterationCount;
-    if (operatorJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::X_BUTTON)) {
+    // int iterationCount;
+    // if (operatorJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::X_BUTTON)) {
+    //     PunchHatch();
+    //     StartTimer();
+    //     iterationCount++;
+    // }
+    // if (GetTime() >= 3 && iterationCount == 1) {
+    //     ToggleClaw();
+    //     StartTimer();
+    //     iterationCount++;
+    // }
+    // if (GetTime() >= 3 && iterationCount == 2) {
+    //      PunchHatch();
+    //      m_delayTimer.Reset();
+    //      iterationCount = 0;
+    // }
+    if(operatorJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::X_BUTTON)) {
         PunchHatch();
-        StartTimer();
-        iterationCount++;
-    }
-    if (GetTime() >= 3 && iterationCount == 1) {
+    } else if (operatorJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::Y_BUTTON)) {
         ToggleClaw();
-        StartTimer();
-        iterationCount++;
-    }
-    if (GetTime() >= 3 && iterationCount == 2) {
-         PunchHatch();
-         m_delayTimer.Reset();
-         iterationCount = 0;
     }
 }
 void HatchScorerSubsystem::PunchHatch() {
     if (!m_isExtended) {
         m_solenoidPunchOne.Set(frc::DoubleSolenoid::kForward);
-        m_solenoidPunchTwo.Set(frc::DoubleSolenoid::kForward);
         m_isExtended = true;
     } else {
         m_solenoidPunchOne.Set(frc::DoubleSolenoid::kReverse);
-        m_solenoidPunchTwo.Set(frc::DoubleSolenoid::kReverse);
         m_isExtended = false;
     }
 }

@@ -14,8 +14,7 @@ DriveSubsystem::DriveSubsystem() : driveTurnkP("Drive Turn P Value", .05),
 								   m_rightMaster(RIGHT_FRONT_PORT),
 								   m_leftSlave(LEFT_BACK_PORT),
 								   m_rightSlave(RIGHT_BACK_PORT),
-                                   m_leftDriveShifter(LEFT_DRIVE_SHIFTER_PCM, LEFT_DRIVE_SHIFTER_HIGH_GEAR_PORT, LEFT_DRIVE_SHIFTER_LOW_GEAR_PORT),
-                                   m_rightDriveShifter(RIGHT_DRIVE_SHIFTER_PCM, RIGHT_DRIVE_SHIFTER_HIGH_GEAR_PORT, RIGHT_DRIVE_SHIFTER_LOW_GEAR_PORT),
+                                   m_leftDriveShifter(DRIVE_SHIFTER_PCM, DRIVE_SHIFTER_HIGH_GEAR_PORT, DRIVE_SHIFTER_LOW_GEAR_PORT),
 								   m_highGear(true),
 								   m_turnPIDMultiplier("Turn PID Multiplier", 0.1),
 								   compressor(COMPRESSOR_PCM) {
@@ -24,9 +23,10 @@ DriveSubsystem::DriveSubsystem() : driveTurnkP("Drive Turn P Value", .05),
 void DriveSubsystem::robotInit() {
 	// Registers joystick axis and buttons, does inital setup for talons
 	driverJoystick->RegisterAxis(CORE::COREJoystick::LEFT_STICK_Y);
-	driverJoystick->RegisterAxis(CORE::COREJoystick::RIGHT_STICK_Y);
+	driverJoystick->RegisterAxis(CORE::COREJoystick::RIGHT_STICK_X);
 	driverJoystick->RegisterButton(CORE::COREJoystick::RIGHT_TRIGGER);
     InitTalons();
+	
 }
 
 void DriveSubsystem::teleopInit() {
@@ -40,17 +40,20 @@ void DriveSubsystem::teleopInit() {
 void DriveSubsystem::teleop() {
 	// Code for teleop. Sets motor speed based on the values for the joystick, runs compressor, 
 	// toggles gears
-	if(driverJoystick != nullptr) {
-    	double left = -driverJoystick->GetAxis(CORE::COREJoystick::JoystickAxis::LEFT_STICK_Y);
-		double right = -driverJoystick->GetAxis(CORE::COREJoystick::JoystickAxis::RIGHT_STICK_Y);
-		SetMotorSpeed(left, right);
-		if(driverJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::RIGHT_TRIGGER)) {
-			ToggleGear();
-		}
-		FillCompressor();
-	} else {
-		SetMotorSpeed(0, 0);
+    double mag = -driverJoystick->GetAxis(CORE::COREJoystick::JoystickAxis::LEFT_STICK_Y);
+	double rot = driverJoystick->GetAxis(CORE::COREJoystick::JoystickAxis::RIGHT_STICK_X);
+
+	VelocityPair speeds = COREEtherDrive::Calculate(mag, rot, .1);
+	SetMotorSpeed(speeds.left, speeds.right);
+	SmartDashboard::PutNumber("Left side speed", speeds.left);
+	SmartDashboard::PutNumber("Right side speed", speeds.right);
+	SmartDashboard::PutNumber("Left side encoder", m_leftSlave.GetSelectedSensorPosition(0));
+	SmartDashboard::PutNumber("Right side encoder", m_rightMaster.GetSelectedSensorPosition(0));
+
+	if(driverJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::RIGHT_TRIGGER)) {
+		ToggleGear();
 	}
+	FillCompressor();
 
 }
 
@@ -58,11 +61,9 @@ void DriveSubsystem::ToggleGear() {
 	// Shifts from high gear to low gear or vice versa
 	if (m_highGear) {
 		m_leftDriveShifter.Set(DoubleSolenoid::kForward);
-		m_rightDriveShifter.Set(DoubleSolenoid::kForward);
 		m_highGear = false;
 	} else {
 		m_leftDriveShifter.Set(DoubleSolenoid::kReverse);
-		m_rightDriveShifter.Set(DoubleSolenoid::kReverse);
 		m_highGear = true;
 	}
 }
@@ -75,8 +76,8 @@ void DriveSubsystem::ResetEncoders(DriveSide whichSide){
 		m_rightMaster.SetSelectedSensorPosition(0, 0, 10);
 	}
 	if (whichSide == DriveSide::BOTH || whichSide == DriveSide::LEFT){
-		m_leftMaster.GetSensorCollection().SetQuadraturePosition(0, 10);
-		m_leftMaster.SetSelectedSensorPosition(0, 0, 10);
+		m_leftSlave.GetSensorCollection().SetQuadraturePosition(0, 10);
+		m_leftSlave.SetSelectedSensorPosition(0, 0, 10);
 	}
 }
 
@@ -120,13 +121,13 @@ void DriveSubsystem::InitTalons() {
 	m_leftMaster.Set(ControlMode::PercentOutput, 0);
 	m_rightMaster.Set(ControlMode::PercentOutput, 0);
 
-    m_leftMaster.SetStatusFramePeriod(StatusFrameEnhanced::Status_1_General, 10, 0);
+    m_leftSlave.SetStatusFramePeriod(StatusFrameEnhanced::Status_1_General, 10, 0);
     m_rightMaster.SetStatusFramePeriod(StatusFrameEnhanced::Status_1_General, 10, 0);
 
-    m_leftMaster.ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::CTRE_MagEncoder_Relative, 0, 0);
+    m_leftSlave.ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::CTRE_MagEncoder_Relative, 0, 0);
     m_rightMaster.ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::CTRE_MagEncoder_Relative, 0, 0);
 
-	m_leftMaster.SetSensorPhase(false);
+	m_leftSlave.SetSensorPhase(false);
     m_rightMaster.SetSensorPhase(true);
 
 	m_leftMaster.SetInverted(false);
@@ -135,7 +136,7 @@ void DriveSubsystem::InitTalons() {
 
 double DriveSubsystem::GetForwardPower() {
 	// Returns current power being exerted
-	double left = m_leftMaster.GetSelectedSensorPosition(0);
+	double left = m_leftSlave.GetSelectedSensorPosition(0);
 	double right = m_rightMaster.GetSelectedSensorPosition(0);
 	double power  = 0;
 	if(left > 0 || right > 0) {
