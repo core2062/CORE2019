@@ -3,9 +3,19 @@
 #include "ctre/Phoenix.h"
 #include <CORERobotLib.h>
 #include <frc/WPILib.h>
+#include <COREUtilities/COREConstant.h>
 
 
 using namespace CORE;
+using namespace frc;
+
+enum class IntakeState
+{
+	UP = 0,
+	DOWN = 1,
+	IN = 2,
+	OUT = 3
+};
 
 class HatchIntakeSubsystem : public CORESubsystem {
 public:
@@ -13,16 +23,14 @@ public:
 	void robotInit() override;
 	void teleopInit() override;
 	void teleop() override;
-	void SetIntakeOn();
-	void ToggleHatchIntake();
-	void SetIntakeOff();
-	bool GetHatchState();
-	bool isDown;
-
-	frc::DigitalInput m_photoeye;
-	TalonSRX m_hatchIntake;
-
+	void SetIntake(IntakeState wheelDirection, IntakeState actuator);
+	bool HatchIn();
 
 private:
-	frc::DoubleSolenoid m_hatchIntakeSolenoid;
+	TalonSRX m_hatchIntake, m_hatchActuator;
+	DigitalInput m_photoeye;
+
+	COREConstant<double> m_actuatorTopLimit;
+	COREConstant<double> m_actuatorBottomLimit;
+	COREConstant<double> m_hatchActuatorDeadband;
 };
