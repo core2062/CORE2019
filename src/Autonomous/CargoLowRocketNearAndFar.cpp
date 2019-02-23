@@ -7,7 +7,7 @@ CargoLowRocketNearAndFar::CargoLowRocketNearAndFar() :
 }
 
 void CargoLowRocketNearAndFar::AddNodes() {
-    m_driveLowRocketNearSide = new Node(10, new DriveWaypointAction());
+    m_driveLowRocketNearSide = new Node(10, new DriveWaypointAction(), new RaiseLiftAction(FirstLevelCargo));
     m_placeCargoOnLowNearSideRocket = new Node(10, new PlaceCargoAction(OUTTAKE));
     m_driveToPlayerStation = new Node(10, new DriveWaypointAction());
     m_grabCargoFromPlayerStation = new Node(10, new GrabCargoAction(INTAKE));
