@@ -13,6 +13,6 @@ public:
 
 private:
 	Node * m_driveForwardToRocket = nullptr;
-    Node * m_placeCargpOnMidRocket = nullptr;
+    Node * m_placeCargoOnMidRocket = nullptr;
     Node * m_lowerLiftToFirstLevel = nullptr;
 };

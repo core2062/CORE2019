@@ -1,12 +1,12 @@
-#include "HatchLowRocketNearAndFar.h"
+#include "CargoLowRocketNearAndFar.h"
 #include <Robot.h>
 #include <CORERobotLib.h>
 
-CargoLowRocketNearAndFar::HatchLowRocketNearAndFar() :
+CargoLowRocketNearAndFar::CargoLowRocketNearAndFar() :
 	COREAuton("Cargo Low Rocket Near And Far") {
 }
 
-void HatchLowRocketNearAndFar::AddNodes() {
+void CargoLowRocketNearAndFar::AddNodes() {
     m_driveLowRocketNearSide = new Node(10, new DriveWaypointAction());
     m_placeCargoOnLowNearSideRocket = new Node(10, new PlaceCargoAction(OUTTAKE));
     m_driveToPlayerStation = new Node(10, new DriveWaypointAction());

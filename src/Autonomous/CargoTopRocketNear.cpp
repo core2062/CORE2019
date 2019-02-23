@@ -7,7 +7,7 @@ CargoTopRocketNear::CargoTopRocketNear() :
 }
 
 void CargoTopRocketNear::AddNodes() {
-    m_driveForwardToRocket = new Node(5, new DriveWaypointAction(), new RaiseLiftAction(ThirdLevelHatch));
+    m_driveForwardToRocket = new Node(5, new DriveWaypointAction(), new RaiseLiftAction(ThirdLevelCargo));
     m_lowerLiftToFirstLevel = new Node(5, new RaiseLiftAction(FirstLevelHatch));
     m_placeCargoOnTopRocket = new Node(5, new PlaceCargoAction(OUTTAKE));
     AddFirstNode(m_driveForwardToRocket);

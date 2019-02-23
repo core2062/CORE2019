@@ -12,7 +12,7 @@ public:
 	void AddNodes();
 
 private:
-	Node * m_drvieForwardToRocket = nullptr;
+	Node * m_driveForwardToRocket = nullptr;
     Node * m_placeCargoOnTopRocket = nullptr;
     Node * m_lowerLiftToFirstLevel = nullptr;
 };

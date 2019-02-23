@@ -11,6 +11,6 @@ void CargoMidRocketNear::AddNodes() {
     m_placeCargoOnMidRocket = new Node(5, new PlaceCargoAction(OUTTAKE));
     m_lowerLiftToFirstLevel = new Node(5, new RaiseLiftAction(FirstLevelCargo));
     AddFirstNode(m_driveForwardToRocket);
-    m_driveForwardToRocket->AddNext(m_placeHatchOnMidRocket);
+    m_driveForwardToRocket->AddNext(m_placeCargoOnMidRocket);
     m_placeCargoOnMidRocket->AddNext(m_lowerLiftToFirstLevel);
-
+}
