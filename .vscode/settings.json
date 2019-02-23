@@ -13,7 +13,12 @@
   },
   "wpilib.online": true,
   "files.associations": {
-    "*.inc": "cpp"
+    "*.inc": "cpp",
+    "thread": "cpp",
+    "bitset": "cpp",
+    "cmath": "cpp",
+    "complex": "cpp",
+    "mutex": "cpp",
   },
   "C_Cpp.configurationWarnings": "Disabled"
 }

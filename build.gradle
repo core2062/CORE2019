@@ -1,7 +1,7 @@
 plugins {
     id "cpp"
     id "google-test-test-suite"
-    id "edu.wpi.first.GradleRIO" version "2019.2.1"
+    id "edu.wpi.first.GradleRIO" version "2019.3.2"
 }
 
 // Define my targets (RoboRIO) and artifacts (deployable files)
@@ -62,6 +62,7 @@ model {
                 exportedHeaders {
                     srcDir 'src'
                     srcDirs '../CORERobotLib/src' 
+                    srcDir '../CORERobotLib/src/WaypointFollower/tank'
                     srcDir "../CORERobotLib/3rdparty/json/src/"
                     srcDir "../CORERobotLib/3rdparty/seasocks/src/main/c"
                     if (includeSrcInIncludeRoot) {

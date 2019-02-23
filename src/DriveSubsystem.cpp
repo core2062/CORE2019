@@ -20,14 +20,14 @@ DriveSubsystem::DriveSubsystem() : m_lookAhead("Waypoint follower look ahead poi
 								   m_highGear(true),
 								   m_turnPIDMultiplier("Turn PID Multiplier", 0.1),
 								   compressor(COMPRESSOR_PCM),
-								   m_pursuit(0, 0, .1, m_path, false, 0),
-								   m_tracker(TankTracker::GetInstance()) {
+								   m_path(),
+								   m_tracker(TankTracker::GetInstance()),
+								   m_pursuit(0.0, 0.0, .1, m_path, false, 0.0){
 	try {
         	m_gyro = new AHRS(SPI::Port::kMXP);
     } catch (std::exception ex) {
         CORELog::LogError("Error initializing gyro: " + string(ex.what()));
     }
-	TankTracker::GetInstance()->Init();
 }
 
 void DriveSubsystem::robotInit() {
@@ -174,8 +174,7 @@ void DriveSubsystem::SetPosition(TankPosition2d pos) {
 
 void DriveSubsystem::FollowPath(TankPath path, bool reversed, double maxAccel, double tolerance, 
 	bool gradualStop) {
-	m_pursuit = TankAdaptivePursuit(m_lookAhead.Get(), m_driveTurnkP.Get(), maxAccel, 0.025, path, reversed, tolerance, 
-		gradualStop);
+	m_pursuit = TankAdaptivePursuit(m_lookAhead.Get(), maxAccel, 0.025, path, reversed, tolerance, gradualStop);
 }
 
 bool DriveSubsystem::PathDone() {
@@ -198,15 +197,15 @@ void DriveSubsystem::ResetTracker() {
 }
 
 // void DriveWaypointController::UpdatePathFollower() {
-// 	Position2d pos;
+// 	TankPosition2d pos;
 // 	if(frame == nullptr){
-// 		pos = m_tracker->getLatestFieldToVehicle();
+// 		pos = m_tracker->GetLatestFieldToVehicle();
 // 	} else {
-// 		pos = frame->getLatest();
+// 		pos = frame->GetLatest();
+// 	}
+// 	TankPosition2d::TankDelta command = m_pursuit.Update(pos, Timer::GetFPGATimestamp());
 
-// 	Position2d::Delta command = m_pursuit.update(pos, Timer::GetFPGATimestamp());
-
-// 	VelocityPair setpoint = TankKinematics::inverseKinematics(command);
+// 	VelocityPair setpoint = TankKinematics::InverseKinematics(command);
 // 	double maxVel = 0.0;
 // 	maxVel = max(maxVel, setpoint.left);
 // 	maxVel = max(maxVel, setpoint.right);
@@ -214,5 +213,5 @@ void DriveSubsystem::ResetTracker() {
 // 		double scaling = 100 / maxVel;
 // 		setpoint = VelocityPair(setpoint.left * scaling, setpoint.right * scaling);
 // 	}
-// 	Robot->driveSubsystem.setMotorSpeed(setpoint.left * .01, setpoint.right * .01);
+// 	SetMotorSpeed(setpoint.left * .01, setpoint.right * .01);
 // }

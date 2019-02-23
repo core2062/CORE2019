@@ -12,6 +12,7 @@
 enum class DriveSide{LEFT = 1, RIGHT = 2, BOTH = 3};
 
 using namespace frc;
+using namespace CORE;
 
 class DriveSubsystem : public CORESubsystem, public CORETask {
 public:
@@ -39,6 +40,7 @@ public:
     bool PathDone();
     void RunTracker(); 
     void ResetTracker();
+    void UpdatePathFollower();
 
 private:
     TankPath m_path;
