@@ -16,9 +16,12 @@ LiftSubsystem::LiftSubsystem() : m_firstLevelHatch("First Level Hatch Height"),
                                  m_topLimit("Lift top limit"),
                                  m_cruiseVel("Lift cruise velocity"),
                                  m_maxAcel("Max lift acceleration"),
+                                 m_cargoIntakeLift("Raise Lift To Cargo Bays And Outtake") 
                                  m_limitSwitch(0),
                                  m_rightLiftMotor(16),
-                                 m_leftLiftMotor(17) {
+                                 m_leftLiftMotor(17){
+
+                                 
 
 }
 
@@ -40,8 +43,8 @@ void LiftSubsystem::teleopInit(){
 void LiftSubsystem::teleop() {
     // Data for reference on SmartDashboard
     SmartDashboard::PutNumber("Lift requested position", m_requestedPosition);
-    SmartDashboard::PutNumber("Lift position in inches", m_rightLiftMotor.GetSelectedSensorPosition(0)
-        m_ticksPerInch.Get());
+    SmartDashboard::PutNumber("Lift position in inches", m_rightLiftMotor.GetSelectedSensorPosition(0));
+        m_ticksPerInch.Get();
     SmartDashboard::PutNumber("Lift position in ticks", m_rightLiftMotor.GetSelectedSensorPosition(0));
     // Check to see which way the lift would run if this value is positive
     // Make sure that the lift is giving very little power when it is first being tested
@@ -155,7 +158,9 @@ void LiftSubsystem::SetCargoShipHatchLevel() {
     SetRequestedPosition(m_cargoShipHatchLevel.Get());
 }
 
-void LiftSubsystem::Set
+void LiftSubsystem::SetCargoLiftLevel() {
+    SetRequestedPosition(m_cargoIntakeLift.Get());
+}
 
 // Below are 8 functions that check if the lift is within 2 inches of the desired field target
 
@@ -189,4 +194,8 @@ bool LiftSubsystem::IsCargoShipCargoLevel() {
 
 bool LiftSubsystem::IsCargoShipHatchLevel() {
     return abs(GetLiftInches()) - m_cargoShipHatchLevel.Get()) < 2;
+}
+
+bool LiftSubsystem::IsCargoIntakeLift() {
+    return abs(GetLiftInches()) - m_cargoIntakeLift.Get()) < 2;
 }

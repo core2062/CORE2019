@@ -25,6 +25,7 @@ public:
 	void SetThirdLevelCargoHeight();
 	void SetCargoShipCargoLevel();
 	void SetCargoShipHatchLevel();
+	void SetCargoLiftLevel();
 
 	bool IsFirstLevelCargo();
 	bool IsFirstLevelHatch();
@@ -34,6 +35,7 @@ public:
 	bool IsThirdLevelHatch();
 	bool IsCargoShipHatchLevel();
 	bool IsCargoShipCargoLevel();
+	bool IsCargoIntakeLift();
 
 	double GetLiftPosition();
 	double GetLiftInches();
@@ -45,6 +47,6 @@ private:
 	COREConstant<double> m_cruiseVel, m_maxAcel;
 	COREConstant<double> m_topLimit, m_bottomLimit;
 	COREConstant<double> m_firstLevelHatch, m_firstLevelCargo, m_secondLevelHatch, 
-		m_secondLevelCargo, m_thirdLevelHatch, m_thirdLevelCargo, m_cargoShipCargoLevel, m_cargoShipHatchLevel, m_ticksPerInch;
+		m_secondLevelCargo, m_thirdLevelHatch, m_thirdLevelCargo, m_cargoShipCargoLevel, m_cargoShipHatchLevel, m_ticksPerInch, m_cargoIntakeLift;
 	TalonSRX m_rightLiftMotor, m_leftLiftMotor;
 };

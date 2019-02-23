@@ -11,144 +11,303 @@ void SuperStructure::robotInit() {
     }
 
 void SuperStructure::teleopInit() {
+    operatorJoystick->RegisterButton(COREJoystick::JoystickButton::A_BUTTON);
+    operatorJoystick->RegisterButton(COREJoystick::JoystickButton::B_BUTTON);
+    operatorJoystick->RegisterButton(COREJoystick::JoystickButton::X_BUTTON);
+    operatorJoystick->RegisterButton(COREJoystick::JoystickButton::Y_BUTTON);
+    operatorJoystick->RegisterButton(COREJoystick::JoystickButton::RIGHT_BUTTON);
+    operatorJoystick->RegisterButton(COREJoystick::JoystickButton::LEFT_BUTTON);
+    operatorJoystick->RegisterButton(COREJoystick::JoystickButton::RIGHT_TRIGGER);
+    operatorJoystick->RegisterButton(COREJoystick::JoystickButton::LEFT_TRIGGER);
+    operatorJoystick->RegisterButton(COREJoystick::JoystickButton::DPAD_N);
+    operatorJoystick->RegisterButton(COREJoystick::JoystickButton::DPAD_S);
+    operatorJoystick->RegisterButton(COREJoystick::JoystickButton::DPAD_W);
+    operatorJoystick->RegisterButton(COREJoystick::JoystickButton::START_BUTTON);
+    // Set an initial system state
 }
 
 void SuperStructure::teleop() {
+    if(operatorJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::Y_BUTTON)) {
+        m_wantedLiftState = LiftHatchThirdLevel;
+    }
+    
+    if(operatorJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::B_BUTTON)) {
+        m_wantedLiftState = LiftHatchSecondLevel;
+    }
+    
+    if(operatorJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::A_BUTTON)) {
+        m_wantedLiftState = LiftHatchFirstLevel;
+    }
+    
+    if(operatorJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::DPAD_N)) {
+        m_wantedLiftState = LiftCargoThirdLevel;
+    }
+    
+    if(operatorJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::DPAD_W)) {
+        m_wantedLiftState = LiftCargoSecondLevel;
+    }
+    
+    if(operatorJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::DPAD_S)) {
+        m_wantedLiftState = LiftCargoFirstLevel;
+    }
+    
+    if(operatorJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::LEFT_BUTTON)) {
+        m_wantedCargoState = CargoIntake;
+    }
+    
+    if(operatorJoystick->GetButton(CORE::COREJoystick::JoystickButton::LEFT_TRIGGER)) {
+        m_wantedCargoState = CargoOutake;
+    }
+    
+    if(operatorJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::RIGHT_BUTTON)) {
+        m_wantedHatchScorerState = HatchScorerIntake;
+    }
+    
+    if(operatorJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::RIGHT_TRIGGER)) {
+        m_wantedHatchScorerState = HatchScorerOutake;
+    }
+    
+    if(operatorJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::X_BUTTON)) {
+        m_wantedHatchIntakeState = HatchIntakeIntake;
+    }
+    
+    if(operatorJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::START_BUTTON)) {
+        m_wantedHatchIntakeState = HatchIntakeOutake;
+    }
 }
 
 void SuperStructure::PostLoopTask() {
-    SystemState newState = m_systemState;
+    LiftState newLiftState = m_liftState;
+    CargoState newCargoState = m_cargoState;
+    HatchIntakeState newHatchIntakeState = m_hatchIntakeState;
+    HatchScorerState newHatchScorerState = m_hatchScorerState;
 
-    switch(m_systemState) {
+    switch(m_wantedLiftState) {
 
-        case SystemState::Transit:
-            newState = handleTransit();
-            break;
+	case LiftState::LiftHatchFirstLevel:
+        newLiftState = liftHatchFirstLevel();
+        break;
 
-        case SystemState::TopRocketCargoScoring:
-            newState = HandleTopRocketCargoScoring();
-            break;
+	case LiftState::LiftCargoFirstLevel:
+	    newLiftState = liftCargoFirstLevel();
+        break;
 
-        case SystemState::MiddleRocketCargoScoring:
-            newState = HandleMiddleRocketCargoScoring();
-            break;
+    case LiftState::LiftHatchSecondLevel:
+	    newLiftState = liftHatchSecondLevel();
+        break;
 
-        case SystemState::BottomRocketCargoScoring:
-            newState = HandleBottomRocketCargoScoring();
-            break;
+    case LiftState::LiftCargoSecondLevel:
+	    newLiftState = liftCargoSecondLevel();
+        break;
 
-        case SystemState::TopRocketHatchScoring:
-            newState = HandleTopRocketHatchScoring();
-            break;
+    case LiftState::LiftHatchThirdLevel:
+	    newLiftState = liftHatchThirdLevel();
+        break;
 
-        case SystemState::MiddleRocketHatchScoring:
-            newState = HandleMiddleRocketHatchScoring();
-            break;
-
-        case SystemState::BottomRocketHatchScoring:
-            newState = HandleBottomRocketHatchScoring();
-            break;
-
-        case SystemState::CargoShipCargoScoring:
-            newState = HandleCargoShipCargoScoring();
-            break;
-
-        case SystemState::CargoShipHatchScoring:
-            newState = HandleCargoShipHatchScoring();
-
-        case SystemState::FeederHatch:
-            newState = HandleFeederHatch();
-            break;
+    case LiftState::LiftCargoThirdLevel:
+	    newLiftState = liftCargoThirdLevel();
+        break;
+    
+    default:
+        newLiftState = LiftUnknownLevel;
+        break;
     }
 
-    if(newState != m_systemState) {
-        CORELog::logInfo("Changing states from " + to_string((int)m_systemState) + " to " + to_string((int)newState));
-        m_systemState = newState;
+    switch(m_wantedCargoState) {
+    
+    case CargoState::CargoIntake:
+	    newCargoState = cargoIntake();
+        break;
+
+    case CargoState::CargoOutake:
+	    newCargoState = cargoOutake();
+        break;
     }
 
+    switch(m_wantedHatchIntakeState) {
+    
+    case HatchIntakeState::HatchIntakeIntake:
+	    newHatchIntakeState = hatchIntakeIntake();
+        break;
+
+    case HatchIntakeState::HatchIntakeOutake:
+	    newHatchIntakeState = hatchIntakeOutake();
+        break;
+        
+    default:
+        newHatchIntakeState = HatchIntakeNeutral;
+        break;
+    }
+
+    switch(m_wantedHatchScorerState) {
+    
+    case HatchScorerState::HatchScorerIntake:
+	    newHatchScorerState = hatchScorerIntake();
+        break;
+
+    case HatchScorerState::HatchScorerOutake:
+        newHatchScorerState = hatchScorerOutake();
+        break;
+
+    default:
+        newHatchScorerState = HatchScorerNeutral;
+        break;
+    }
+
+    if(newLiftState != m_liftState) {
+        CORELog::LogInfo("Changing states from " + to_string((int)m_liftState) + " to " + to_string((int)newLiftState));
+        m_liftState = newLiftState;
+    }
+    
+    if(newCargoState != m_cargoState) {
+        CORELog::LogInfo("Changing states from " + to_string((int)m_cargoState) + " to " + to_string((int)newCargoState));
+        m_cargoState = newCargoState;
+    }
+    
+    if(newHatchIntakeState != m_hatchIntakeState) {
+        CORELog::LogInfo("Changing states from " + to_string((int)m_hatchIntakeState) + " to " + to_string((int)newHatchIntakeState));
+        m_hatchIntakeState = newHatchIntakeState;
+    }
+
+    if(newHatchScorerState != m_hatchScorerState) {
+        CORELog::LogInfo("Changing states from " + to_string((int)m_hatchScorerState) + " to " + to_string((int)newHatchScorerState));
+        m_hatchScorerState = newHatchScorerState;
+    }
 }
 
-void SuperStructure::setWantedState(WantedState wantedState) {
-    m_wantedState = wantedState;
+void SuperStructure::setLiftWantedState(LiftState wantedState) {
+    m_wantedLiftState = wantedState;
 }
 
-SystemState SuperStructure::handleTransit() {
+void SuperStructure::setCargoWantedState(CargoState wantedState) {
+    m_wantedCargoState = wantedState;
 }
 
-SystemState SuperStructure::HandleTopRocketCargoScoring() {
-    //set lift to top rocket level
-    m_liftSubsystem->SetThirdLevelCargoHeight();
-    //spin cargo in reverse to eject cargo into rocket ship
-    m_cargoSubsystem->SetOuttake();
-    //set the lift to the default state
-    m_liftSubsystem->SetFirstLevelCargoHeight();
+void SuperStructure::setHatchIntakeWantedState(HatchIntakeState wantedState) {
+    m_wantedHatchIntakeState = wantedState;
 }
 
-SystemState SuperStructure::HandleMiddleRocketCargoScoring() {
-    //set lift to middle rocket level
-    m_liftSubsystem->SetSecondLevelCargoHeight();
-    //eject cargo into rocket ship
-    m_cargoSubsystem->SetOuttake();
-    //set the lift to the default state
-    m_liftSubsystem->SetFirstLevelCargoHeight();
+void SuperStructure::setHatchScorerWantedState(HatchScorerState wantedState) {
+    m_wantedHatchScorerState = wantedState;
 }
 
-SystemState SuperStructure::HandleBottomRocketCargoScoring() {
-    //set lift to bottom rocket level
-    m_liftSubsystem->SetFirstLevelCargoHeight();
-    //eject cargo into rocket ship
-    m_cargoSubsystem->SetOuttake();
-    //set the lift to the default state
-    //Already There..
-}
-
-SystemState SuperStructure::HandleTopRocketHatchScoring() {
-    //set lift to top rocket
-    m_liftSubsystem->SetThirdLevelHatchHeight();
-    //score the hatch
-    m_hatchScorerSubsystem->TogglePunchHatch();
-    //set the lift to the default state
+LiftState SuperStructure::LiftHatchFirstLevel() {
     m_liftSubsystem->SetFirstLevelHatchHeight();
+    if(m_liftSubsystem->IsFirstLevelHatch()){
+        return LiftHatchFirstLevel;
+    } else {
+        return LiftUnknownLevel;
+    }
 }
 
-SystemState SuperStructure::HandleMiddleRocketHatchScoring() {
-    //set lift to middle rocket
+LiftState SuperStructure::LiftCargoFirstLevel() {
+    m_liftSubsystem->SetFirstLevelCargoHeight();
+    if(m_liftSubsystem->IsFirstLevelCargo()){
+        return LiftCargoFirstLevel;
+    } else {
+        return LiftUnknownLevel;
+    }
+}
+
+LiftState SuperStructure::LiftHatchSecondLevel() {
     m_liftSubsystem->SetSecondLevelHatchHeight();
-    //score the hatch
-    m_hatchScorerSubsystem->TogglePunchHatch();
-    //set the lift to the default state
-    m_liftSubsystem->SetFirstLevelHatchHeight();
+    if(m_liftSubsystem->IsSecondLevelHatch()){
+        return LiftHatchSecondLevel;
+    } else {
+        return LiftUnknownLevel;
+    }
 }
 
-SystemState	SuperStructure::HandleBottomRocketHatchScoring() {
-    //set lift to bottom rocket
-    m_liftSubsystem->SetFirstLevelHatchHeight();
-    //score the hatch
-    m_hatchScorerSubsystem->TogglePunchHatch();
-    //set the lift to the default state
-    //Already there
-    
+LiftState SuperStructure::LiftCargoSecondLevel() {
+    m_liftSubsystem->SetSecondLevelCargoHeight();
+    if(m_liftSubsystem->IsSecondLevelCargo()){
+        return LiftCargoSecondLevel;
+    } else {
+        return LiftUnknownLevel;
+    }
 }
 
-SystemState SuperStructure::HandleCargoShipCargoScoring() {
-    //make sure the lift is at the correct hight [Set lift to correct height of cargo ship]
-    m_liftSubsystem->SetCargoShipCargoLevel();
-    //spin cargo intake in reverse to eject cargo into cargo ship
+LiftState SuperStructure::LiftHatchThirdLevel() {
+    m_liftSubsystem->SetThirdLevelHatchHeight();
+    if(m_liftSubsystem->IsThirdLevelHatch()){
+        return LiftHatchThirdLevel;
+    } else {
+        return LiftUnknownLevel;
+    }
+}
+
+LiftState SuperStructure::LiftCargoThirdLevel() {
+    m_liftSubsystem->SetThirdLevelCargoHeight();
+    if(m_liftSubsystem->IsThirdLevelCargo()){
+        return LiftCargoThirdLevel;
+    } else {
+        return LiftUnknownLevel;
+    }
+}
+
+CargoState SuperStructure::CargoIntake() {
+    if(cargoSubsystem.IsCargoSecured()){
+        m_cargoSubsystem->SetOff();
+        m_liftSubsystem->SetCargoLiftLevel();
+        if(m_liftSubsystem->IsCargoIntakeLift()){
+            return CargoNeutral;
+        } else {
+            return CargoLift;
+        }
+    } else {
+        m_cargoSubsystem->SetIntake();
+        return CargoIntake;
+    }
+
+}
+
+CargoState SuperStructure::CargoOutake() {
     m_cargoSubsystem->SetOuttake();
-    //set the lift to the default state
+    return CargoNeutral;
 }
 
-SystemState SuperStructure::HandleCargoShipHatchScoring() {
-//make sure the lift is at the correct height [Set lift to correct height of cargo ship]
-    m_liftSubsystem->SetCargoShipHatchLevel();
-    m_hatchScorerSubsystem->ScoreHatchScorer();
+// HatchIntakeState SuperStructure::HatchIntakeIntake() {
+   
+// }
 
-}
+// HatchIntakeState SuperStructure::HatchIntakeOutake() {
 
-SystemState SuperStructure::HandleFeederHatch() {
-    //make sure the lift is in the right height
-    m_liftSubsystem->SetFeederHeight();
-    //score the hatch
-    m_hatchScorerSubsystem->TogglePunchHatch();
+// }
+
+// HatchScorerState SuperStructure::HatchScorerIntake() {
     
+// }
+
+// HatchScorerState SuperStructure::HatchScorerOutake() {
+
+// }
+    
+    // if(!liftSubsystem.IsThirdLevelCargo() && m_stepState == LiftNotThirdLevel){   
+    //     // Want to check state against wanted state. If current state is the same as wanted state, do nothing. If not, move to wanted state and check state.
+    //     m_liftSubsystem->SetThirdLevelCargoHeight();
+
+    //     //spin cargo in reverse to eject cargo into rocket ship
+    // } else {
+    //     m_state = LiftThirdLevel;
+    //     m_cargoSubsystem->SetOuttake();
+    //     thirdLevel = false;
+    //     StartTimer();
+        
+    //     // Go down to the first level
+    //     if(GetTime() > 2 && ){
+    //         //set the lift to the default state
+    //         m_liftSubsystem->SetFirstLevelCargoHeight();
+    //     }
+        
+    // }
+    // }
+}
+void SuperStructure::StartTimer() {
+    m_delayTimer.Reset();
+    m_delayTimer.Start();
+}
+
+
+double HatchScorerSubsystem::GetTime() {
+    return m_delayTimer.Get(); 
 }

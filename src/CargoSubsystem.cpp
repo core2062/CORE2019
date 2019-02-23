@@ -45,3 +45,8 @@ void CargoSubsystem::SetOuttake() {
     m_rightSideIntake.Set(ControlMode::PercentOutput, -0.2);
     m_leftSideIntake.Set(ControlMode::PercentOutput, -0.2);
 }
+
+void CargoSubsystem::SetOff() {
+    m_rightSideIntake.Set(ControlMode::PercentOutput, 0.0);
+    m_leftSideIntake.Set(ControlMode::PercentOutput, 0.0);
+}

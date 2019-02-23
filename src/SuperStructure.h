@@ -11,69 +11,91 @@
 
 using namespace CORE;
 
+enum class LiftState{
+	LiftHatchFirstLevel,
+	LiftCargoFirstLevel,
+	LiftHatchSecondLevel,
+	LiftCargoSecondLevel,
+	LiftHatchThirdLevel,
+	LiftCargoThirdLevel,
+	LiftCargoIntake,
+	LiftUnknownLevel
+}
+
+enum class CargoState{
+	CargoIntake,
+	CargoOutake,
+	CargoLift,
+	CargoNeutral
+}
+
+enum class HatchIntakeState{
+	HatchIntakeIntake,
+	HatchIntakeOutake,
+	HatchIntakeNeutral
+}
+
+enum class HatchScorerState{
+	HatchScorerIntake,
+	HatchScorerOutake,
+	HatchScorerNeutral
+}
 
 
-
-enum class WantedState {
-	WantToPickupGroundHatch,
-	WantToPickupGroundCargo,
-	WantToPickupFeederHatch,
-	WantToPickupFeederCargo,
-	WantToScoreHatchBottomRocket,
-	WantToScoreHatchMiddleRocket,
-	WantToScoreHatchTopRocket,
-	WantToScoreHatchCargoShip,
-	WantToScoreCargoBottomRocket,
-	WantToScoreCargoMiddleRocket,
-	WantToScoreCargoTopRocket,
-	WantToScoreCargoCargoShip,
-	WantToDoNothing,
-	MANUAL
-};
-
-
-enum class SystemState {
-	Transit,
-	GrabbingCargo,
-	GrabbingHatch,
-	TopRocketCargoScoring,
-	MiddleRocketCargoScoring,
-	BottomRocketCargoScoring,
-	TopRocketHatchScoring,
-	MiddleRocketHatchScoring,
-	BottomRocketHatchScoring,
-	CargoShipHatchScoring,
-	CargoShipCargoScoring,
-	FeederHatch
-
-};
-
-class SuperStructure : public CORESubsystem, public CORE::CORETask {
+class SuperStructure : public CORESubsystem, public CORETask {
   public:
 	SuperStructure();
 	void robotInit() override;
 	void teleopInit() override;
 	void teleop() override;
 	void PostLoopTask() override;
-	SuperStructure setWantedState();
+	SuperStructure setLiftWantedState();
+	SuperStructure setCargoWantedState();
+	SuperStructure setHatchIntakeWantedState();
+	SuperStructure setHatchScorerWantedState();
 
 private:
 	CargoSubsystem * m_cargoSubsystem;
 	HatchIntakeSubsystem * m_hatchIntakeSubsystem;
 	HatchScorerSubsystem * m_hatchScorerSubsystem;
 	LiftSubsystem * m_liftSubsystem;
-	DriveSubsystem * m_driveSubsystem;
+	//DriveSubsystem * m_driveSubsystem;
 
-	SystemState	m_systemState;
+	LiftState m_liftState;
+	CargoState m_cargoState;
+	HatchIntakeState m_hatchIntakeState;
+	HatchScorerState m_hatchScorerState;
 
-	SystemState handleTransit();
-	SystemState HandleTopRocketCargoScoring();
-	SystemState HandleMiddleRocketCargoScoring();
-	SystemState HandleBottomRocketCargoScoring();
-	SystemState HandleTopRocketHatchScoring();
-	SystemState HandleMiddleRocketHatchScoring();
-	SystemState	HandleBottomRocketHatchScoring();
-	SystemState HandleCargoShipCargoScoring();
-	SystemState HandleCargoShipHatchScoring();
-	SystemState HandleFeederHatch();
+	LiftState m_wantedLiftState;
+	CargoState m_wantedCargoState;
+	HatchIntakeState m_wantedHatchIntakeState;
+	HatchScorerState m_wantedHatchScorerState;
+
+	// Lift States
+	LiftState liftHatchFirstLevel();
+	LiftState liftCargoFirstLevel();
+	LiftState liftHatchSecondLevel();
+	LiftState liftCargoSecondLevel();
+	LiftState liftHatchThirdLevel();
+	LiftState liftCargoThirdLevel();
+	//LiftState LiftCargoIn();
+	
+	// Cargo States
+	CargoState cargoIntake();
+	CargoState cargoOutake();
+	//CargoState CargoNeutral();
+
+	// Hatch Intake States
+	HatchIntakeState hatchIntakeIntake();
+	HatchIntakeState hatchIntakeOutake();
+	//HatchIntakeState HatchIntakeNeutral();
+
+	// Hatch Scorer States
+	HatchScorerState hatchScorerIntake();
+	HatchScorerState hatchScorerOutake();
+	//HatchScorerState HatchScorerNeutral();
+
+	void StartTimer();
+	double GetTime();
+	CORETimer m_delayTimer;
 };
