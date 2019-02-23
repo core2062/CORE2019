@@ -20,10 +20,3 @@ void HatchLowRocketNearAndFar::AddNodes() {
     m_grabHatchFromPlayerStation->AddNext(m_driveToFarSideRocket);
     m_driveToFarSideRocket->AddNext(m_placeHatchOnFarSideRocket);
 }
-
-    Node * m_driveLowRocketNearSide = nullptr;
-    Node * m_placeHatchOnLowNearSideRocket = nullptr;
-    Node * m_driveToPlayerStation = nullptr;
-    Node * m_grabHatchFromPlayerStation = nullptr;
-    Node * m_driveToFarSideRocket = nullptr;
-    Node * m_placeHatchOnFarSideRocket = nullptr;

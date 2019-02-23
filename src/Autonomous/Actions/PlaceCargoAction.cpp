@@ -2,11 +2,11 @@
 #include <Robot.h>
 #include <CORERobotLib.h>
 
-PlaceCargoAction::PlaceCargoAction(){
-    
-}
-void PlaceCargoAction::ActionInit(PlaceCargo Action) {
+PlaceCargoAction::PlaceCargoAction(PlaceCargo Action){
     m_placeCargoRequestedAction = Action;
+}
+void PlaceCargoAction::ActionInit() {
+    
 }
 
 CORE::COREAutonAction::actionStatus PlaceCargoAction::Action() {
@@ -22,3 +22,4 @@ CORE::COREAutonAction::actionStatus PlaceCargoAction::Action() {
 void PlaceCargoAction::ActionEnd() {
 
 }
+
