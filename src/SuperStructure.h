@@ -20,26 +20,26 @@ enum class LiftState{
 	LiftCargoThirdLevel,
 	LiftCargoIntake,
 	LiftUnknownLevel
-}
+};
 
 enum class CargoState{
 	CargoIntake,
 	CargoOutake,
 	CargoLift,
 	CargoNeutral
-}
+};
 
 enum class HatchIntakeState{
 	HatchIntakeIntake,
 	HatchIntakeOutake,
 	HatchIntakeNeutral
-}
+};
 
 enum class HatchScorerState{
 	HatchScorerIntake,
 	HatchScorerOutake,
 	HatchScorerNeutral
-}
+};
 
 
 class SuperStructure : public CORESubsystem, public CORETask {

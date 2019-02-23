@@ -16,7 +16,7 @@ LiftSubsystem::LiftSubsystem() : m_firstLevelHatch("First Level Hatch Height"),
                                  m_topLimit("Lift top limit"),
                                  m_cruiseVel("Lift cruise velocity"),
                                  m_maxAcel("Max lift acceleration"),
-                                 m_cargoIntakeLift("Raise Lift To Cargo Bays And Outtake") 
+                                 m_cargoIntakeLift("Raise Lift To Cargo Bays And Outtake"),
                                  m_limitSwitch(0),
                                  m_rightLiftMotor(16),
                                  m_leftLiftMotor(17){

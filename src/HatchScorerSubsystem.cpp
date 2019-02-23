@@ -27,7 +27,7 @@ void HatchScorerSubsystem::TogglePunchHatch() {
         //not yet started
         m_isOperating = true;
         ExtendPunch();
-        ToggleClaw();
+       // ToggleClaw();
         StartTimer();
         //iterationCount++;
     }  else {
@@ -68,13 +68,13 @@ double HatchScorerSubsystem::GetTime() {
     return m_delayTimer.Get(); 
 }
 
-void HatchScorerSubsystem::ToggleClaw() {
-    if (!m_isOpen) {
-        OpenClaw();
-    } else {
-        closedClaw();
-    }
-}
+// void HatchScorerSubsystem::ToggleClaw() {
+//     if (!m_isOpen) {
+//         OpenClaw();
+//     } else {
+//         closedClaw();
+//     }
+// }
 
 void HatchScorerSubsystem::OpenClaw() {
     m_solenoidClaw.Set(frc::DoubleSolenoid::kForward);
