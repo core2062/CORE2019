@@ -26,6 +26,7 @@ void DriveSubsystem::robotInit() {
 	driverJoystick->RegisterAxis(CORE::COREJoystick::RIGHT_STICK_X);
 	driverJoystick->RegisterButton(CORE::COREJoystick::RIGHT_TRIGGER);
     InitTalons();
+	
 }
 
 void DriveSubsystem::teleopInit() {
@@ -46,6 +47,8 @@ void DriveSubsystem::teleop() {
 	SetMotorSpeed(speeds.left, speeds.right);
 	SmartDashboard::PutNumber("Left side speed", speeds.left);
 	SmartDashboard::PutNumber("Right side speed", speeds.right);
+	SmartDashboard::PutNumber("Left side encoder", m_leftSlave.GetSelectedSensorPosition(0));
+	SmartDashboard::PutNumber("Right side encoder", m_rightMaster.GetSelectedSensorPosition(0));
 
 	if(driverJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::RIGHT_TRIGGER)) {
 		ToggleGear();
@@ -73,8 +76,8 @@ void DriveSubsystem::ResetEncoders(DriveSide whichSide){
 		m_rightMaster.SetSelectedSensorPosition(0, 0, 10);
 	}
 	if (whichSide == DriveSide::BOTH || whichSide == DriveSide::LEFT){
-		m_leftMaster.GetSensorCollection().SetQuadraturePosition(0, 10);
-		m_leftMaster.SetSelectedSensorPosition(0, 0, 10);
+		m_leftSlave.GetSensorCollection().SetQuadraturePosition(0, 10);
+		m_leftSlave.SetSelectedSensorPosition(0, 0, 10);
 	}
 }
 
@@ -118,13 +121,13 @@ void DriveSubsystem::InitTalons() {
 	m_leftMaster.Set(ControlMode::PercentOutput, 0);
 	m_rightMaster.Set(ControlMode::PercentOutput, 0);
 
-    m_leftMaster.SetStatusFramePeriod(StatusFrameEnhanced::Status_1_General, 10, 0);
+    m_leftSlave.SetStatusFramePeriod(StatusFrameEnhanced::Status_1_General, 10, 0);
     m_rightMaster.SetStatusFramePeriod(StatusFrameEnhanced::Status_1_General, 10, 0);
 
-    m_leftMaster.ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::CTRE_MagEncoder_Relative, 0, 0);
+    m_leftSlave.ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::CTRE_MagEncoder_Relative, 0, 0);
     m_rightMaster.ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::CTRE_MagEncoder_Relative, 0, 0);
 
-	m_leftMaster.SetSensorPhase(false);
+	m_leftSlave.SetSensorPhase(false);
     m_rightMaster.SetSensorPhase(true);
 
 	m_leftMaster.SetInverted(false);
@@ -133,7 +136,7 @@ void DriveSubsystem::InitTalons() {
 
 double DriveSubsystem::GetForwardPower() {
 	// Returns current power being exerted
-	double left = m_leftMaster.GetSelectedSensorPosition(0);
+	double left = m_leftSlave.GetSelectedSensorPosition(0);
 	double right = m_rightMaster.GetSelectedSensorPosition(0);
 	double power  = 0;
 	if(left > 0 || right > 0) {

@@ -29,11 +29,14 @@ void LiftSubsystem::robotInit(){
     m_leftLiftMotor.SetInverted(true);
     //m_leftLiftMotor.Follow(m_rightLiftMotor);
     operatorJoystick->RegisterAxis(CORE::COREJoystick::JoystickAxis::RIGHT_STICK_Y);
+    m_leftLiftMotor.ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::CTRE_MagEncoder_Relative, 0, 0);
+    m_leftLiftMotor.SetSelectedSensorPosition(0,0,0);
+    m_leftLiftMotor.SetSensorPhase(true);
 }
 
 // Configuration for teleop
 void LiftSubsystem::teleopInit(){
-    SetRequestedPosition(GetLiftInches());
+    //SetRequestedPosition(GetLiftInches());
     //m_rightLiftMotor.ConfigMotionCruiseVelocity(m_cruiseVel.Get(), 0);
     //m_rightLiftMotor.ConfigMotionAcceleration(m_maxAcel.Get(), 0);
 }
@@ -47,33 +50,23 @@ void LiftSubsystem::teleop() {
     SmartDashboard::PutBoolean("Limit Switch", m_limitSwitch.Get());
     // Check to see which way the lift would run if this value is positive
     // Make sure that the lift is giving very little power when it is first being tested
-    double liftPosition = GetLiftInches();
+    double liftPosition = 0; //GetLiftInches();
 
     // Sets the requested speed to the value from the joystick
     SetRequestedSpeed(-operatorJoystick->GetAxis(CORE::COREJoystick::JoystickAxis::RIGHT_STICK_Y));
 
-    // Scales the requested speed down to make sure the lift does not move too quickly
-    if (m_requestedSpeed < -0.01 || m_requestedSpeed > 0.01) {
-        if (m_requestedSpeed < 0) {
-            m_requestedSpeed *= 0.3;
-        } else {
-            m_requestedSpeed *= 0.6;
-        }
-        SetRequestedPosition(liftPosition);
-    } else {
-        m_requestedSpeed = 0;
-    }
+    //SetRequestedPosition(liftPosition);
 
     double liftRequestedPosition = m_requestedPosition;
 
     // Stops the motors if we are at the top or bottom position, and resets encoders at the bottom of the lift
     if (m_requestedSpeed > 0 && liftPosition > m_topLimit.Get()) {
         m_requestedSpeed = 0;
-        SetRequestedPosition(m_topLimit.Get());
+        //SetRequestedPosition(m_topLimit.Get());
     } else if (LiftDown()) {
         if(m_requestedSpeed < 0) {
             m_requestedSpeed = 0;
-            SetRequestedPosition(0);
+            //SetRequestedPosition(0);
         }
         ResetEncoder();
     }
@@ -100,8 +93,20 @@ void LiftSubsystem::SetRequestedPosition(double positionInInches){
 
 // Sets the speed to the desired speed
 
+// Scales the requested speed down to make sure the lift does not move too quickly
 void LiftSubsystem::SetRequestedSpeed(double speed){
     m_requestedSpeed = speed;
+    if (m_requestedSpeed < -0.01 || m_requestedSpeed > 0.01) {
+        if (m_requestedSpeed < 0) {
+            //Scales speed when going down
+            m_requestedSpeed *= 0.3;
+        } else {
+            //Scales speed when going up
+            m_requestedSpeed *= 0.6;
+        }
+    } else {
+        m_requestedSpeed = 0;
+    }
 }
 
 // Returns the current position in ticks
@@ -119,7 +124,7 @@ double LiftSubsystem::GetLiftInches(){
 //Returns whether the lift is at the bottom or not 
 
 bool LiftSubsystem::LiftDown() {
-    return m_limitSwitch.Get();
+    return !m_limitSwitch.Get();
 }
 
 // Resets lift encoders
