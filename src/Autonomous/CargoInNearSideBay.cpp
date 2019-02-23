@@ -3,7 +3,7 @@
 #include "Actions.h"
 
 CargoInNearSideBay::CargoInNearSideBay() :
-	COREAuton("Hatch Near Cargoship Bay Auton") {
+	COREAuton("Hatch Near Cargo Ship Bay Auton") {
 }
 
 void CargoInNearSideBay::AddNodes() {
