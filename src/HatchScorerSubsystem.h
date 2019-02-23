@@ -14,14 +14,15 @@ public:
 	void robotInit() override; 
 	void teleopInit() override;
 	void teleop() override;
-	void TogglePunchHatch();
+	void ScoreHatch();
 	void OpenClaw();
 	void CloseClaw();
+	void ToggleClaw();
 	void ExtendPunch();
 	void RetractPunch();
 
 private:
-	DoubleSolenoid m_solenoidPunchOne, m_solenoidPunchTwo, m_solenoidClaw; 
+	DoubleSolenoid m_solenoidPunchOne, m_solenoidClaw; 
 	bool m_isExtended = false;
 	bool m_isOpen = false;
 	bool m_isOperating = false;
@@ -29,5 +30,6 @@ private:
 	CORETimer m_delayTimer;
 	void StartTimer();
 	double GetTime();
+	COREConstant<double> m_punchSeconds, m_retractSeconds;
 
 };

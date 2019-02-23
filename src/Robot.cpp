@@ -30,7 +30,7 @@ void Robot::testInit() {
   
 }
 
-Robot * GetInstance() {
+Robot * Robot::GetInstance() {
 	return m_instance;
 }
 

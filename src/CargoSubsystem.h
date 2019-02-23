@@ -3,7 +3,6 @@
 #include <ctre/Phoenix.h>
 #include <CORERobotLib.h>
 #include <frc/WPILib.h>
-//#include "Robot.h"
 
 using namespace CORE;
 
@@ -21,4 +20,5 @@ public:
 private:
 	TalonSRX m_rightSideIntake, m_leftSideIntake;
 	frc::DigitalInput m_cargoLimitSwitch;
+
 };

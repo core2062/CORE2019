@@ -3,9 +3,10 @@
 #include "Robot.h"
 
 //TODO:Fill these in with actual port numbers
-HatchScorerSubsystem::HatchScorerSubsystem() : m_solenoidPunchOne(0, 0, 0),
-                                               m_solenoidPunchTwo(0, 0, 0),
-                                               m_solenoidClaw(0, 0, 0) {
+HatchScorerSubsystem::HatchScorerSubsystem() : m_solenoidPunchOne(0, HATCH_SCORER_PUNCH_IN, HATCH_SCORER_PUNCH_OUT),
+                                               m_solenoidClaw(0, HATCH_SCORER_CLAW_IN, HATCH_SCORER_CLAW_OUT),
+                                               m_punchSeconds("Hatch Scorer Punch Time (seconds)"),
+                                               m_retractSeconds("Hatch Scorer Retract Time (seconds)") {
 
 }
 
@@ -17,42 +18,39 @@ void HatchScorerSubsystem::teleopInit() {
 }
 
 void HatchScorerSubsystem::teleop() {
-   if (operatorJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::X_BUTTON) || !m_isOperating){
-       TogglePunchHatch();
+   if (operatorJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::X_BUTTON) || m_isOperating){
+       ScoreHatch();
    }
 }
 
-void HatchScorerSubsystem::TogglePunchHatch() {
-    if (!m_isOperating){
+void HatchScorerSubsystem::ScoreHatch() {
+    if (!m_isOperating && !m_isOpen){
         //not yet started
         m_isOperating = true;
         ExtendPunch();
-       // ToggleClaw();
+        CloseClaw();
         StartTimer();
-        //iterationCount++;
     }  else {
         //we have started 
         //get timer value, check against desired value.
-        if (GetTime() >= 3 && !m_isRetracting) {
+        if (GetTime() >= m_punchSeconds.Get() && !m_isRetracting) {
             RetractPunch();
             m_isRetracting = true;
-        } else if (GetTime() >= 6) {
+        } else if (GetTime() >= m_retractSeconds.Get()) {
             m_isOperating = false;
-            m_isRetracting = false;
+            m_isRetracting = false; 
         }
     }
 }
 
 void HatchScorerSubsystem::ExtendPunch() {
     m_solenoidPunchOne.Set(frc::DoubleSolenoid::kForward);
-    m_solenoidPunchTwo.Set(frc::DoubleSolenoid::kForward);
     m_isExtended = true;
 
 }
 
 void HatchScorerSubsystem::RetractPunch() {
     m_solenoidPunchOne.Set(frc::DoubleSolenoid::kReverse);
-    m_solenoidPunchTwo.Set(frc::DoubleSolenoid::kReverse);
     m_isExtended = false;
 
 
@@ -68,13 +66,13 @@ double HatchScorerSubsystem::GetTime() {
     return m_delayTimer.Get(); 
 }
 
-// void HatchScorerSubsystem::ToggleClaw() {
-//     if (!m_isOpen) {
-//         OpenClaw();
-//     } else {
-//         closedClaw();
-//     }
-// }
+void HatchScorerSubsystem::ToggleClaw() {
+    if (!m_isOpen) {
+        OpenClaw();
+    } else {
+        CloseClaw();
+    }
+}
 
 void HatchScorerSubsystem::OpenClaw() {
     m_solenoidClaw.Set(frc::DoubleSolenoid::kForward);
