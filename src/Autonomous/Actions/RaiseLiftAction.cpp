@@ -1,7 +1,5 @@
 #include <Autonomous/Actions/RaiseLiftAction.h>
 #include <Robot.h>
-#include <CORERobotLib.h>
-#include <COREUtilities/COREConstant.h>
 
 RaiseLiftAction::RaiseLiftAction(RaiseLift Action):
     m_firstLevelCargo("Bottom cargo height value"),
@@ -9,8 +7,7 @@ RaiseLiftAction::RaiseLiftAction(RaiseLift Action):
     m_thirdLevelCargo("Top cargo height value"),
     m_firstLevelHatch("Bottom hatch height value"),
     m_secondLevelHatch("Middle hatch height value"),
-    m_thirdLevelHatch("Top hatch height value")
-    {
+    m_thirdLevelHatch("Top hatch height value") {
     m_raiseLiftRequestedAction = Action;
 }
 
@@ -19,7 +16,6 @@ void RaiseLiftAction::ActionInit() {
 }
 
 CORE::COREAutonAction::actionStatus RaiseLiftAction::Action() {
-    
     switch(m_raiseLiftRequestedAction) {
         case FirstLevelCargo:
 		Robot::GetInstance()->liftSubsystem.SetRequestedPosition(m_firstLevelCargo.Get());

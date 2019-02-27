@@ -19,11 +19,11 @@ public:
     CORE::COREAutonAction::actionStatus Action() override;
     void ActionEnd();
 private:
-COREConstant<double> m_firstLevelCargo;
-COREConstant<double> m_secondLevelCargo;
-COREConstant<double> m_thirdLevelCargo;
-COREConstant<double> m_firstLevelHatch;
-COREConstant<double> m_secondLevelHatch;
-COREConstant<double> m_thirdLevelHatch;
-RaiseLift m_raiseLiftRequestedAction;
+    COREConstant<double> m_firstLevelCargo;
+    COREConstant<double> m_secondLevelCargo;
+    COREConstant<double> m_thirdLevelCargo;
+    COREConstant<double> m_firstLevelHatch;
+    COREConstant<double> m_secondLevelHatch;
+    COREConstant<double> m_thirdLevelHatch;
+    RaiseLift m_raiseLiftRequestedAction;
 };
