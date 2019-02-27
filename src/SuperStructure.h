@@ -18,7 +18,8 @@ enum class LiftState{
 	LiftCargoSecondLevel,
 	LiftHatchThirdLevel,
 	LiftCargoThirdLevel,
-	LiftCargoIntake,
+	LiftCargoAfterIntake,
+	LiftIntakeCargolevel
 	LiftUnknownLevel
 };
 
@@ -49,17 +50,12 @@ class SuperStructure : public CORESubsystem, public CORETask {
 	void teleopInit() override;
 	void teleop() override;
 	void PostLoopTask() override;
-	SuperStructure setLiftWantedState();
-	SuperStructure setCargoWantedState();
-	SuperStructure setHatchIntakeWantedState();
-	SuperStructure setHatchScorerWantedState();
 
 private:
+	LiftSubsystem * m_liftSubsystem;
 	CargoSubsystem * m_cargoSubsystem;
 	HatchIntakeSubsystem * m_hatchIntakeSubsystem;
 	HatchScorerSubsystem * m_hatchScorerSubsystem;
-	LiftSubsystem * m_liftSubsystem;
-	//DriveSubsystem * m_driveSubsystem;
 
 	LiftState m_liftState;
 	CargoState m_cargoState;
@@ -78,7 +74,8 @@ private:
 	LiftState liftCargoSecondLevel();
 	LiftState liftHatchThirdLevel();
 	LiftState liftCargoThirdLevel();
-	//LiftState LiftCargoIn();
+	LiftState CargoLiftLevel();
+	LiftState CargoIntakeLiftLevel();
 	
 	// Cargo States
 	CargoState cargoIntake();

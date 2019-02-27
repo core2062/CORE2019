@@ -136,6 +136,10 @@ void LiftSubsystem::ResetEncoder(){
 
 // Below are functions that set the lift to the height of the desired field target
 
+void LiftSubsystem::SetIntakeLevelHeight() {
+    SetRequestedPosition(m_cargoIntakeLevel.Get());
+}
+
 void LiftSubsystem::SetFirstLevelHatchHeight() {
     SetRequestedPosition(m_firstLevelHatch.Get());
 }
@@ -149,15 +153,15 @@ void LiftSubsystem::SetThirdLevelHatchHeight() {
 }
 
 void LiftSubsystem::SetFirstLevelCargoHeight() {
-    SetRequestedPosition(m_firstLevelHatch.Get());
+    SetRequestedPosition(m_firstLevelCargo.Get());
 }
 
 void LiftSubsystem::SetSecondLevelCargoHeight() {
-    SetRequestedPosition(m_secondLevelHatch.Get());
+    SetRequestedPosition(m_secondLevelCargo.Get());
 }
 
 void LiftSubsystem::SetThirdLevelCargoHeight() {
-    SetRequestedPosition(m_thirdLevelHatch.Get());
+    SetRequestedPosition(m_thirdLevelCargo.Get());
 }
 
 void LiftSubsystem::SetCargoShipCargoLevel() {
@@ -173,6 +177,10 @@ void LiftSubsystem::SetCargoLiftLevel() {
 }
 
 // Below are 8 functions that check if the lift is within 2 inches of the desired field target
+
+bool LiftSubsystem::IsCargoIntakeLevel() {
+    return abs(GetLiftInches() - m_cargoIntakeLevel.Get()) < 2;
+}
 
 bool LiftSubsystem::IsFirstLevelCargo() {
     return abs(GetLiftInches() - m_firstLevelCargo.Get()) < 2;
