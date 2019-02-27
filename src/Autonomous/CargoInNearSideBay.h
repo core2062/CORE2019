@@ -6,12 +6,13 @@
 
 using namespace CORE;
 
-class HatchNearBay : public COREAuton {
+class CargoInNearSideBay : public COREAuton {
 public:
-	HatchNearBay();
+    CargoInNearSideBay();
 	void AddNodes();
 
 private:
 	Node * m_driveForwardToNearSideCargoBay = nullptr;
-    Node * m_placeHatchOnNearSideBay = nullptr;
+    Node * m_liftLiftToCargoBayPosition = nullptr;
+    Node * m_placeCargoInNearSideBay = nullptr;
 };

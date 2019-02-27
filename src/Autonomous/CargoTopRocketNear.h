@@ -6,13 +6,13 @@
 
 using namespace CORE;
 
-class HatchMidRocketNear : public COREAuton {
+class CargoTopRocketNear : public COREAuton {
 public:
-	HatchMidRocketNear();
+	CargoTopRocketNear();
 	void AddNodes();
 
 private:
 	Node * m_driveForwardToRocket = nullptr;
-    Node * m_placeHatchOnMidRocket = nullptr;
+    Node * m_placeCargoOnTopRocket = nullptr;
     Node * m_lowerLiftToFirstLevel = nullptr;
 };

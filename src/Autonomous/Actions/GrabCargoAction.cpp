@@ -2,11 +2,11 @@
 #include <Robot.h>
 #include <CORERobotLib.h>
 
-GrabCargoAction::GrabCargoAction(){
-    
-}
-void GrabCargoAction::ActionInit(GrabCargo Action) {
+GrabCargoAction::GrabCargoAction(GrabCargo Action){
     m_grabCargoRequestedAction = Action;
+}
+void GrabCargoAction::ActionInit() {
+    
 }
 
 CORE::COREAutonAction::actionStatus GrabCargoAction::Action() {

@@ -8,8 +8,8 @@ enum GrabCargo{
 
 class GrabCargoAction : public COREAutonAction {
 public:
-    GrabCargoAction();
-    void ActionInit(GrabCargo Action);
+    GrabCargoAction(GrabCargo Action);
+    void ActionInit();
     CORE::COREAutonAction::actionStatus Action() override;
     void ActionEnd();
 private:

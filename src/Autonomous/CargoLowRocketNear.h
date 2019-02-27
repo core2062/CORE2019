@@ -6,13 +6,14 @@
 
 using namespace CORE;
 
-class HatchLowRocketNear : public COREAuton {
+class CargoLowRocketNear : public COREAuton {
 public:
-	HatchLowRocketNear();
+	CargoLowRocketNear();
 	void AddNodes();
 
 private:
     Node * m_driveLowRocketNearSide = nullptr;
-    Node * m_placeHatchOnLowNearSide = nullptr;
+    Node * m_raiseLiftLowRocket = nullptr;
+    Node * m_placeCargoOnLowNearSide = nullptr;
    
 };
