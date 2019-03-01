@@ -1,0 +1,106 @@
+﻿[
+    {
+        "name": "centerStartWaypoint",
+        "x": 39.01,
+        "y": 44.44,
+        "theta": 0,
+        "pathAngle": -1.57
+    },
+    {
+        "name": "point",
+        "x": 39.02,
+        "y": 50.47,
+        "theta": 0
+    },
+    {
+        "name": "point",
+        "x": 39.03,
+        "y": 56.49,
+        "theta": 0
+    },
+    {
+        "name": "point",
+        "x": 39.04,
+        "y": 62.52,
+        "theta": 0
+    },
+    {
+        "name": "point",
+        "x": 39.06,
+        "y": 68.55,
+        "theta": 0
+    },
+    {
+        "name": "point",
+        "x": 39.08,
+        "y": 74.57,
+        "theta": 0
+    },
+    {
+        "name": "point",
+        "x": 39.1,
+        "y": 80.6,
+        "theta": 0
+    },
+    {
+        "name": "point",
+        "x": 39.12,
+        "y": 86.62,
+        "theta": 0
+    },
+    {
+        "name": "point",
+        "x": 39.15,
+        "y": 92.65,
+        "theta": 0
+    },
+    {
+        "name": "point",
+        "x": 39.17,
+        "y": 98.68,
+        "theta": 0
+    },
+    {
+        "name": "point",
+        "x": 39.2,
+        "y": 104.7,
+        "theta": 0
+    },
+    {
+        "name": "point",
+        "x": 39.22,
+        "y": 110.73,
+        "theta": 0
+    },
+    {
+        "name": "point",
+        "x": 39.24,
+        "y": 116.75,
+        "theta": 0
+    },
+    {
+        "name": "point",
+        "x": 39.25,
+        "y": 122.78,
+        "theta": 0
+    },
+    {
+        "name": "point",
+        "x": 39.26,
+        "y": 128.81,
+        "theta": 0
+    },
+    {
+        "name": "point",
+        "x": 39.27,
+        "y": 134.83,
+        "theta": 0
+    },
+    {
+        "name": "wp",
+        "x": 39.27,
+        "y": 139,
+        "theta": 0,
+        "pathAngle": -1.57
+    }
+]

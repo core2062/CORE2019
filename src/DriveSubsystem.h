@@ -19,7 +19,7 @@ public:
     void robotInit() override;
     void teleopInit() override;
     void teleop() override;
-    void PreLoopTask() override;
+    void PostLoopTask() override;
     void InitTalons();
     void ToggleGear();
     void ResetEncoders(DriveSide whichSide);
@@ -31,13 +31,16 @@ public:
 
         // Autonomous functions
     TankRotation2d GetGyroAngle();
-    void SetPosition(TankPosition2d pos);
     void FollowPath(TankPath path, bool reversed, double maxAccel, double tolerance, bool gradualStop);
     TankAdaptivePursuit m_pursuit;
     bool PathDone();
-    void RunTracker(); 
-    void ResetTracker();
+    void ResetTracker(TankPosition2d initialPos);
     void UpdatePathFollower();
+    std::pair<double, double> GetEncoderInches();
+    std::pair<double, double> GetEncoderSpeed();
+    void HardResetYaw();
+    void SoftResetYaw();
+    AHRS * GetGyro();
 
     AHRS * m_gyro;
 

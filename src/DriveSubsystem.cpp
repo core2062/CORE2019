@@ -168,10 +168,6 @@ TankRotation2d DriveSubsystem::GetGyroAngle() {
 	return TankRotation2d::FromRadians(m_gyro->GetYaw());
 }
 
-void DriveSubsystem::SetPosition(TankPosition2d pos) {
-
-}
-
 void DriveSubsystem::FollowPath(TankPath path, bool reversed, double maxAccel, double tolerance, 
 	bool gradualStop) {
 	m_pursuit = TankAdaptivePursuit(lookAhead.Get(), maxAccel, 0.025, path, reversed, tolerance, gradualStop);
@@ -181,41 +177,40 @@ bool DriveSubsystem::PathDone() {
 	return m_pursuit.IsDone();
 }
 
-void DriveSubsystem::PreLoopTask() {
-	RunTracker();
-	if(CORE::COREDriverstation::GetMode() == CORE::COREDriverstation::AUTON) {
+void DriveSubsystem::UpdatePathFollower() {
+	TankPosition2d pos;
+	
+	pos = m_tracker->GetLatestFieldToVehicle();
+	
+	TankPosition2d::TankDelta command = m_pursuit.Update(pos, Timer::GetFPGATimestamp());
 
+	VelocityPair setpoint = TankKinematics::InverseKinematics(command);
+	double maxVel = 0.0;
+	maxVel = max(maxVel, setpoint.left);
+	maxVel = max(maxVel, setpoint.right);
+	if (maxVel > 100){
+		double scaling = 100 / maxVel;
+		setpoint = VelocityPair(setpoint.left * scaling, setpoint.right * scaling);
+	}
+	SetMotorSpeed(setpoint.left * .01, setpoint.right * .01);
+} 
+
+std::pair<double, double> DriveSubsystem::GetEncoderInches() {
+	double factor = TankKinematics::wheelDiameter.Get() * 3.14;
+	return {m_leftMaster.GetSelectedSensorPosition(0) * factor, m_rightMaster.GetSelectedSensorPosition(0) * factor};
+}
+
+std::pair<double, double> DriveSubsystem::GetEncoderSpeed() {
+	double factor = TankKinematics::wheelDiameter.Get() * 3.14 * 0.016666666;
+	return {m_leftMaster.GetSelectedSensorVelocity(0) * factor, m_rightMaster.GetSelectedSensorVelocity(0) * factor};
+}
+
+void DriveSubsystem::ResetTracker(TankPosition2d initialPos) {
+	m_tracker->Reset(Timer::GetFPGATimestamp(), initialPos);
+}
+
+void DriveSubsystem::PostLoopTask() {
+	if(CORE::COREDriverstation::GetMode() == CORE::COREDriverstation::AUTON) {
+		UpdatePathFollower();
 	}
 }
-
-void DriveSubsystem::RunTracker() {
-
-}
-
-void DriveSubsystem::ResetTracker() {
-
-}
-
-void DriveSubsystem::UpdatePathFollower() {
-
-}
-
-// void DriveWaypointController::UpdatePathFollower() {
-// 	Position2d pos;
-// 	if(frame == nullptr){
-// 		pos = m_tracker->getLatestFieldToVehicle();
-// 	} else {
-// 		pos = frame->getLatest();
-
-// 	Position2d::Delta command = m_pursuit.update(pos, Timer::GetFPGATimestamp());
-
-// 	VelocityPair setpoint = TankKinematics::inverseKinematics(command);
-// 	double maxVel = 0.0;
-// 	maxVel = max(maxVel, setpoint.left);
-// 	maxVel = max(maxVel, setpoint.right);
-// 	if (maxVel > 100){
-// 		double scaling = 100 / maxVel;
-// 		setpoint = VelocityPair(setpoint.left * scaling, setpoint.right * scaling);
-// 	}
-// 	Robot->driveSubsystem.setMotorSpeed(setpoint.left * .01, setpoint.right * .01);
-// } 
