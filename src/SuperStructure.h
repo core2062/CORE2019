@@ -11,7 +11,7 @@
 
 using namespace CORE;
 
-enum class LiftState{
+enum class LiftState {
 	LiftHatchFirstLevel,
 	LiftCargoFirstLevel,
 	LiftHatchSecondLevel,
@@ -19,32 +19,31 @@ enum class LiftState{
 	LiftHatchThirdLevel,
 	LiftCargoThirdLevel,
 	LiftCargoAfterIntake,
-	LiftIntakeCargolevel
+	// what about scoring the hatch and cargo on the cargo ship?
 	LiftUnknownLevel
 };
 
-enum class CargoState{
+enum class CargoState {
 	CargoIntake,
 	CargoOutake,
-	CargoLift,
+	CargoLift, // this might be better left to the lift subsystem
 	CargoNeutral
 };
 
-enum class HatchIntakeState{
+enum class HatchIntakeState {
 	HatchIntakeIntake,
 	HatchIntakeOutake,
 	HatchIntakeNeutral
 };
 
-enum class HatchScorerState{
+enum class HatchScorerState {
 	HatchScorerIntake,
 	HatchScorerOutake,
 	HatchScorerNeutral
 };
 
-
 class SuperStructure : public CORESubsystem, public CORETask {
-  public:
+public:
 	SuperStructure();
 	void robotInit() override;
 	void teleopInit() override;
@@ -74,9 +73,9 @@ private:
 	LiftState liftCargoSecondLevel();
 	LiftState liftHatchThirdLevel();
 	LiftState liftCargoThirdLevel();
-	LiftState CargoLiftLevel();
-	LiftState CargoIntakeLiftLevel();
-	
+	LiftState cargoLiftLevel();
+	LiftState cargoIntakeLiftLevel();
+
 	// Cargo States
 	CargoState cargoIntake();
 	CargoState cargoOutake();
@@ -91,8 +90,4 @@ private:
 	HatchScorerState hatchScorerIntake();
 	HatchScorerState hatchScorerOutake();
 	//HatchScorerState HatchScorerNeutral();
-
-	void StartTimer();
-	double GetTime();
-	CORETimer m_delayTimer;
 };

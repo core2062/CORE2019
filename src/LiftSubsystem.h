@@ -5,7 +5,6 @@
 #include <CORERobotLib.h>
 #include <COREUtilities/COREConstant.h>
 
-
 using namespace frc;
 
 class LiftSubsystem : public CORESubsystem {
@@ -48,8 +47,13 @@ private:
 	DigitalInput m_limitSwitch;
 	COREConstant<double> m_cruiseVel, m_maxAcel;
 	COREConstant<double> m_topLimit, m_bottomLimit;
-	COREConstant<double> m_firstLevelHatch, m_firstLevelCargo, m_secondLevelHatch, 
-		m_secondLevelCargo, m_thirdLevelHatch, m_thirdLevelCargo, m_cargoShipCargoLevel, 
-		m_cargoShipHatchLevel, m_ticksPerInch, m_cargoIntakeLift, m_cargoIntakeLevel;
+	COREConstant<double> m_firstLevelHatch, m_firstLevelCargo,
+	m_secondLevelHatch, m_secondLevelCargo,
+	m_thirdLevelHatch, m_thirdLevelCargo,
+	m_cargoShipCargoLevel, m_cargoShipHatchLevel,
+	m_ticksPerInch, m_cargoIntakeLift, m_cargoIntakeLevel;
+	// are m_cargoIntakeLift and m_cargoIntakeLevel the same thing?
 	TalonSRX m_rightLiftMotor, m_leftLiftMotor;
 };
+// be consistent about what order the levels and methods are in throughout the code.
+// be consistent about naming to avoid confusion and duplicate levels.

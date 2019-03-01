@@ -11,12 +11,15 @@ LiftSubsystem::LiftSubsystem() : m_firstLevelHatch("First Level Hatch Height"),
                                  m_secondLevelCargo("Second Level Cargo Height"),
                                  m_thirdLevelHatch("Third Level Hatch Height"),
                                  m_thirdLevelCargo("Third Level Cargo Height"),
+// m_cargoShipCargoLevel
+// m_cargoShipHatchLevel
+// m_cargoIntakeLevel
+                                 m_cargoIntakeLift("Raise Lift To Cargo Bays And Outtake"),
                                  m_ticksPerInch("Ticks per inch"),
                                  m_bottomLimit("Lift bottom limit"),
                                  m_topLimit("Lift top limit"),
                                  m_cruiseVel("Lift cruise velocity"),
                                  m_maxAcel("Max lift acceleration"),
-                                 m_cargoIntakeLift("Raise Lift To Cargo Bays And Outtake"),
                                  m_limitSwitch(8),
                                  m_rightLiftMotor(RIGHT_LIFT_PORT),
                                  m_leftLiftMotor(LEFT_LIFT_PORT) {
@@ -136,10 +139,6 @@ void LiftSubsystem::ResetEncoder(){
 
 // Below are functions that set the lift to the height of the desired field target
 
-void LiftSubsystem::SetIntakeLevelHeight() {
-    SetRequestedPosition(m_cargoIntakeLevel.Get());
-}
-
 void LiftSubsystem::SetFirstLevelHatchHeight() {
     SetRequestedPosition(m_firstLevelHatch.Get());
 }
@@ -176,11 +175,11 @@ void LiftSubsystem::SetCargoLiftLevel() {
     SetRequestedPosition(m_cargoIntakeLift.Get());
 }
 
-// Below are 8 functions that check if the lift is within 2 inches of the desired field target
-
-bool LiftSubsystem::IsCargoIntakeLevel() {
-    return abs(GetLiftInches() - m_cargoIntakeLevel.Get()) < 2;
+void LiftSubsystem::SetIntakeLevelHeight() {
+    SetRequestedPosition(m_cargoIntakeLevel.Get());
 }
+
+// Below are 8 functions that check if the lift is within 2 inches of the desired field target
 
 bool LiftSubsystem::IsFirstLevelCargo() {
     return abs(GetLiftInches() - m_firstLevelCargo.Get()) < 2;
@@ -216,4 +215,8 @@ bool LiftSubsystem::IsCargoShipHatchLevel() {
 
 bool LiftSubsystem::IsCargoIntakeLift() {
     return abs(GetLiftInches()) - m_cargoIntakeLift.Get()) < 2;
+}
+
+bool LiftSubsystem::IsCargoIntakeLevel() {
+    return abs(GetLiftInches() - m_cargoIntakeLevel.Get()) < 2;
 }
