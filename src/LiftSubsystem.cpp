@@ -29,6 +29,7 @@ void LiftSubsystem::robotInit(){
     m_leftLiftMotor.SetInverted(true);
     //m_leftLiftMotor.Follow(m_rightLiftMotor);
     operatorJoystick->RegisterAxis(CORE::COREJoystick::JoystickAxis::RIGHT_STICK_Y);
+    operatorJoystick->RegisterButton(CORE::COREJoystick::JoystickButton::A_BUTTON);
     m_leftLiftMotor.ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::CTRE_MagEncoder_Relative, 0, 0);
     m_leftLiftMotor.SetSelectedSensorPosition(0,0,0);
     m_leftLiftMotor.SetSensorPhase(true);
@@ -51,13 +52,16 @@ void LiftSubsystem::teleop() {
     // Check to see which way the lift would run if this value is positive
     // Make sure that the lift is giving very little power when it is first being tested
     double liftPosition = GetLiftInches();
-
     // Sets the requested speed to the value from the joystick
     SetRequestedSpeed(-operatorJoystick->GetAxis(CORE::COREJoystick::JoystickAxis::RIGHT_STICK_Y));
 
-    SetRequestedPosition(75);
+   
     //m_requestedPosition = 100;
-    
+    if((abs(liftPosition - 75.0)) <= 1) {
+        SetRequestedPosition(liftPosition);
+    } else {
+        SetRequestedPosition(75);
+    }
 
     double liftRequestedPosition = m_requestedPosition;
 
@@ -72,6 +76,7 @@ void LiftSubsystem::teleop() {
         }
         ResetEncoder();
     }
+
 
     // Checks requested speed and either sets motors based on motion magic or percent output based on magnitude
     if (m_requestedSpeed < -0.01 || m_requestedSpeed > 0.01) {
