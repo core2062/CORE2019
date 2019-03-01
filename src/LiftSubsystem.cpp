@@ -11,9 +11,9 @@ LiftSubsystem::LiftSubsystem() : m_firstLevelHatch("First Level Hatch Height"),
                                  m_secondLevelCargo("Second Level Cargo Height"),
                                  m_thirdLevelHatch("Third Level Hatch Height"),
                                  m_thirdLevelCargo("Third Level Cargo Height"),
-// m_cargoShipCargoLevel
-// m_cargoShipHatchLevel
-// m_cargoIntakeLevel
+                                 m_cargoShipCargoLevel("Cargo Ship Cargo Level"),
+                                 m_cargoShipHatchLevel("Cargo Ship Hatch Level"),
+                                 m_cargoIntakeLevel("Cargo Intake Level"),
                                  m_cargoIntakeLift("Raise Lift To Cargo Bays And Outtake"),
                                  m_ticksPerInch("Ticks per inch"),
                                  m_bottomLimit("Lift bottom limit"),
@@ -175,7 +175,7 @@ void LiftSubsystem::SetCargoLiftLevel() {
     SetRequestedPosition(m_cargoIntakeLift.Get());
 }
 
-void LiftSubsystem::SetIntakeLevelHeight() {
+void LiftSubsystem::SetCargoIntakeLevelHeight() {
     SetRequestedPosition(m_cargoIntakeLevel.Get());
 }
 
@@ -206,15 +206,15 @@ bool LiftSubsystem::IsThirdLevelHatch() {
 }
 
 bool LiftSubsystem::IsCargoShipCargoLevel() {
-    return abs(GetLiftInches()) - m_cargoShipCargoLevel.Get()) < 2;
+    return abs(GetLiftInches() - m_cargoShipCargoLevel.Get()) < 2;
 }
 
 bool LiftSubsystem::IsCargoShipHatchLevel() {
-    return abs(GetLiftInches()) - m_cargoShipHatchLevel.Get()) < 2;
+    return abs(GetLiftInches() - m_cargoShipHatchLevel.Get()) < 2;
 }
 
 bool LiftSubsystem::IsCargoIntakeLift() {
-    return abs(GetLiftInches()) - m_cargoIntakeLift.Get()) < 2;
+    return abs(GetLiftInches() - m_cargoIntakeLift.Get()) < 2;
 }
 
 bool LiftSubsystem::IsCargoIntakeLevel() {

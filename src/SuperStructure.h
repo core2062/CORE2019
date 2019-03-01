@@ -25,20 +25,20 @@ enum class LiftState {
 
 enum class CargoState {
 	CargoIntake,
-	CargoOutake,
+	CargoOuttake,
 	CargoLift, // this might be better left to the lift subsystem
 	CargoNeutral
 };
 
 enum class HatchIntakeState {
 	HatchIntakeIntake,
-	HatchIntakeOutake,
+	HatchIntakeOuttake,
 	HatchIntakeNeutral
 };
 
 enum class HatchScorerState {
 	HatchScorerIntake,
-	HatchScorerOutake,
+	HatchScorerOuttake,
 	HatchScorerNeutral
 };
 
@@ -67,27 +67,27 @@ private:
 	HatchScorerState m_wantedHatchScorerState;
 
 	// Lift States
-	LiftState liftHatchFirstLevel();
-	LiftState liftCargoFirstLevel();
-	LiftState liftHatchSecondLevel();
-	LiftState liftCargoSecondLevel();
-	LiftState liftHatchThirdLevel();
-	LiftState liftCargoThirdLevel();
-	LiftState cargoLiftLevel();
-	LiftState cargoIntakeLiftLevel();
+	LiftState LiftHatchFirstLevel();
+	LiftState LiftCargoFirstLevel();
+	LiftState LiftHatchSecondLevel();
+	LiftState LiftCargoSecondLevel();
+	LiftState LiftHatchThirdLevel();
+	LiftState LiftCargoThirdLevel();
+	LiftState CargoLiftLevel();
+	LiftState CargoIntakeLiftLevel();
 
 	// Cargo States
-	CargoState cargoIntake();
-	CargoState cargoOutake();
+	CargoState CargoIntake();
+	CargoState CargoOuttake();
 	//CargoState CargoNeutral();
 
 	// Hatch Intake States
-	HatchIntakeState hatchIntakeIntake();
-	HatchIntakeState hatchIntakeOutake();
+	HatchIntakeState HatchIntakeIntake();
+	HatchIntakeState HatchIntakeOuttake();
 	//HatchIntakeState HatchIntakeNeutral();
 
 	// Hatch Scorer States
-	HatchScorerState hatchScorerIntake();
-	HatchScorerState hatchScorerOutake();
+	HatchScorerState HatchScorerIntake();
+	HatchScorerState HatchScorerOuttake();
 	//HatchScorerState HatchScorerNeutral();
 };
