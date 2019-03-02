@@ -3,7 +3,9 @@
 #include <CORERobotLib.h>
 
 enum GrabCargo{
-    INTAKE
+    INTAKE,
+    OUTTAKE,
+    NEUTRAL
 };
 
 class GrabCargoAction : public COREAutonAction {
@@ -13,7 +15,5 @@ public:
     CORE::COREAutonAction::actionStatus Action() override;
     void ActionEnd();
 private:
-GrabCargo m_grabCargoRequestedAction;
-
+    GrabCargo m_grabCargoRequestedAction;
 };
-
