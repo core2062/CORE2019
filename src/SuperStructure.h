@@ -49,7 +49,7 @@ public:
 	void robotInit() override;
 	void teleopInit() override;
 	void teleop() override;
-	void PostLoopTask() override;
+	
 
 private:
 	LiftSubsystem * m_liftSubsystem;
@@ -82,7 +82,7 @@ private:
 	// Cargo States
 	CargoState CargoIntake();
 	CargoState CargoOuttake();
-	//CargoState CargoNeutral();
+	CargoState CargoNeutral();
 
 	// Hatch Intake States
 	HatchIntakeState HatchIntakeIntake();

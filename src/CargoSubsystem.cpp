@@ -17,6 +17,7 @@ void CargoSubsystem::teleopInit() {
 }
 
 void CargoSubsystem::teleop() {
+    SmartDashboard::PutBoolean("Cargo Limit Switch", IsCargoSecured());
 }
 
 //spins wheels to intake the cargo
@@ -27,7 +28,7 @@ void CargoSubsystem::SetIntake() {
 
 //returns true if the intake is intaking
 bool CargoSubsystem::IsCargoSecured() {
-    return m_cargoLimitSwitch.Get();
+    return !m_cargoLimitSwitch.Get();
 }
 
 //spins wheels to outtake the cargo
