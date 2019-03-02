@@ -4,7 +4,7 @@
 
 enum PlaceCargo{
     OUTTAKE,
-    NEUTRAL
+    RESTING
 };
 
 class PlaceCargoAction : public COREAutonAction {

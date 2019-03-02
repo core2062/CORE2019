@@ -11,9 +11,6 @@ CORE::COREAutonAction::actionStatus GrabCargoAction::Action() {
     switch(m_grabCargoRequestedAction){
         case GrabCargo::INTAKE:
             Robot::GetInstance()->cargoSubsystem.SetIntake();
-        case GrabCargo::OUTTAKE:
-            Robot::GetInstance()->cargoSubsystem.SetOuttake();
-            break;
         default:
             //Robot::GetInstance()->cargoSubsystem.SetOff();
             break;
