@@ -19,7 +19,7 @@ void SuperStructure::teleopInit() {
     operatorJoystick->RegisterButton(COREJoystick::JoystickButton::RIGHT_BUTTON);
     operatorJoystick->RegisterButton(COREJoystick::JoystickButton::LEFT_BUTTON);
     operatorJoystick->RegisterButton(COREJoystick::JoystickButton::RIGHT_TRIGGER);
-    operatorJoystick->RegisterButton(COREJoystick::JoystickButton::LEFT_TRIGGER);
+    operatorJoystick->RegisterButton(COREJoystick::JoystickButton::BACK_BUTTON);
     operatorJoystick->RegisterButton(COREJoystick::JoystickButton::DPAD_N);
     operatorJoystick->RegisterButton(COREJoystick::JoystickButton::DPAD_S);
     operatorJoystick->RegisterButton(COREJoystick::JoystickButton::DPAD_W);
@@ -55,12 +55,14 @@ void SuperStructure::teleop() {
     // Cargo Buttons
     if (operatorJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::LEFT_BUTTON)) {
         m_wantedCargoState = CargoState::CargoIntake;
-    } else if (operatorJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::LEFT_TRIGGER)) {
-        m_wantedCargoState = CargoState::CargoOuttake;
-    } else if (operatorJoystick->GetFallingEdge(CORE::COREJoystick::JoystickButton::LEFT_TRIGGER)) {
+    } 
+    if (operatorJoystick->GetFallingEdge(CORE::COREJoystick::JoystickButton::X_BUTTON)) {
         m_wantedCargoState = CargoState::CargoNeutral;
+    } 
+    if (operatorJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::X_BUTTON)) {
+        m_wantedCargoState = CargoState::CargoOuttake;
     }
-    // } else if (operatorJoystick->GetFallingEdge(CORE::COREJoystick::JoystickButton::LEFT_TRIGGER)) {
+    // } else if (operatorJoystick->GetFallingEdge(CORE::COREJoystick::JoystickButton::BACK_BUTTON)) {
     //     m_wantedCargoState = CargoNeutral;
     // }
 
@@ -142,8 +144,8 @@ void SuperStructure::PostLoopTask() {
             newHatchScorerState = HatchScorerState::HatchScorerNeutral;
             break;
     }
-    if (newHatchIntakeState == m_wantedHatchIntakeState) {
-        m_wantedHatchIntakeState = HatchIntakeState::HatchIntakeNeutral;
+    if (newHatchScorerState == m_wantedHatchScorerState) {
+        m_wantedHatchScorerState = HatchScorerState::HatchScorerNeutral;
     }
 
     // switch (m_wantedHatchIntakeState) {
@@ -157,10 +159,9 @@ void SuperStructure::PostLoopTask() {
     //         newHatchIntakeState = HatchIntakeState::HatchIntakeNeutral;
     //         break;
     // }
-
-    if (newHatchScorerState == m_wantedHatchScorerState) {
-        m_wantedHatchScorerState = HatchScorerState::HatchScorerNeutral;
-    }
+    // if (newHatchIntakeState == m_wantedHatchIntakeState) {
+    //     m_wantedHatchIntakeState = HatchIntakeState::HatchIntakeNeutral;
+    // }
 
     if (newLiftState != m_liftState) {
         CORELog::LogInfo("Changing states from " + to_string((int)m_liftState) + " to " + to_string((int)newLiftState));

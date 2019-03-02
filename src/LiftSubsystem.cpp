@@ -57,13 +57,13 @@ void LiftSubsystem::teleop() {
     double liftPosition = GetLiftInches();
     // Sets the requested speed to the value from the joystick
     SetRequestedSpeed(-operatorJoystick->GetAxis(CORE::COREJoystick::JoystickAxis::RIGHT_STICK_Y));
-    SetRequestedPosition(liftPosition);
+    SetRequestedPosition(m_requestedPosition);
 
-    if (abs(m_requestedPosition-liftPosition) <= 1) {
-        SetRequestedPosition(liftPosition);
-    } else {
-        SetRequestedPosition(m_requestedPosition);
-    }
+    // if (abs(m_requestedPosition - liftPosition) <= 1) {
+    //     SetRequestedPosition(liftPosition);
+    // } else {
+    //     SetRequestedPosition(m_requestedPosition);
+    // }
 
     double liftRequestedPosition = m_requestedPosition;
 
@@ -74,7 +74,7 @@ void LiftSubsystem::teleop() {
     } else if (LiftDown()) {
         if(m_requestedSpeed < 0) {
             m_requestedSpeed = 0;
-            SetRequestedPosition(0);
+            //SetRequestedPosition(0);
         }
         ResetEncoder();
     }
