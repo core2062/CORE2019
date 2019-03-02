@@ -55,7 +55,7 @@ void LiftSubsystem::teleop() {
     // Sets the requested speed to the value from the joystick
     SetRequestedSpeed(-operatorJoystick->GetAxis(CORE::COREJoystick::JoystickAxis::RIGHT_STICK_Y));
 
-    SetRequestedPosition(24);
+    SetRequestedPosition(100);
     
 
     double liftRequestedPosition = m_requestedPosition;
