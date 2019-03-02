@@ -15,13 +15,13 @@ public:
 	void teleopInit() override;
 	void teleop() override;
 	void ScoreHatch();
+	void LoadHatch();
 	void OpenClaw();
 	void CloseClaw();
 	void ToggleClaw();
 	void ExtendPunch();
 	void RetractPunch();
 	bool GetIsOperating();
-	void GetHatch();
 
 private:
 	DoubleSolenoid m_solenoidPunchOne, m_solenoidClaw; 

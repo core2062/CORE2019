@@ -2,29 +2,24 @@
 #include <frc/WPILib.h>
 #include "Robot.h"
 
-//TODO:Fill these in with actual port numbers
 HatchScorerSubsystem::HatchScorerSubsystem() : m_solenoidPunchOne(0, HATCH_SCORER_PUNCH_IN, HATCH_SCORER_PUNCH_OUT),
                                                m_solenoidClaw(0, HATCH_SCORER_CLAW_IN, HATCH_SCORER_CLAW_OUT),
-                                               m_punchSeconds("Hatch Scorer Punch Time (seconds)"),
-                                               m_retractSeconds("Hatch Scorer Retract Time (seconds)") {
+                                               m_punchSeconds("Hatch Scorer Punch Time (seconds)", 1.5),
+                                               m_retractSeconds("Hatch Scorer Retract Time (seconds)", 1.5) {
 
 }
 
 void HatchScorerSubsystem::robotInit() {
-    //operatorJoystick->RegisterButton(CORE::COREJoystick::JoystickButton::X_BUTTON);
 }
 
 void HatchScorerSubsystem::teleopInit() {
 }
 
 void HatchScorerSubsystem::teleop() {
-//    if (operatorJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::X_BUTTON) || m_isOperating){
-//        ScoreHatch();
-//    }
 }
 
 void HatchScorerSubsystem::ScoreHatch() {
-    if (!m_isOperating && !m_isOpen){
+    if (!m_isOperating){
         //not yet started
         m_isOperating = true;
         ExtendPunch();
@@ -43,7 +38,25 @@ void HatchScorerSubsystem::ScoreHatch() {
     }
 }
 
-
+void HatchScorerSubsystem::LoadHatch() {
+    if (!m_isOperating){
+        //not yet started
+        m_isOperating = true;
+        ExtendPunch();
+        OpenClaw();
+        StartTimer();
+    }  else {
+        //we have started 
+        //get timer value, check against desired value.
+        if (GetTime() >= m_punchSeconds.Get() && !m_isRetracting) {
+            RetractPunch();
+            m_isRetracting = true;
+        } else if (GetTime() >= m_retractSeconds.Get()) {
+            m_isOperating = false;
+            m_isRetracting = false; 
+        }
+    }
+}
 
 void HatchScorerSubsystem::ExtendPunch() {
     m_solenoidPunchOne.Set(frc::DoubleSolenoid::kForward);
@@ -84,24 +97,4 @@ void HatchScorerSubsystem::CloseClaw() {
 
 bool HatchScorerSubsystem::GetIsOperating() {
     return m_isOperating;
-}
-
-void HatchScorerSubsystem::GetHatch() {
-    if (!m_isOperating && m_isOpen){
-        //not yet started
-        m_isOperating = true;
-        ExtendPunch();
-        OpenClaw();
-        StartTimer();
-    }  else {
-        //we have started 
-        //get timer value, check against desired value.
-        if (GetTime() >= m_punchSeconds.Get() && !m_isRetracting) {
-            RetractPunch();
-            m_isRetracting = true;
-        } else if (GetTime() >= m_retractSeconds.Get()) {
-            m_isOperating = false;
-            m_isRetracting = false; 
-        }
-    }
 }

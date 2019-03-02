@@ -126,8 +126,8 @@ void SuperStructure::PostLoopTask() {
             m_cargoSubsystem->SetOff();
             break;
     }
-
-    if (newCargoState == m_wantedCargoState) {
+    
+    if (newCargoState == m_wantedCargoState && newCargoState != CargoOuttake()) {
         m_wantedCargoState = CargoState::CargoNeutral;
     }
 
@@ -272,7 +272,7 @@ CargoState SuperStructure::CargoIntake() {
 
 CargoState SuperStructure::CargoOuttake() {
     m_cargoSubsystem->SetOuttake();
-    return CargoState::CargoNeutral;
+    return CargoState::CargoOuttake;
 }
 
 HatchScorerState SuperStructure::HatchScorerIntake() {
@@ -285,7 +285,7 @@ HatchScorerState SuperStructure::HatchScorerIntake() {
 }
 
 HatchScorerState SuperStructure::HatchScorerOuttake() {
-    m_hatchScorerSubsystem->GetHatch();
+    m_hatchScorerSubsystem->LoadHatch();
     if (m_hatchScorerSubsystem->GetIsOperating()) {
         return HatchScorerState::HatchScorerOuttake;
     } else {

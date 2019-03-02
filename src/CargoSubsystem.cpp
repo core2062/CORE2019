@@ -11,23 +11,12 @@ void CargoSubsystem::robotInit() {
     m_leftSideIntake.Set(ControlMode::PercentOutput, 0);
     m_leftSideIntake.SetInverted(true);
     m_rightSideIntake.SetInverted(false);
-    // operatorJoystick->RegisterButton(CORE::COREJoystick::JoystickButton::LEFT_BUTTON);
-    // operatorJoystick->RegisterButton(CORE::COREJoystick::JoystickButton::LEFT_TRIGGER);
 }
 
 void CargoSubsystem::teleopInit() {
 }
 
 void CargoSubsystem::teleop() {
-    // SmartDashboard::PutBoolean("CargoLimitSwitch", IsCargoSecured());
-    // if (operatorJoystick->GetButton(CORE::COREJoystick::JoystickButton::LEFT_BUTTON) && IsCargoSecured()) {
-    //     SetIntake();
-    // } else if (operatorJoystick->GetButton(CORE::COREJoystick::JoystickButton::LEFT_TRIGGER)) {
-    //     SetOuttake();
-    // } else {
-    //     m_rightSideIntake.Set(ControlMode::PercentOutput, 0);
-    //     m_leftSideIntake.Set(ControlMode::PercentOutput, 0);
-    // }
 }
 
 //spins wheels to intake the cargo

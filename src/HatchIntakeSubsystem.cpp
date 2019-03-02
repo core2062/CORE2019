@@ -10,9 +10,6 @@ HatchIntakeSubsystem::HatchIntakeSubsystem() : m_hatchIntake(HATCH_INTAKE_PORT),
 }
 
 void HatchIntakeSubsystem::robotInit(){
-    // operatorJoystick->RegisterButton(CORE::COREJoystick::JoystickButton::RIGHT_BUTTON);
-    // operatorJoystick->RegisterButton(CORE::COREJoystick::JoystickButton::RIGHT_TRIGGER);
-
 }
 
 void HatchIntakeSubsystem::teleopInit(){
@@ -20,14 +17,6 @@ void HatchIntakeSubsystem::teleopInit(){
 }
 
 void HatchIntakeSubsystem::teleop(){
-    // if(operatorJoystick->GetButton(CORE::COREJoystick::JoystickButton::RIGHT_BUTTON)){
-    //     SetIntakeOn();
-    // }else{
-    //     SetIntakeOff();
-    // }
-    // if(operatorJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::RIGHT_TRIGGER)){
-    //     ToggleHatchIntake();
-    // }
 }
 
 // Spins the wheels of the intake.
