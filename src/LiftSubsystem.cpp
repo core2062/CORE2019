@@ -36,7 +36,7 @@ void LiftSubsystem::robotInit(){
 
 // Configuration for teleop
 void LiftSubsystem::teleopInit(){
-    SetRequestedPosition(GetLiftInches());
+    //SetRequestedPosition(GetLiftInches());
     m_rightLiftMotor.ConfigMotionCruiseVelocity(m_cruiseVel.Get(), 0);
     m_rightLiftMotor.ConfigMotionAcceleration(m_maxAcel.Get(), 0);
 }
@@ -55,7 +55,8 @@ void LiftSubsystem::teleop() {
     // Sets the requested speed to the value from the joystick
     SetRequestedSpeed(-operatorJoystick->GetAxis(CORE::COREJoystick::JoystickAxis::RIGHT_STICK_Y));
 
-    SetRequestedPosition(100);
+    SetRequestedPosition(75);
+    //m_requestedPosition = 100;
     
 
     double liftRequestedPosition = m_requestedPosition;
@@ -89,7 +90,7 @@ void LiftSubsystem::teleop() {
 void LiftSubsystem::SetRequestedPosition(double positionInInches){
     auto position = (int)(positionInInches / m_ticksPerInch.Get());
     position = max(position, 0);
-    position = min(position, (int)(m_topLimit.Get() * m_ticksPerInch.Get()));
+    position = min(position, (int)(m_topLimit.Get() / m_ticksPerInch.Get()));
     m_requestedPosition = position;
 }
 
