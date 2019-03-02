@@ -16,16 +16,16 @@ public:
 	void SetRequestedPosition(double positionInInches);
 	void SetRequestedSpeed(double speed);
 
-	void SetCargoIntakeLevelHeight();
 	void SetFirstLevelHatchHeight();
-	void SetSecondLevelHatchHeight();
-	void SetThirdLevelHatchHeight();
 	void SetFirstLevelCargoHeight();
+	void SetSecondLevelHatchHeight();
 	void SetSecondLevelCargoHeight();
+	void SetThirdLevelHatchHeight();
 	void SetThirdLevelCargoHeight();
 	void SetCargoShipCargoLevel();
 	void SetCargoShipHatchLevel();
-	void SetCargoLiftLevel();
+	void SetLevelAfterCargoIntake();
+	void SetLevelToIntakeCargo();
 
 	bool IsFirstLevelCargo();
 	bool IsFirstLevelHatch();
@@ -35,8 +35,8 @@ public:
 	bool IsThirdLevelHatch();
 	bool IsCargoShipHatchLevel();
 	bool IsCargoShipCargoLevel();
-	bool IsCargoIntakeLift();
-	bool IsCargoIntakeLevel();
+	bool IsLevelAfterCargoIntake();
+	bool IsLevelToCargoIntake();
 
 	double GetLiftPosition();
 	double GetLiftInches();
@@ -51,8 +51,7 @@ private:
 	m_secondLevelHatch, m_secondLevelCargo,
 	m_thirdLevelHatch, m_thirdLevelCargo,
 	m_cargoShipCargoLevel, m_cargoShipHatchLevel,
-	m_ticksPerInch, m_cargoIntakeLift, m_cargoIntakeLevel;
-	// are m_cargoIntakeLift and m_cargoIntakeLevel the same thing?
+	m_ticksPerInch, m_levelAfterCargoIntake, m_levelToIntakeCargo;
 	TalonSRX m_rightLiftMotor, m_leftLiftMotor;
 };
 // be consistent about what order the levels and methods are in throughout the code.

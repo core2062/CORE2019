@@ -7,7 +7,6 @@
 #include <HatchIntakeSubsystem.h>
 #include <HatchScorerSubsystem.h>
 #include <LiftSubsystem.h>
-#include <Robot.h>
 
 using namespace CORE;
 
@@ -18,27 +17,29 @@ enum class LiftState {
 	LiftCargoSecondLevel,
 	LiftHatchThirdLevel,
 	LiftCargoThirdLevel,
-	LiftCargoAfterIntake,
-	// what about scoring the hatch and cargo on the cargo ship?
+	LiftCargoShipHatchLevel,
+	LiftCargoShipCargoLevel,
+	LiftLevelAfterCargoIntake,
+	LiftLevelToCargoIntake,
 	LiftUnknownLevel
 };
+	//// what about scoring the hatch and cargo on the cargo ship?
 
 enum class CargoState {
 	CargoIntake,
-	CargoOutake,
-	CargoLift, // this might be better left to the lift subsystem
+	CargoOuttake,
 	CargoNeutral
 };
 
 enum class HatchIntakeState {
 	HatchIntakeIntake,
-	HatchIntakeOutake,
+	HatchIntakeOuttake,
 	HatchIntakeNeutral
 };
 
 enum class HatchScorerState {
 	HatchScorerIntake,
-	HatchScorerOutake,
+	HatchScorerOuttake,
 	HatchScorerNeutral
 };
 
@@ -73,21 +74,23 @@ private:
 	LiftState liftCargoSecondLevel();
 	LiftState liftHatchThirdLevel();
 	LiftState liftCargoThirdLevel();
-	LiftState cargoLiftLevel();
-	LiftState cargoIntakeLiftLevel();
+	LiftState liftCargoShipCargoLevel();
+	LiftState liftCargoShipHatchLevel();
+	LiftState liftLevelAfterCargoIntake();
+	LiftState liftLevelToIntakeCargo();
 
 	// Cargo States
 	CargoState cargoIntake();
-	CargoState cargoOutake();
+	CargoState cargoOuttake();
 	//CargoState CargoNeutral();
 
 	// Hatch Intake States
 	HatchIntakeState hatchIntakeIntake();
-	HatchIntakeState hatchIntakeOutake();
+	HatchIntakeState hatchIntakeOuttake();
 	//HatchIntakeState HatchIntakeNeutral();
 
 	// Hatch Scorer States
-	HatchScorerState hatchScorerIntake();
-	HatchScorerState hatchScorerOutake();
+	HatchScorerState HatchScorerIntake();
+	HatchScorerState HatchScorerOuttake();
 	//HatchScorerState HatchScorerNeutral();
 };

@@ -11,16 +11,16 @@ HatchScorerSubsystem::HatchScorerSubsystem() : m_solenoidPunchOne(0, HATCH_SCORE
 }
 
 void HatchScorerSubsystem::robotInit() {
-    operatorJoystick->RegisterButton(CORE::COREJoystick::JoystickButton::X_BUTTON);
+    //operatorJoystick->RegisterButton(CORE::COREJoystick::JoystickButton::X_BUTTON);
 }
 
 void HatchScorerSubsystem::teleopInit() {
 }
 
 void HatchScorerSubsystem::teleop() {
-   if (operatorJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::X_BUTTON) || m_isOperating){
-       ScoreHatch();
-   }
+//    if (operatorJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::X_BUTTON) || m_isOperating){
+//        ScoreHatch();
+//    }
 }
 
 void HatchScorerSubsystem::ScoreHatch() {
@@ -43,19 +43,17 @@ void HatchScorerSubsystem::ScoreHatch() {
     }
 }
 
+
+
 void HatchScorerSubsystem::ExtendPunch() {
     m_solenoidPunchOne.Set(frc::DoubleSolenoid::kForward);
     m_isExtended = true;
-
 }
 
 void HatchScorerSubsystem::RetractPunch() {
     m_solenoidPunchOne.Set(frc::DoubleSolenoid::kReverse);
     m_isExtended = false;
-
-
 }
-
 
 void HatchScorerSubsystem::StartTimer() {
     m_delayTimer.Reset();
@@ -82,4 +80,28 @@ void HatchScorerSubsystem::OpenClaw() {
 void HatchScorerSubsystem::CloseClaw() {
     m_solenoidClaw.Set(frc::DoubleSolenoid::kReverse);
     m_isOpen = false;
+}
+
+bool HatchScorerSubsystem::GetIsOperating() {
+    return m_isOperating;
+}
+
+void HatchScorerSubsystem::GetHatch() {
+    if (!m_isOperating && m_isOpen){
+        //not yet started
+        m_isOperating = true;
+        ExtendPunch();
+        OpenClaw();
+        StartTimer();
+    }  else {
+        //we have started 
+        //get timer value, check against desired value.
+        if (GetTime() >= m_punchSeconds.Get() && !m_isRetracting) {
+            RetractPunch();
+            m_isRetracting = true;
+        } else if (GetTime() >= m_retractSeconds.Get()) {
+            m_isOperating = false;
+            m_isRetracting = false; 
+        }
+    }
 }

@@ -75,12 +75,12 @@ public:
 	void testInit() override;
 	static Robot * GetInstance();
 
+	SuperStructure superStructure;
 	DriveSubsystem driveSubsystem;
 	CargoSubsystem cargoSubsystem;
 	HatchIntakeSubsystem hatchIntakeSubsystem;
 	HatchScorerSubsystem hatchScorerSubsystem;
 	LiftSubsystem liftSubsystem;
-	SuperStructure superStructure;
 
 private:
 	static Robot * m_instance;
