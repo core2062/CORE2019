@@ -19,13 +19,12 @@ void CargoSubsystem::teleopInit() {
 
 void CargoSubsystem::teleop() {
     SmartDashboard::PutBoolean("CargoLimitSwitch", IsCargoSecured());
-    if (operatorJoystick->GetButton(CORE::COREJoystick::JoystickButton::LEFT_BUTTON) && IsCargoSecured()) {
+    if (operatorJoystick->GetButton(CORE::COREJoystick::JoystickButton::LEFT_BUTTON) && !IsCargoSecured()) {
         SetIntake();
     } else if (operatorJoystick->GetButton(CORE::COREJoystick::JoystickButton::LEFT_TRIGGER)) {
         SetOuttake();
     } else {
-        m_rightSideIntake.Set(ControlMode::PercentOutput, 0);
-        m_leftSideIntake.Set(ControlMode::PercentOutput, 0);
+       SetOff();
     }
 }
 
@@ -44,4 +43,10 @@ bool CargoSubsystem::IsCargoSecured() {
 void CargoSubsystem::SetOuttake() {
     m_rightSideIntake.Set(ControlMode::PercentOutput, -0.5);
     m_leftSideIntake.Set(ControlMode::PercentOutput, -0.5);
+}
+
+//sets the motors to 0.0
+void CargoSubsystem::SetOff() {
+    m_rightSideIntake.Set(ControlMode::PercentOutput, 0.0);
+    m_leftSideIntake.Set(ControlMode::PercentOutput, 0.0);
 }
