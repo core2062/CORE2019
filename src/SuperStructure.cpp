@@ -254,29 +254,6 @@ LiftState SuperStructure::LiftLevelToIntakeCargo() {
         return LiftState::LiftUnknownLevel;
     }
 }
-/*
-CargoState SuperStructure::CargoIntake() {
-    if (m_cargoSubsystem->IsCargoSecured()) {
-        // done intaking
-        // stop cargo motors
-        m_cargoSubsystem->SetOff();
-        // move lift up slightly to prevent cargo from coming out
-        // m_liftSubsystem->SetCargoLiftLevel();
-        // if (m_liftSubsystem->IsCargoIntakeLift()) {
-        //     //set cargo wanted state
-        //     return CargoNeutral;
-        // } else {
-        //     return CargoLift;
-        // }
-        // TODO: return a state
-    } else {
-        m_cargoSubsystem->SetIntake();
-        // TODO: we want lift at the floor level
-        // m_lif
-        return CargoState::CargoIntake;
-    }
-}
-*/
 
 CargoState SuperStructure::CargoIntake() {
     if (m_cargoSubsystem->IsCargoSecured()) {
