@@ -9,6 +9,8 @@ void GrabHatchAction::ActionInit(){
     switch(m_grabHatchRequestedAction){
         case OPEN:
             Robot::GetInstance()->hatchScorerSubsystem.ToggleClaw();
+        case CLOSE:
+           // Robot::GetInstance()->hatchScorerSubsystem.CloseClaw();
             break;
         case PUSH: 
             Robot::GetInstance()->hatchScorerSubsystem.PunchHatch();
@@ -21,5 +23,4 @@ CORE::COREAutonAction::actionStatus GrabHatchAction::Action() {
 }
 
 void GrabHatchAction::ActionEnd() {
-
 }

@@ -2,7 +2,6 @@
 
 #include <CORERobotLib.h>
 
-
 class DriveWaypointAction : public COREAutonAction {
 public:
     DriveWaypointAction(TankPath path);

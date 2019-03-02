@@ -1,5 +1,5 @@
-#include <Robot.h>
-#include <Autonomous/Actions/DriveWaypointAction.h>
+#include "Robot.h"
+#include "Autonomous/Actions/DriveWaypointAction.h"
 
 DriveWaypointAction::DriveWaypointAction(TankPath path){
     m_path = std::move(path);
@@ -9,6 +9,7 @@ DriveWaypointAction::DriveWaypointAction(TankPath path){
     m_gradualStop = true;
     m_lookahead = 24.0;
 }
+
 void DriveWaypointAction::ActionInit() {
     Robot::GetInstance()->driveSubsystem.FollowPath(m_path, m_reversed, m_maxAccel, m_gradualStop, m_lookahead);
 }
@@ -21,5 +22,4 @@ CORE::COREAutonAction::actionStatus DriveWaypointAction::Action() {
 }
 
 void DriveWaypointAction::ActionEnd() {
-
 }

@@ -5,7 +5,6 @@ DriveDistanceAction::DriveDistanceAction() {
 }
 
 void DriveDistanceAction::ActionInit() {
-
 }
 
 CORE::COREAutonAction::actionStatus DriveDistanceAction::Action() {
