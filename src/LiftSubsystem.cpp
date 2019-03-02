@@ -15,7 +15,7 @@ LiftSubsystem::LiftSubsystem() : m_firstLevelHatch("First Level Hatch Height"),
                                  m_cargoShipHatchLevel("Cargo Bay level Hatch Height"),
                                  m_levelAfterCargoIntake("Lift level after Intaking"), 
                                  m_levelToIntakeCargo("Lift level that allows Cargo to be Intaked"),
-                                 m_ticksPerInch("Ticks per inch"),
+                                 m_ticksPerInch("Ticks per inch", 208.5),
                                  m_bottomLimit("Lift bottom limit"),
                                  m_topLimit("Lift top limit"),
                                  m_cruiseVel("Lift cruise velocity"),
@@ -33,6 +33,7 @@ void LiftSubsystem::robotInit(){
     m_leftLiftMotor.SetInverted(true);
     //m_leftLiftMotor.Follow(m_rightLiftMotor);
     operatorJoystick->RegisterAxis(CORE::COREJoystick::JoystickAxis::RIGHT_STICK_Y);
+    operatorJoystick->RegisterButton(CORE::COREJoystick::JoystickButton::A_BUTTON);
     m_leftLiftMotor.ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::CTRE_MagEncoder_Relative, 0, 0);
     m_leftLiftMotor.SetSelectedSensorPosition(0,0,0);
     m_leftLiftMotor.SetSensorPhase(true);
@@ -41,23 +42,22 @@ void LiftSubsystem::robotInit(){
 // Configuration for teleop
 void LiftSubsystem::teleopInit(){
     //SetRequestedPosition(GetLiftInches());
-    //m_rightLiftMotor.ConfigMotionCruiseVelocity(m_cruiseVel.Get(), 0);
-    //m_rightLiftMotor.ConfigMotionAcceleration(m_maxAcel.Get(), 0);
+    m_rightLiftMotor.ConfigMotionCruiseVelocity(m_cruiseVel.Get(), 0);
+    m_rightLiftMotor.ConfigMotionAcceleration(m_maxAcel.Get(), 0);
 }
 
 void LiftSubsystem::teleop() {
     // Data for reference on SmartDashboard
     SmartDashboard::PutNumber("Lift requested position", m_requestedPosition);
-    SmartDashboard::PutNumber("Lift position in inches", m_leftLiftMotor.GetSelectedSensorPosition(0) /
-        m_ticksPerInch.Get());
+    SmartDashboard::PutNumber("Lift position in inches", GetLiftInches());
     SmartDashboard::PutNumber("Lift position in ticks", m_leftLiftMotor.GetSelectedSensorPosition(0));
     SmartDashboard::PutBoolean("Limit Switch", m_limitSwitch.Get());
     // Check to see which way the lift would run if this value is positive
     // Make sure that the lift is giving very little power when it is first being tested
     double liftPosition = GetLiftInches();
-
     // Sets the requested speed to the value from the joystick
     SetRequestedSpeed(-operatorJoystick->GetAxis(CORE::COREJoystick::JoystickAxis::RIGHT_STICK_Y));
+    SetRequestedPosition(liftPosition);
 
     if (abs(m_requestedPosition-liftPosition) <= 1) {
         SetRequestedPosition(liftPosition);
@@ -86,7 +86,8 @@ void LiftSubsystem::teleop() {
     } else {
         m_rightLiftMotor.Set(ControlMode::MotionMagic, liftRequestedPosition);
         m_leftLiftMotor.Set(ControlMode::MotionMagic, liftRequestedPosition);
-
+        // m_rightLiftMotor.Set(ControlMode::PercentOutput, 0);
+        // m_leftLiftMotor.Set(ControlMode::PercentOutput, 0);
     }
 }
 
