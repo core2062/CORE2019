@@ -1,5 +1,5 @@
-#include <Autonomous/Actions/GrabHatchAction.h>
-#include <Robot.h>
+#include "Autonomous/Actions/GrabHatchAction.h"
+#include "Robot.h"
 
 GrabHatchAction::GrabHatchAction(GrabHatch Action){
     m_grabHatchRequestedAction = Action;
@@ -7,12 +7,14 @@ GrabHatchAction::GrabHatchAction(GrabHatch Action){
 
 void GrabHatchAction::ActionInit(){
     switch(m_grabHatchRequestedAction){
-        case OPEN:
+        case GrabHatch::OPEN:
             Robot::GetInstance()->hatchScorerSubsystem.ToggleClaw();
-        case CLOSE:
+        case GrabHatch::CLOSE:
            // Robot::GetInstance()->hatchScorerSubsystem.CloseClaw();
             break;
-        case PUSH: 
+        case GrabHatch::PULL:
+           // Robot::GetInstance()->hatchScorerSubsystem.RetractHatch();
+        case GrabHatch::PUSH: 
             Robot::GetInstance()->hatchScorerSubsystem.PunchHatch();
         break;
     }

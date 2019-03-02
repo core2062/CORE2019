@@ -4,7 +4,6 @@
 
 enum GrabHatch{
     OPEN,
-    CLOSE,
     PUSH,
     PULL
 };

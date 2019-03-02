@@ -1,5 +1,5 @@
-#include <Autonomous/Actions/RaiseLiftAction.h>
-#include <Robot.h>
+#include "Autonomous/Actions/RaiseLiftAction.h"
+#include "Robot.h"
 
 RaiseLiftAction::RaiseLiftAction(RaiseLift Action):
     m_firstLevelCargo("Bottom cargo height value"),
@@ -12,27 +12,26 @@ RaiseLiftAction::RaiseLiftAction(RaiseLift Action):
 }
 
 void RaiseLiftAction::ActionInit() {
-    
 }
 
 CORE::COREAutonAction::actionStatus RaiseLiftAction::Action() {
     switch(m_raiseLiftRequestedAction) {
-        case FirstLevelCargo:
+        case RaiseLift::FirstLevelCargo:
 		Robot::GetInstance()->liftSubsystem.SetRequestedPosition(m_firstLevelCargo.Get());
 		break;
-        case SecondLevelCargo:
+        case RaiseLift::SecondLevelCargo:
 		Robot::GetInstance()->liftSubsystem.SetRequestedPosition(m_secondLevelCargo.Get());
 		break;
-        case ThirdLevelCargo:
+        case RaiseLift::ThirdLevelCargo:
 		Robot::GetInstance()->liftSubsystem.SetRequestedPosition(m_thirdLevelCargo.Get());
 		break;
-        case FirstLevelHatch:
+        case RaiseLift::FirstLevelHatch:
 		Robot::GetInstance()->liftSubsystem.SetRequestedPosition(m_firstLevelHatch.Get());
 		break;
-        case SecondLevelHatch:
+        case RaiseLift::SecondLevelHatch:
 		Robot::GetInstance()->liftSubsystem.SetRequestedPosition(m_secondLevelHatch.Get());
 		break;
-        case ThirdLevelHatch:
+        case RaiseLift::ThirdLevelHatch:
 		Robot::GetInstance()->liftSubsystem.SetRequestedPosition(m_thirdLevelHatch.Get());
 		break;
     }

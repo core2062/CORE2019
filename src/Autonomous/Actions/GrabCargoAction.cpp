@@ -5,7 +5,6 @@ GrabCargoAction::GrabCargoAction(GrabCargo Action){
     m_grabCargoRequestedAction = Action;
 }
 void GrabCargoAction::ActionInit() {
-    
 }
 
 CORE::COREAutonAction::actionStatus GrabCargoAction::Action() {
