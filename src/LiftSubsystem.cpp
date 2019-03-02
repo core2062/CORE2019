@@ -54,14 +54,8 @@ void LiftSubsystem::teleop() {
     double liftPosition = GetLiftInches();
     // Sets the requested speed to the value from the joystick
     SetRequestedSpeed(-operatorJoystick->GetAxis(CORE::COREJoystick::JoystickAxis::RIGHT_STICK_Y));
+    SetRequestedPosition(liftPosition);
 
-   
-    //m_requestedPosition = 100;
-    if((abs(liftPosition - 75.0)) <= 1) {
-        SetRequestedPosition(liftPosition);
-    } else {
-        SetRequestedPosition(75);
-    }
 
     double liftRequestedPosition = m_requestedPosition;
 
@@ -93,9 +87,9 @@ void LiftSubsystem::teleop() {
 // Sets the requested position and modifies if the desired position is below the minimum
 // or above the maximum
 void LiftSubsystem::SetRequestedPosition(double positionInInches){
-    auto position = (int)(positionInInches / m_ticksPerInch.Get());
+    auto position = (int)(positionInInches * m_ticksPerInch.Get());
     position = max(position, 0);
-    position = min(position, (int)(m_topLimit.Get() / m_ticksPerInch.Get()));
+    position = min(position, (int)(m_topLimit.Get() * m_ticksPerInch.Get()));
     m_requestedPosition = position;
 }
 
@@ -126,7 +120,7 @@ double LiftSubsystem::GetLiftPosition(){
 // Returns the current position in inches
 
 double LiftSubsystem::GetLiftInches(){
-    return GetLiftPosition() * m_ticksPerInch.Get();
+    return GetLiftPosition() / m_ticksPerInch.Get();
 }
 
 //Returns whether the lift is at the bottom or not 
