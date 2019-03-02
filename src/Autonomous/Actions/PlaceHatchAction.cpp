@@ -1,11 +1,11 @@
 #include <Autonomous/Actions/PlaceHatchAction.h>
 #include <Robot.h>
-#include <CORERobotLib.h>
 
 PlaceHatchAction::PlaceHatchAction(PlaceHatch Action){
     m_placeHatchRequestedAction = Action;
 }
 void PlaceHatchAction::ActionInit() {
+
 }
 
 CORE::COREAutonAction::actionStatus PlaceHatchAction::Action() {
@@ -15,12 +15,9 @@ CORE::COREAutonAction::actionStatus PlaceHatchAction::Action() {
             break;
         case EXTEND:
             Robot::GetInstance()->hatchScorerSubsystem.PunchHatch();
-    }
-    
-    
+        break;
+    } 
     return COREAutonAction::actionStatus::END;
-
-
 }
 
 void PlaceHatchAction::ActionEnd() {

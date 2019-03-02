@@ -1,6 +1,5 @@
 #include <Autonomous/Actions/GrabHatchAction.h>
 #include <Robot.h>
-#include <CORERobotLib.h>
 
 GrabHatchAction::GrabHatchAction(GrabHatch Action){
     m_grabHatchRequestedAction = Action;
@@ -13,14 +12,12 @@ void GrabHatchAction::ActionInit(){
             break;
         case PUSH: 
             Robot::GetInstance()->hatchScorerSubsystem.PunchHatch();
-    
+        break;
     }
 }
 
 CORE::COREAutonAction::actionStatus GrabHatchAction::Action() {
     return COREAutonAction::actionStatus::END;
-
-
 }
 
 void GrabHatchAction::ActionEnd() {

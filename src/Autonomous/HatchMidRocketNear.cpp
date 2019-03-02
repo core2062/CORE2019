@@ -7,7 +7,7 @@ HatchMidRocketNear::HatchMidRocketNear() :
 }
 
 void HatchMidRocketNear::AddNodes() {
-    m_driveForwardToRocket = new Node(5, new DriveWaypointAction(), new RaiseLiftAction(SecondLevelHatch));
+    m_driveForwardToRocket = new Node(5, new DriveWaypointAction(TankPath::FromFile("path.json", false)), new RaiseLiftAction(SecondLevelHatch));
     m_placeHatchOnMidRocket = new Node(5, new PlaceHatchAction(CLOSE));
     m_lowerLiftToFirstLevel = new Node(5, new RaiseLiftAction(FirstLevelHatch));
     AddFirstNode(m_driveForwardToRocket);

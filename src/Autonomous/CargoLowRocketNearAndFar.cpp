@@ -7,11 +7,11 @@ CargoLowRocketNearAndFar::CargoLowRocketNearAndFar() :
 }
 
 void CargoLowRocketNearAndFar::AddNodes() {
-    m_driveLowRocketNearSide = new Node(10, new DriveWaypointAction());
+    m_driveLowRocketNearSide = new Node(10, new DriveWaypointAction(TankPath::FromFile("path.json", false)), new RaiseLiftAction(FirstLevelCargo));
     m_placeCargoOnLowNearSideRocket = new Node(10, new PlaceCargoAction(OUTTAKE));
-    m_driveToPlayerStation = new Node(10, new DriveWaypointAction());
+    m_driveToPlayerStation = new Node(10, new DriveWaypointAction(TankPath::FromFile("path.json", false)));
     m_grabCargoFromPlayerStation = new Node(10, new GrabCargoAction(INTAKE));
-    m_driveToFarSideRocket = new Node(10, new DriveWaypointAction());
+    m_driveToFarSideRocket = new Node(10, new DriveWaypointAction(TankPath::FromFile("path.json", false)));
     m_placeCargoOnFarSideRocket = new Node(10, new PlaceCargoAction(OUTTAKE));
     AddFirstNode(m_driveLowRocketNearSide);
     m_driveLowRocketNearSide->AddNext(m_placeCargoOnLowNearSideRocket);

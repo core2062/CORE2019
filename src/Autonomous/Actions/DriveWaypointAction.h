@@ -5,18 +5,16 @@
 
 class DriveWaypointAction : public COREAutonAction {
 public:
-    DriveWaypointAction();
+    DriveWaypointAction(TankPath path);
     void ActionInit();
     CORE::COREAutonAction::actionStatus Action() override;
     void ActionEnd();
 private:
-     Path m_path;
+    TankPath m_path;
     bool m_reversed;
     double m_tolerance;
     double m_maxAccel;
-    double m_maxAngAccel;
     bool m_gradualStop;
     double m_lookahead;
-    bool m_resetPosition;
-    Position2d m_startPos; 
+    TankPosition2d m_startPos; 
 };

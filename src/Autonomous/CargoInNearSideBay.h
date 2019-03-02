@@ -13,5 +13,6 @@ public:
 
 private:
 	Node * m_driveForwardToNearSideCargoBay = nullptr;
+    Node * m_liftLiftToCargoBayPosition = nullptr;
     Node * m_placeCargoInNearSideBay = nullptr;
 };

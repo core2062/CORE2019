@@ -1,6 +1,5 @@
 #include <Autonomous/Actions/GrabCargoAction.h>
 #include <Robot.h>
-#include <CORERobotLib.h>
 
 GrabCargoAction::GrabCargoAction(GrabCargo Action){
     m_grabCargoRequestedAction = Action;
@@ -14,10 +13,7 @@ CORE::COREAutonAction::actionStatus GrabCargoAction::Action() {
         case INTAKE:
             Robot::GetInstance()->cargoSubsystem.SetIntake();
     }
-    
     return COREAutonAction::actionStatus::END;
-
-
 }
 
 void GrabCargoAction::ActionEnd() {

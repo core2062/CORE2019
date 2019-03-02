@@ -13,6 +13,7 @@ public:
 
 private:
     Node * m_driveLowRocketNearSide = nullptr;
+    Node * m_raiseLiftLowRocket = nullptr;
     Node * m_placeCargoOnLowNearSide = nullptr;
    
 };
