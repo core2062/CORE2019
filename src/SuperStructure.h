@@ -68,25 +68,25 @@ private:
 	HatchScorerState m_wantedHatchScorerState;
 
 	// Lift States
-	LiftState liftHatchFirstLevel();
-	LiftState liftCargoFirstLevel();
-	LiftState liftHatchSecondLevel();
-	LiftState liftCargoSecondLevel();
-	LiftState liftHatchThirdLevel();
-	LiftState liftCargoThirdLevel();
-	LiftState liftCargoShipCargoLevel();
-	LiftState liftCargoShipHatchLevel();
-	LiftState liftLevelAfterCargoIntake();
-	LiftState liftLevelToIntakeCargo();
+	LiftState LiftHatchFirstLevel();
+	LiftState LiftCargoFirstLevel();
+	LiftState LiftHatchSecondLevel();
+	LiftState LiftCargoSecondLevel();
+	LiftState LiftHatchThirdLevel();
+	LiftState LiftCargoThirdLevel();
+	LiftState LiftCargoShipCargoLevel();
+	LiftState LiftCargoShipHatchLevel();
+	LiftState LiftLevelAfterCargoIntake();
+	LiftState LiftLevelToIntakeCargo();
 
 	// Cargo States
-	CargoState cargoIntake();
-	CargoState cargoOuttake();
+	CargoState CargoIntake();
+	CargoState CargoOuttake();
 	//CargoState CargoNeutral();
 
 	// Hatch Intake States
-	HatchIntakeState hatchIntakeIntake();
-	HatchIntakeState hatchIntakeOuttake();
+	HatchIntakeState HatchIntakeIntake();
+	HatchIntakeState HatchIntakeOuttake();
 	//HatchIntakeState HatchIntakeNeutral();
 
 	// Hatch Scorer States

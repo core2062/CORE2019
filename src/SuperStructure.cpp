@@ -55,8 +55,10 @@ void SuperStructure::teleop() {
     // Cargo Buttons
     if (operatorJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::LEFT_BUTTON)) {
         m_wantedCargoState = CargoState::CargoIntake;
-    } else if (operatorJoystick->GetButton(CORE::COREJoystick::JoystickButton::LEFT_TRIGGER)) {
+    } else if (operatorJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::LEFT_TRIGGER)) {
         m_wantedCargoState = CargoState::CargoOuttake;
+    } else if (operatorJoystick->GetFallingEdge(CORE::COREJoystick::JoystickButton::LEFT_TRIGGER)) {
+        m_wantedCargoState = CargoState::CargoNeutral;
     }
     // } else if (operatorJoystick->GetFallingEdge(CORE::COREJoystick::JoystickButton::LEFT_TRIGGER)) {
     //     m_wantedCargoState = CargoNeutral;
@@ -86,22 +88,22 @@ void SuperStructure::PostLoopTask() {
 
     switch (m_wantedLiftState) {
         case LiftState::LiftHatchFirstLevel:
-            newLiftState = liftHatchFirstLevel();
+            newLiftState = LiftHatchFirstLevel();
             break;
         case LiftState::LiftCargoFirstLevel:
-            newLiftState = liftCargoFirstLevel();
+            newLiftState = LiftCargoFirstLevel();
             break;
         case LiftState::LiftHatchSecondLevel:
-            newLiftState = liftHatchSecondLevel();
+            newLiftState = LiftHatchSecondLevel();
             break;
         case LiftState::LiftCargoSecondLevel:
-            newLiftState = liftCargoSecondLevel();
+            newLiftState = LiftCargoSecondLevel();
             break;
         case LiftState::LiftHatchThirdLevel:
-            newLiftState = liftHatchThirdLevel();
+            newLiftState = LiftHatchThirdLevel();
             break;
         case LiftState::LiftCargoThirdLevel:
-            newLiftState = liftCargoThirdLevel();
+            newLiftState = LiftCargoThirdLevel();
             break;
         default:
             newLiftState = LiftState::LiftUnknownLevel;
@@ -114,10 +116,10 @@ void SuperStructure::PostLoopTask() {
 
     switch (m_wantedCargoState) {
         case CargoState::CargoIntake:
-            newCargoState = cargoIntake();
+            newCargoState = CargoIntake();
             break;
         case CargoState::CargoOuttake:
-            newCargoState = cargoOuttake();
+            newCargoState = CargoOuttake();
             break;
         default:
             newCargoState = CargoState::CargoNeutral;
@@ -139,27 +141,25 @@ void SuperStructure::PostLoopTask() {
         default:
             newHatchScorerState = HatchScorerState::HatchScorerNeutral;
             break;
-
+    }
     if (newHatchIntakeState == m_wantedHatchIntakeState) {
         m_wantedHatchIntakeState = HatchIntakeState::HatchIntakeNeutral;
     }
 
-    switch (m_wantedHatchIntakeState) {
-        case HatchIntakeState::HatchIntakeIntake:
-            newHatchIntakeState = hatchIntakeIntake();
-            break;
-        case HatchIntakeState::HatchIntakeOuttake:
-            newHatchIntakeState = hatchIntakeOuttake();
-            break;
-        default:
-            newHatchIntakeState = HatchIntakeState::HatchIntakeNeutral;
-            break;
-        }
+    // switch (m_wantedHatchIntakeState) {
+    //     case HatchIntakeState::HatchIntakeIntake:
+    //         newHatchIntakeState = HatchIntakeIntake();
+    //         break;
+    //     case HatchIntakeState::HatchIntakeOuttake:
+    //         newHatchIntakeState = HatchIntakeOuttake();
+    //         break;
+    //     default:
+    //         newHatchIntakeState = HatchIntakeState::HatchIntakeNeutral;
+    //         break;
+    // }
 
     if (newHatchScorerState == m_wantedHatchScorerState) {
         m_wantedHatchScorerState = HatchScorerState::HatchScorerNeutral;
-    }
-
     }
 
     if (newLiftState != m_liftState) {
@@ -183,7 +183,7 @@ void SuperStructure::PostLoopTask() {
     }
 }
 
-LiftState SuperStructure::liftHatchFirstLevel() {
+LiftState SuperStructure::LiftHatchFirstLevel() {
     m_liftSubsystem->SetFirstLevelHatchHeight();
     if (m_liftSubsystem->IsFirstLevelHatch()) {
         return LiftState::LiftHatchFirstLevel;
@@ -192,7 +192,7 @@ LiftState SuperStructure::liftHatchFirstLevel() {
     }
 }
 
-LiftState SuperStructure::liftCargoFirstLevel() {
+LiftState SuperStructure::LiftCargoFirstLevel() {
     m_liftSubsystem->SetFirstLevelCargoHeight();
     if (m_liftSubsystem->IsFirstLevelCargo()) {
         return LiftState::LiftCargoFirstLevel;
@@ -201,7 +201,7 @@ LiftState SuperStructure::liftCargoFirstLevel() {
     }
 }
 
-LiftState SuperStructure::liftHatchSecondLevel() {
+LiftState SuperStructure::LiftHatchSecondLevel() {
     m_liftSubsystem->SetSecondLevelHatchHeight();
     if (m_liftSubsystem->IsSecondLevelHatch()) {
         return LiftState::LiftHatchSecondLevel;
@@ -210,7 +210,7 @@ LiftState SuperStructure::liftHatchSecondLevel() {
     }
 }
 
-LiftState SuperStructure::liftCargoSecondLevel() {
+LiftState SuperStructure::LiftCargoSecondLevel() {
     m_liftSubsystem->SetSecondLevelCargoHeight();
     if (m_liftSubsystem->IsSecondLevelCargo()) {
         return LiftState::LiftCargoSecondLevel;
@@ -219,7 +219,7 @@ LiftState SuperStructure::liftCargoSecondLevel() {
     }
 }
 
-LiftState SuperStructure::liftHatchThirdLevel() {
+LiftState SuperStructure::LiftHatchThirdLevel() {
     m_liftSubsystem->SetThirdLevelHatchHeight();
     if (m_liftSubsystem->IsThirdLevelHatch()) {
         return LiftState::LiftHatchThirdLevel;
@@ -228,7 +228,7 @@ LiftState SuperStructure::liftHatchThirdLevel() {
     }
 }
 
-LiftState SuperStructure::liftCargoThirdLevel() {
+LiftState SuperStructure::LiftCargoThirdLevel() {
     m_liftSubsystem->SetThirdLevelCargoHeight();
     if (m_liftSubsystem->IsThirdLevelCargo()) {
         return LiftState::LiftCargoThirdLevel;
@@ -237,7 +237,7 @@ LiftState SuperStructure::liftCargoThirdLevel() {
     }
 }
 
-LiftState SuperStructure::liftCargoShipCargoLevel() {
+LiftState SuperStructure::LiftCargoShipCargoLevel() {
     m_liftSubsystem->SetCargoShipCargoLevel();
     if (m_liftSubsystem->IsCargoShipHatchLevel()) {
         return LiftState::LiftCargoShipHatchLevel;
@@ -246,26 +246,8 @@ LiftState SuperStructure::liftCargoShipCargoLevel() {
     }
 }
 
-LiftState SuperStructure::liftCargoShipHatchLevel() {
-    m_liftSubsystem->SetCargoShipHatchLevel();
-    if (m_liftSubsystem->IsCargoShipCargoLevel()) {
-        return LiftState::LiftCargoShipCargoLevel;
-    } else {
-        return LiftState::LiftUnknownLevel;
-    }
-}
-
-LiftState SuperStructure::liftLevelAfterCargoIntake() {
-    m_liftSubsystem->SetLevelAfterCargoIntake();
-    if (m_liftSubsystem->IsLevelAfterCargoIntake()) {
-        return LiftState::LiftLevelAfterCargoIntake;
-    } else {
-        return LiftState::LiftUnknownLevel;
-    }
-}
-
-LiftState SuperStructure::liftLevelToIntakeCargo() {
-    m_liftSubsystem->SetLevelToIntakeCargo();
+LiftState SuperStructure::LiftLevelToIntakeCargo() {
+    m_liftSubsystem->SetCargoIntakeLevelHeight();
     if (m_liftSubsystem->IsLevelToCargoIntake()) {
         return LiftState::LiftLevelToCargoIntake;
     } else {
@@ -274,7 +256,7 @@ LiftState SuperStructure::liftLevelToIntakeCargo() {
 }
 /*
 CargoState SuperStructure::CargoIntake() {
-    if (cargoSubsystem.IsCargoSecured()) {
+    if (m_cargoSubsystem->IsCargoSecured()) {
         // done intaking
         // stop cargo motors
         m_cargoSubsystem->SetOff();
@@ -291,12 +273,12 @@ CargoState SuperStructure::CargoIntake() {
         m_cargoSubsystem->SetIntake();
         // TODO: we want lift at the floor level
         // m_lif
-        return CargoIntake;
+        return CargoState::CargoIntake;
     }
 }
 */
 
-CargoState SuperStructure::cargoIntake() {
+CargoState SuperStructure::CargoIntake() {
     if (m_cargoSubsystem->IsCargoSecured()) {
         m_cargoSubsystem->SetOff();
         if(m_liftSubsystem->IsLevelAfterCargoIntake()){
@@ -311,7 +293,7 @@ CargoState SuperStructure::cargoIntake() {
     }
 }
 
-CargoState SuperStructure::cargoOuttake() {
+CargoState SuperStructure::CargoOuttake() {
     m_cargoSubsystem->SetOuttake();
     return CargoState::CargoNeutral;
 }

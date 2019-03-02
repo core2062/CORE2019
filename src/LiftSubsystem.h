@@ -24,8 +24,8 @@ public:
 	void SetThirdLevelCargoHeight();
 	void SetCargoShipCargoLevel();
 	void SetCargoShipHatchLevel();
+	void SetCargoIntakeLevelHeight();
 	void SetLevelAfterCargoIntake();
-	void SetLevelToIntakeCargo();
 
 	bool IsFirstLevelCargo();
 	bool IsFirstLevelHatch();

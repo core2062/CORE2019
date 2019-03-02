@@ -179,7 +179,7 @@ void LiftSubsystem::SetLevelAfterCargoIntake() {
     SetRequestedPosition(m_levelAfterCargoIntake.Get());
 }
 
-void LiftSubsystem::SetLevelToIntakeCargo() {
+void LiftSubsystem::SetCargoIntakeLevelHeight() {
     SetRequestedPosition(m_levelToIntakeCargo.Get());
 }
 
@@ -217,10 +217,10 @@ bool LiftSubsystem::IsCargoShipHatchLevel() {
     return abs(GetLiftInches() - m_cargoShipHatchLevel.Get()) < 2;
 }
 
-bool LiftSubsystem::IsLevelAfterCargoIntake() {
-    return abs(GetLiftInches() - m_levelAfterCargoIntake.Get()) < 2;
-}
-
 bool LiftSubsystem::IsLevelToCargoIntake() {
     return abs(GetLiftInches() - m_levelToIntakeCargo.Get()) < 2;
+}
+
+bool LiftSubsystem::IsLevelAfterCargoIntake() {
+    return abs(GetLiftInches() - m_levelAfterCargoIntake.Get()) < 2;
 }
