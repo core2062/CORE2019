@@ -1,7 +1,5 @@
 [NetworkTables Storage 3.0]
 string "/Preferences/.type"="RobotPreferences"
-double "/Preferences/Cargo Intake Speed"=0.6
-double "/Preferences/Cargo Outtake Speed"=0.6
 double "/Preferences/Claw Toggle Time (seconds)"=1
 double "/Preferences/Drive Ticks Per Inch"=0.0122715
 double "/Preferences/Drive Turn P Value"=0.05
