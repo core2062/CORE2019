@@ -39,6 +39,7 @@ private:
 	DigitalInput m_limitSwitch;
 	COREConstant<double> m_cruiseVel, m_maxAcel;
 	COREConstant<double> m_topLimit, m_bottomLimit;
+	COREConstant<double> m_liftUpSpeed, m_liftDownSpeed;
 	COREConstant<double> m_firstLevelHatch, m_firstLevelCargo, m_secondLevelHatch, 
 		m_secondLevelCargo, m_thirdLevelHatch, m_thirdLevelCargo, m_ticksPerInch;
 	TalonSRX m_rightLiftMotor, m_leftLiftMotor;

@@ -11,11 +11,13 @@ LiftSubsystem::LiftSubsystem() : m_firstLevelHatch("First Level Hatch Height"),
                                  m_secondLevelCargo("Second Level Cargo Height"),
                                  m_thirdLevelHatch("Third Level Hatch Height"),
                                  m_thirdLevelCargo("Third Level Cargo Height"),
-                                 m_ticksPerInch("Ticks per inch", 208.5),
+                                 m_ticksPerInch("Lift Ticks per inch", 208.5),
                                  m_bottomLimit("Lift bottom limit"),
                                  m_topLimit("Lift top limit"),
                                  m_cruiseVel("Lift cruise velocity"),
                                  m_maxAcel("Max lift acceleration"),
+                                 m_liftUpSpeed("Lift Up Speed"),
+                                 m_liftDownSpeed("Lift Down Speed"),
                                  m_limitSwitch(8),
                                  m_rightLiftMotor(RIGHT_LIFT_PORT),
                                  m_leftLiftMotor(LEFT_LIFT_PORT) {
@@ -48,18 +50,17 @@ void LiftSubsystem::teleopInit(){
 }
 
 void LiftSubsystem::teleop() {
+    double liftPosition = GetLiftInches();
     // Data for reference on SmartDashboard
     SmartDashboard::PutNumber("Lift requested position", m_requestedPosition);
-    SmartDashboard::PutNumber("Lift position in inches", GetLiftInches());
+    SmartDashboard::PutNumber("Lift position in inches", liftPosition);
     SmartDashboard::PutNumber("Lift position in ticks", m_leftLiftMotor.GetSelectedSensorPosition(0));
     SmartDashboard::PutBoolean("Limit Switch", m_limitSwitch.Get());
     // Check to see which way the lift would run if this value is positive
     // Make sure that the lift is giving very little power when it is first being tested
-    double liftPosition = GetLiftInches();
 
     // Sets the requested speed to the value from the joystick
     SetRequestedSpeed(-operatorJoystick->GetAxis(CORE::COREJoystick::JoystickAxis::RIGHT_STICK_Y));
-    SetRequestedPosition(m_requestedPosition);
 
     if (operatorJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::Y_BUTTON)) {
         SetThirdLevelHatchHeight();
@@ -73,8 +74,7 @@ void LiftSubsystem::teleop() {
         SetSecondLevelCargoHeight();
     } else if (operatorJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::DPAD_S)) {
         SetFirstLevelCargoHeight();
-    }
-    double liftRequestedPosition = m_requestedPosition;
+    } 
 
     // Stops the motors if we are at the top or bottom position, and resets encoders at the bottom of the lift
     if (m_requestedSpeed > 0 && liftPosition > m_topLimit.Get()) {
@@ -92,9 +92,10 @@ void LiftSubsystem::teleop() {
     if (m_requestedSpeed < -0.01 || m_requestedSpeed > 0.01) {
         m_rightLiftMotor.Set(ControlMode::PercentOutput, m_requestedSpeed);
         m_leftLiftMotor.Set(ControlMode::PercentOutput, m_requestedSpeed);
+        SetRequestedPosition(liftPosition);
     } else {
-        m_rightLiftMotor.Set(ControlMode::MotionMagic, liftRequestedPosition);
-        m_leftLiftMotor.Set(ControlMode::MotionMagic, liftRequestedPosition);
+        m_rightLiftMotor.Set(ControlMode::MotionMagic, m_requestedPosition);
+        m_leftLiftMotor.Set(ControlMode::MotionMagic, m_requestedPosition);
         // m_rightLiftMotor.Set(ControlMode::PercentOutput, 0);
         // m_leftLiftMotor.Set(ControlMode::PercentOutput, 0);
     }
@@ -109,17 +110,16 @@ void LiftSubsystem::SetRequestedPosition(double positionInInches){
     m_requestedPosition = position;
 }
 // Sets the speed to the desired speed
-
 // Scales the requested speed down to make sure the lift does not move too quickly
 void LiftSubsystem::SetRequestedSpeed(double speed){
     m_requestedSpeed = speed;
     if (m_requestedSpeed < -0.01 || m_requestedSpeed > 0.01) {
         if (m_requestedSpeed < 0) {
             //Scales speed when going down
-            m_requestedSpeed *= 0.3;
+            m_requestedSpeed *= m_liftDownSpeed.Get();
         } else {
             //Scales speed when going up
-            m_requestedSpeed *= 0.6;
+            m_requestedSpeed *= m_liftUpSpeed.Get();
         }
     } else {
         m_requestedSpeed = 0;
@@ -138,7 +138,7 @@ double LiftSubsystem::GetLiftInches(){
     return GetLiftPosition() / m_ticksPerInch.Get();
 }
 
-//Returns whether the lift is at the bottom or not 
+// Returns whether the lift is at the bottom or not 
 
 bool LiftSubsystem::LiftDown() {
     return !m_limitSwitch.Get();

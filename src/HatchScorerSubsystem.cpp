@@ -44,6 +44,7 @@ void HatchScorerSubsystem::ScoreHatch() {
             RetractPunch();
             m_isRetracting = true;
         } else if (GetTime() >= m_retractSeconds.Get()) {
+            OpenClaw();
             m_isScoring = false;
             m_isRetracting = false;
             m_isToggling = false; 
@@ -56,6 +57,7 @@ void HatchScorerSubsystem::LoadHatch() {
         //not yet started
         m_isLoading = true;
         ExtendPunch();
+        CloseClaw();
         StartTimer();
     }  else {
         //we have started 
