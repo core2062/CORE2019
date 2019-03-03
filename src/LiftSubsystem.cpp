@@ -43,8 +43,8 @@ void LiftSubsystem::robotInit(){
 // Configuration for teleop
 void LiftSubsystem::teleopInit(){
     //SetRequestedPosition(GetLiftInches());
-    //m_rightLiftMotor.ConfigMotionCruiseVelocity(m_cruiseVel.Get(), 0);
-    //m_rightLiftMotor.ConfigMotionAcceleration(m_maxAcel.Get(), 0);
+    m_rightLiftMotor.ConfigMotionCruiseVelocity(m_cruiseVel.Get(), 0);
+    m_rightLiftMotor.ConfigMotionAcceleration(m_maxAcel.Get(), 0);
 }
 
 void LiftSubsystem::teleop() {
