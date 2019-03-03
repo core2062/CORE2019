@@ -11,7 +11,7 @@ LiftSubsystem::LiftSubsystem() : m_firstLevelHatch("First Level Hatch Height"),
                                  m_secondLevelCargo("Second Level Cargo Height"),
                                  m_thirdLevelHatch("Third Level Hatch Height"),
                                  m_thirdLevelCargo("Third Level Cargo Height"),
-                                 m_ticksPerInch("Ticks per inch"),
+                                 m_ticksPerInch("Ticks per inch", 208.5),
                                  m_bottomLimit("Lift bottom limit"),
                                  m_topLimit("Lift top limit"),
                                  m_cruiseVel("Lift cruise velocity"),
@@ -50,8 +50,7 @@ void LiftSubsystem::teleopInit(){
 void LiftSubsystem::teleop() {
     // Data for reference on SmartDashboard
     SmartDashboard::PutNumber("Lift requested position", m_requestedPosition);
-    SmartDashboard::PutNumber("Lift position in inches", m_leftLiftMotor.GetSelectedSensorPosition(0) /
-        m_ticksPerInch.Get());
+    SmartDashboard::PutNumber("Lift position in inches", GetLiftInches());
     SmartDashboard::PutNumber("Lift position in ticks", m_leftLiftMotor.GetSelectedSensorPosition(0));
     SmartDashboard::PutBoolean("Limit Switch", m_limitSwitch.Get());
     // Check to see which way the lift would run if this value is positive
@@ -80,11 +79,11 @@ void LiftSubsystem::teleop() {
     // Stops the motors if we are at the top or bottom position, and resets encoders at the bottom of the lift
     if (m_requestedSpeed > 0 && liftPosition > m_topLimit.Get()) {
         m_requestedSpeed = 0;
-        //SetRequestedPosition(m_topLimit.Get());
+        SetRequestedPosition(m_topLimit.Get());
     } else if (LiftDown()) {
         if(m_requestedSpeed < 0) {
             m_requestedSpeed = 0;
-            //SetRequestedPosition(0);
+            SetRequestedPosition(0);
         }
         ResetEncoder();
     }
