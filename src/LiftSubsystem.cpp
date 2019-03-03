@@ -11,7 +11,11 @@ LiftSubsystem::LiftSubsystem() : m_firstLevelHatch("First Level Hatch Height"),
                                  m_secondLevelCargo("Second Level Cargo Height"),
                                  m_thirdLevelHatch("Third Level Hatch Height"),
                                  m_thirdLevelCargo("Third Level Cargo Height"),
-                                 m_ticksPerInch("Ticks per inch"),
+                                 m_cargoShipCargoLevel("Cargo Bay level Cargo Height"),
+                                 m_cargoShipHatchLevel("Cargo Bay level Hatch Height"),
+                                 m_levelAfterCargoIntake("Lift level after Intaking"), 
+                                 m_levelToIntakeCargo("Lift level that allows Cargo to be Intaked"),
+                                 m_ticksPerInch("Ticks per inch", 208.5),
                                  m_bottomLimit("Lift bottom limit"),
                                  m_topLimit("Lift top limit"),
                                  m_cruiseVel("Lift cruise velocity"),
@@ -29,6 +33,7 @@ void LiftSubsystem::robotInit(){
     m_leftLiftMotor.SetInverted(true);
     //m_leftLiftMotor.Follow(m_rightLiftMotor);
     operatorJoystick->RegisterAxis(CORE::COREJoystick::JoystickAxis::RIGHT_STICK_Y);
+    operatorJoystick->RegisterButton(CORE::COREJoystick::JoystickButton::A_BUTTON);
     m_leftLiftMotor.ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::CTRE_MagEncoder_Relative, 0, 0);
     m_leftLiftMotor.SetSelectedSensorPosition(0,0,0);
     m_leftLiftMotor.SetSensorPhase(true);
@@ -37,32 +42,35 @@ void LiftSubsystem::robotInit(){
 // Configuration for teleop
 void LiftSubsystem::teleopInit(){
     //SetRequestedPosition(GetLiftInches());
-    //m_rightLiftMotor.ConfigMotionCruiseVelocity(m_cruiseVel.Get(), 0);
-    //m_rightLiftMotor.ConfigMotionAcceleration(m_maxAcel.Get(), 0);
+    m_rightLiftMotor.ConfigMotionCruiseVelocity(m_cruiseVel.Get(), 0);
+    m_rightLiftMotor.ConfigMotionAcceleration(m_maxAcel.Get(), 0);
 }
 
 void LiftSubsystem::teleop() {
     // Data for reference on SmartDashboard
     SmartDashboard::PutNumber("Lift requested position", m_requestedPosition);
-    SmartDashboard::PutNumber("Lift position in inches", m_leftLiftMotor.GetSelectedSensorPosition(0) /
-        m_ticksPerInch.Get());
+    SmartDashboard::PutNumber("Lift position in inches", GetLiftInches());
     SmartDashboard::PutNumber("Lift position in ticks", m_leftLiftMotor.GetSelectedSensorPosition(0));
     SmartDashboard::PutBoolean("Limit Switch", m_limitSwitch.Get());
     // Check to see which way the lift would run if this value is positive
     // Make sure that the lift is giving very little power when it is first being tested
-    double liftPosition = 0; //GetLiftInches();
-
+    double liftPosition = GetLiftInches();
     // Sets the requested speed to the value from the joystick
     SetRequestedSpeed(-operatorJoystick->GetAxis(CORE::COREJoystick::JoystickAxis::RIGHT_STICK_Y));
+    SetRequestedPosition(m_requestedPosition);
 
-    //SetRequestedPosition(liftPosition);
+    // if (abs(m_requestedPosition - liftPosition) <= 1) {
+    //     SetRequestedPosition(liftPosition);
+    // } else {
+    //     SetRequestedPosition(m_requestedPosition);
+    // }
 
     double liftRequestedPosition = m_requestedPosition;
 
     // Stops the motors if we are at the top or bottom position, and resets encoders at the bottom of the lift
     if (m_requestedSpeed > 0 && liftPosition > m_topLimit.Get()) {
         m_requestedSpeed = 0;
-        //SetRequestedPosition(m_topLimit.Get());
+        SetRequestedPosition(m_topLimit.Get());
     } else if (LiftDown()) {
         if(m_requestedSpeed < 0) {
             m_requestedSpeed = 0;
@@ -76,19 +84,20 @@ void LiftSubsystem::teleop() {
         m_rightLiftMotor.Set(ControlMode::PercentOutput, m_requestedSpeed);
         m_leftLiftMotor.Set(ControlMode::PercentOutput, m_requestedSpeed);
     } else {
-        //m_rightLiftMotor.Set(ControlMode::MotionMagic, liftRequestedPosition);
-        m_rightLiftMotor.Set(ControlMode::PercentOutput, 0);
-        m_leftLiftMotor.Set(ControlMode::PercentOutput, 0);
+        m_rightLiftMotor.Set(ControlMode::MotionMagic, liftRequestedPosition);
+        m_leftLiftMotor.Set(ControlMode::MotionMagic, liftRequestedPosition);
+        // m_rightLiftMotor.Set(ControlMode::PercentOutput, 0);
+        // m_leftLiftMotor.Set(ControlMode::PercentOutput, 0);
     }
 }
 
 // Sets the requested position and modifies if the desired position is below the minimum
 // or above the maximum
 void LiftSubsystem::SetRequestedPosition(double positionInInches){
-//     auto position = (int)(positionInInches * m_ticksPerInch.Get());
-//     position = max(position, 0);
-//     position = min(position, (int)(m_topLimit.Get() * m_ticksPerInch.Get()));
-//     m_requestedPosition = position;
+    auto position = (int)(positionInInches * m_ticksPerInch.Get());
+    position = max(position, 0);
+    position = min(position, (int)(m_topLimit.Get() * m_ticksPerInch.Get()));
+    m_requestedPosition = position;
 }
 
 // Sets the speed to the desired speed
@@ -139,27 +148,43 @@ void LiftSubsystem::SetFirstLevelHatchHeight() {
     SetRequestedPosition(m_firstLevelHatch.Get());
 }
 
+void LiftSubsystem::SetFirstLevelCargoHeight() {
+    SetRequestedPosition(m_firstLevelCargo.Get());
+}
+
 void LiftSubsystem::SetSecondLevelHatchHeight() {
     SetRequestedPosition(m_secondLevelHatch.Get());
+}
+
+void LiftSubsystem::SetSecondLevelCargoHeight() {
+    SetRequestedPosition(m_secondLevelCargo.Get());
 }
 
 void LiftSubsystem::SetThirdLevelHatchHeight() {
     SetRequestedPosition(m_thirdLevelHatch.Get());
 }
 
-void LiftSubsystem::SetFirstLevelCargoHeight() {
-    SetRequestedPosition(m_firstLevelHatch.Get());
-}
-
-void LiftSubsystem::SetSecondLevelCargoHeight() {
-    SetRequestedPosition(m_secondLevelHatch.Get());
-}
-
 void LiftSubsystem::SetThirdLevelCargoHeight() {
-    SetRequestedPosition(m_thirdLevelHatch.Get());
+    SetRequestedPosition(m_thirdLevelCargo.Get());
 }
 
-// Below are 6 functions that check if the lift is within 2 inches of the desired field target
+void LiftSubsystem::SetCargoShipCargoLevel() {
+    SetRequestedPosition(m_cargoShipCargoLevel.Get());
+}
+
+void LiftSubsystem::SetCargoShipHatchLevel() {
+    SetRequestedPosition(m_cargoShipHatchLevel.Get());
+}
+
+void LiftSubsystem::SetLevelAfterCargoIntake() {
+    SetRequestedPosition(m_levelAfterCargoIntake.Get());
+}
+
+void LiftSubsystem::SetCargoIntakeLevelHeight() {
+    SetRequestedPosition(m_levelToIntakeCargo.Get());
+}
+
+// Below are 10 functions that check if the lift is within 2 inches of the desired field target
 
 bool LiftSubsystem::IsFirstLevelCargo() {
     return abs(GetLiftInches() - m_firstLevelCargo.Get()) < 2;
@@ -183,4 +208,20 @@ bool LiftSubsystem::IsThirdLevelCargo() {
 
 bool LiftSubsystem::IsThirdLevelHatch() {
     return abs(GetLiftInches() - m_thirdLevelHatch.Get()) < 2;
+}
+
+bool LiftSubsystem::IsCargoShipCargoLevel() {
+    return abs(GetLiftInches() - m_cargoShipCargoLevel.Get()) < 2;
+}
+
+bool LiftSubsystem::IsCargoShipHatchLevel() {
+    return abs(GetLiftInches() - m_cargoShipHatchLevel.Get()) < 2;
+}
+
+bool LiftSubsystem::IsLevelToCargoIntake() {
+    return abs(GetLiftInches() - m_levelToIntakeCargo.Get()) < 2;
+}
+
+bool LiftSubsystem::IsLevelAfterCargoIntake() {
+    return abs(GetLiftInches() - m_levelAfterCargoIntake.Get()) < 2;
 }

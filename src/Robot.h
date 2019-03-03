@@ -5,10 +5,12 @@
 #include <frc/WPILib.h>
 #include <CORERobotLib.h>
 #include <DriveSubsystem.h>
+#include <SuperStructure.h>
 #include <CargoSubsystem.h>
 #include <LiftSubsystem.h>
 #include <HatchIntakeSubsystem.h>
 #include <HatchScorerSubsystem.h>
+
 
 /* Drive Motor Ports */
 //Right Front Drive Motor
@@ -73,9 +75,10 @@ public:
 	void testInit() override;
 	static Robot * GetInstance();
 
+	SuperStructure superStructure;
 	DriveSubsystem driveSubsystem;
 	CargoSubsystem cargoSubsystem;
-	//HatchIntakeSubsystem hatchSubsystem;
+	HatchIntakeSubsystem hatchIntakeSubsystem;
 	HatchScorerSubsystem hatchScorerSubsystem;
 	LiftSubsystem liftSubsystem;
 

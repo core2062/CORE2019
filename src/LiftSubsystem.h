@@ -17,11 +17,15 @@ public:
 	void SetRequestedSpeed(double speed);
 
 	void SetFirstLevelHatchHeight();
-	void SetSecondLevelHatchHeight();
-	void SetThirdLevelHatchHeight();
 	void SetFirstLevelCargoHeight();
+	void SetSecondLevelHatchHeight();
 	void SetSecondLevelCargoHeight();
+	void SetThirdLevelHatchHeight();
 	void SetThirdLevelCargoHeight();
+	void SetCargoShipCargoLevel();
+	void SetCargoShipHatchLevel();
+	void SetCargoIntakeLevelHeight();
+	void SetLevelAfterCargoIntake();
 
 	bool IsFirstLevelCargo();
 	bool IsFirstLevelHatch();
@@ -29,6 +33,10 @@ public:
 	bool IsSecondLevelHatch();
 	bool IsThirdLevelCargo();
 	bool IsThirdLevelHatch();
+	bool IsCargoShipHatchLevel();
+	bool IsCargoShipCargoLevel();
+	bool IsLevelAfterCargoIntake();
+	bool IsLevelToCargoIntake();
 
 	double GetLiftPosition();
 	double GetLiftInches();
@@ -39,7 +47,12 @@ private:
 	DigitalInput m_limitSwitch;
 	COREConstant<double> m_cruiseVel, m_maxAcel;
 	COREConstant<double> m_topLimit, m_bottomLimit;
-	COREConstant<double> m_firstLevelHatch, m_firstLevelCargo, m_secondLevelHatch, 
-		m_secondLevelCargo, m_thirdLevelHatch, m_thirdLevelCargo, m_ticksPerInch;
+	COREConstant<double> m_firstLevelHatch, m_firstLevelCargo,
+	m_secondLevelHatch, m_secondLevelCargo,
+	m_thirdLevelHatch, m_thirdLevelCargo,
+	m_cargoShipCargoLevel, m_cargoShipHatchLevel,
+	m_ticksPerInch, m_levelAfterCargoIntake, m_levelToIntakeCargo;
 	TalonSRX m_rightLiftMotor, m_leftLiftMotor;
 };
+// be consistent about what order the levels and methods are in throughout the code.
+// be consistent about naming to avoid confusion and duplicate levels.
