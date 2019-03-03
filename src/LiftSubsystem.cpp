@@ -30,7 +30,7 @@ void LiftSubsystem::robotInit(){
     m_rightLiftMotor.Set(ControlMode::PercentOutput, 0.0);
     m_leftLiftMotor.SetInverted(true);
     //m_leftLiftMotor.Follow(m_rightLiftMotor);
-    operatorJoystick->RegisterAxis(CORE::COREJoystick::JoystickAxis::RIGHT_STICK_Y);
+    operatorJoystick->RegisterAxis(CORE::COREJoystick::JoystickAxis::LEFT_STICK_Y);
     operatorJoystick->RegisterButton(COREJoystick::JoystickButton::DPAD_N);
     operatorJoystick->RegisterButton(COREJoystick::JoystickButton::DPAD_S);
     operatorJoystick->RegisterButton(COREJoystick::JoystickButton::DPAD_W);
@@ -60,7 +60,7 @@ void LiftSubsystem::teleop() {
     // Make sure that the lift is giving very little power when it is first being tested
 
     // Sets the requested speed to the value from the joystick
-    SetRequestedSpeed(-operatorJoystick->GetAxis(CORE::COREJoystick::JoystickAxis::RIGHT_STICK_Y));
+    SetRequestedSpeed(-operatorJoystick->GetAxis(CORE::COREJoystick::JoystickAxis::LEFT_STICK_Y));
 
     if (operatorJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::Y_BUTTON)) {
         SetThirdLevelHatchHeight();
