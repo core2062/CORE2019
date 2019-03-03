@@ -29,6 +29,12 @@ void LiftSubsystem::robotInit(){
     m_leftLiftMotor.SetInverted(true);
     //m_leftLiftMotor.Follow(m_rightLiftMotor);
     operatorJoystick->RegisterAxis(CORE::COREJoystick::JoystickAxis::RIGHT_STICK_Y);
+    operatorJoystick->RegisterButton(COREJoystick::JoystickButton::DPAD_N);
+    operatorJoystick->RegisterButton(COREJoystick::JoystickButton::DPAD_S);
+    operatorJoystick->RegisterButton(COREJoystick::JoystickButton::DPAD_W);
+    operatorJoystick->RegisterButton(COREJoystick::JoystickButton::A_BUTTON);
+    operatorJoystick->RegisterButton(COREJoystick::JoystickButton::B_BUTTON);
+    operatorJoystick->RegisterButton(COREJoystick::JoystickButton::Y_BUTTON);
     m_leftLiftMotor.ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::CTRE_MagEncoder_Relative, 0, 0);
     m_leftLiftMotor.SetSelectedSensorPosition(0,0,0);
     m_leftLiftMotor.SetSensorPhase(true);
@@ -37,8 +43,8 @@ void LiftSubsystem::robotInit(){
 // Configuration for teleop
 void LiftSubsystem::teleopInit(){
     //SetRequestedPosition(GetLiftInches());
-    //m_rightLiftMotor.ConfigMotionCruiseVelocity(m_cruiseVel.Get(), 0);
-    //m_rightLiftMotor.ConfigMotionAcceleration(m_maxAcel.Get(), 0);
+    m_rightLiftMotor.ConfigMotionCruiseVelocity(m_cruiseVel.Get(), 0);
+    m_rightLiftMotor.ConfigMotionAcceleration(m_maxAcel.Get(), 0);
 }
 
 void LiftSubsystem::teleop() {
@@ -50,13 +56,25 @@ void LiftSubsystem::teleop() {
     SmartDashboard::PutBoolean("Limit Switch", m_limitSwitch.Get());
     // Check to see which way the lift would run if this value is positive
     // Make sure that the lift is giving very little power when it is first being tested
-    double liftPosition = 0; //GetLiftInches();
+    double liftPosition = GetLiftInches();
 
     // Sets the requested speed to the value from the joystick
     SetRequestedSpeed(-operatorJoystick->GetAxis(CORE::COREJoystick::JoystickAxis::RIGHT_STICK_Y));
+    SetRequestedPosition(m_requestedPosition);
 
-    //SetRequestedPosition(liftPosition);
-
+    if (operatorJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::Y_BUTTON)) {
+        SetThirdLevelHatchHeight();
+    } else if (operatorJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::B_BUTTON)) {
+        SetSecondLevelHatchHeight();
+    } else if (operatorJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::A_BUTTON)) {
+        SetFirstLevelHatchHeight();
+    } else if (operatorJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::DPAD_N)) {
+        SetThirdLevelCargoHeight();
+    } else if (operatorJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::DPAD_W)) {
+        SetSecondLevelCargoHeight();
+    } else if (operatorJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::DPAD_S)) {
+        SetFirstLevelCargoHeight();
+    }
     double liftRequestedPosition = m_requestedPosition;
 
     // Stops the motors if we are at the top or bottom position, and resets encoders at the bottom of the lift
@@ -76,21 +94,21 @@ void LiftSubsystem::teleop() {
         m_rightLiftMotor.Set(ControlMode::PercentOutput, m_requestedSpeed);
         m_leftLiftMotor.Set(ControlMode::PercentOutput, m_requestedSpeed);
     } else {
-        //m_rightLiftMotor.Set(ControlMode::MotionMagic, liftRequestedPosition);
-        m_rightLiftMotor.Set(ControlMode::PercentOutput, 0);
-        m_leftLiftMotor.Set(ControlMode::PercentOutput, 0);
+        m_rightLiftMotor.Set(ControlMode::MotionMagic, liftRequestedPosition);
+        m_leftLiftMotor.Set(ControlMode::MotionMagic, liftRequestedPosition);
+        // m_rightLiftMotor.Set(ControlMode::PercentOutput, 0);
+        // m_leftLiftMotor.Set(ControlMode::PercentOutput, 0);
     }
 }
 
 // Sets the requested position and modifies if the desired position is below the minimum
 // or above the maximum
 void LiftSubsystem::SetRequestedPosition(double positionInInches){
-//     auto position = (int)(positionInInches * m_ticksPerInch.Get());
-//     position = max(position, 0);
-//     position = min(position, (int)(m_topLimit.Get() * m_ticksPerInch.Get()));
-//     m_requestedPosition = position;
+    auto position = (int)(positionInInches * m_ticksPerInch.Get());
+    position = max(position, 0);
+    position = min(position, (int)(m_topLimit.Get() * m_ticksPerInch.Get()));
+    m_requestedPosition = position;
 }
-
 // Sets the speed to the desired speed
 
 // Scales the requested speed down to make sure the lift does not move too quickly
