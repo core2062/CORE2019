@@ -19,7 +19,7 @@ void CargoSubsystem::teleopInit() {
 
 void CargoSubsystem::teleop() {
     SmartDashboard::PutBoolean("CargoLimitSwitch", IsCargoSecured());
-    if (operatorJoystick->GetButton(CORE::COREJoystick::JoystickButton::LEFT_BUTTON) && !IsCargoSecured()) {
+    if (operatorJoystick->GetButton(CORE::COREJoystick::JoystickButton::LEFT_BUTTON) && IsCargoSecured()) {
         SetIntake();
     } else if (operatorJoystick->GetButton(CORE::COREJoystick::JoystickButton::LEFT_TRIGGER)) {
         SetOuttake();
