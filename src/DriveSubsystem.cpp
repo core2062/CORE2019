@@ -9,7 +9,7 @@ DriveSubsystem::DriveSubsystem() : driveTurnkP("Drive Turn P Value", .05),
 								   m_etherAValue("Ether A Value", .6),
                                    m_etherBValue("Ether B Value", .4),
 								   m_etherQuickTurnValue("Ether Quick Turn Value", 1.0),
-                                   m_ticksPerInch("Ticks Per Inch", (4 * 3.1415) / 1024),
+                                   m_ticksPerInch("Drive Ticks Per Inch", (4 * 3.1415) / 1024),
 								   m_leftMaster(LEFT_FRONT_PORT),
 								   m_rightMaster(RIGHT_FRONT_PORT),
 								   m_leftSlave(LEFT_BACK_PORT),
@@ -109,7 +109,7 @@ void DriveSubsystem::SetMotorSpeed(double speedInFraction, DriveSide whichSide) 
 
 void DriveSubsystem::SetMotorSpeed(double leftPercent, double rightPercent) {
 	// Sets speed based on percent output desired 
-	SetMotorSpeed(leftPercent, DriveSide::LEFT);
+	SetMotorSpeed(-leftPercent, DriveSide::LEFT); //Might need to reverse this for comp robot
 	SetMotorSpeed(rightPercent, DriveSide::RIGHT);
 }
 

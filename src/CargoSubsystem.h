@@ -15,9 +15,11 @@ public:
 	void SetIntake();
 	bool IsCargoSecured();
 	void SetOuttake();
+	void SetOff();
 
 private:
 	TalonSRX m_rightSideIntake, m_leftSideIntake;
 	frc::DigitalInput m_cargoLimitSwitch;
+	COREConstant<double> m_cargoIntakeSpeed, m_cargoOuttakeSpeed;
 
 };

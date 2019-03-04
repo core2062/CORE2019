@@ -2,7 +2,9 @@
 #include <Robot.h>
 CargoSubsystem::CargoSubsystem() : m_rightSideIntake(RIGHT_INTAKE_PORT),
                                    m_leftSideIntake(LEFT_INTAKE_PORT),
-                                   m_cargoLimitSwitch(CARGO_LIMIT_SWITCH_PORT){
+                                   m_cargoLimitSwitch(CARGO_LIMIT_SWITCH_PORT),
+                                   m_cargoIntakeSpeed("Cargo Intake Speed"),
+                                   m_cargoOuttakeSpeed("Cargo Outtake Speed"){
 }
 
 void CargoSubsystem::robotInit() {
@@ -24,15 +26,14 @@ void CargoSubsystem::teleop() {
     } else if (operatorJoystick->GetButton(CORE::COREJoystick::JoystickButton::LEFT_TRIGGER)) {
         SetOuttake();
     } else {
-        m_rightSideIntake.Set(ControlMode::PercentOutput, 0);
-        m_leftSideIntake.Set(ControlMode::PercentOutput, 0);
+       SetOff();
     }
 }
 
 //spins wheels to intake the cargo
 void CargoSubsystem::SetIntake() {
-    m_rightSideIntake.Set(ControlMode::PercentOutput, 0.2);
-    m_leftSideIntake.Set(ControlMode::PercentOutput, 0.2);
+    m_rightSideIntake.Set(ControlMode::PercentOutput, m_cargoIntakeSpeed.Get());
+    m_leftSideIntake.Set(ControlMode::PercentOutput, m_cargoIntakeSpeed.Get());
 }
 
 //returns true if the intake is intaking
@@ -42,6 +43,12 @@ bool CargoSubsystem::IsCargoSecured() {
 
 //spins wheels to outtake the cargo
 void CargoSubsystem::SetOuttake() {
-    m_rightSideIntake.Set(ControlMode::PercentOutput, -0.5);
-    m_leftSideIntake.Set(ControlMode::PercentOutput, -0.5);
+    m_rightSideIntake.Set(ControlMode::PercentOutput, -m_cargoOuttakeSpeed.Get());
+    m_leftSideIntake.Set(ControlMode::PercentOutput, -m_cargoOuttakeSpeed.Get());
+}
+
+//sets the motors to 0.0
+void CargoSubsystem::SetOff() {
+    m_rightSideIntake.Set(ControlMode::PercentOutput, 0.0);
+    m_leftSideIntake.Set(ControlMode::PercentOutput, 0.0);
 }
