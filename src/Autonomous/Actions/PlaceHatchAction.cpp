@@ -4,8 +4,8 @@
 PlaceHatchAction::PlaceHatchAction(PlaceHatch Action){
     m_placeHatchRequestedAction = Action;
 }
-void PlaceHatchAction::ActionInit() {
 
+void PlaceHatchAction::ActionInit() {
 }
 
 CORE::COREAutonAction::actionStatus PlaceHatchAction::Action() {
@@ -21,5 +21,4 @@ CORE::COREAutonAction::actionStatus PlaceHatchAction::Action() {
 }
 
 void PlaceHatchAction::ActionEnd() {
-
 }

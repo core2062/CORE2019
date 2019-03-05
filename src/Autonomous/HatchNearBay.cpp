@@ -1,6 +1,5 @@
 #include "HatchNearBay.h"
-#include <Robot.h>
-#include "Actions.h"
+#include "Robot.h"
 
 HatchNearBay::HatchNearBay() :
 	COREAuton("Hatch Near Cargoship Bay Auton") {

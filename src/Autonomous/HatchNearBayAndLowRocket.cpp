@@ -1,5 +1,5 @@
 #include "HatchNearBayAndLowRocket.h"
-#include <Robot.h>
+#include "Robot.h"
 
 HatchNearBayAndLowRocket::HatchNearBayAndLowRocket() :
 	COREAuton("Near Hatch and Low Rocket Auton") {
@@ -18,6 +18,4 @@ void HatchNearBayAndLowRocket::AddNodes() {
     m_driveToPlayerStation->AddNext(m_grabHatchFromPlayerStation);
     m_grabHatchFromPlayerStation->AddNext(m_driveToLowNearRocket);
     m_driveToLowNearRocket->AddNext(m_placeHatchOnLowRocket);
-
-
 }

@@ -1,6 +1,5 @@
 #include "CargoTopRocketNear.h"
-#include <Robot.h>
-#include "Actions.h"
+#include "Robot.h"
 
 CargoTopRocketNear::CargoTopRocketNear() :
 	COREAuton("Cargo Top Rocket Near Auton") {

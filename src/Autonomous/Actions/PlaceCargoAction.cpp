@@ -4,8 +4,8 @@
 PlaceCargoAction::PlaceCargoAction(PlaceCargo Action){
     m_placeCargoRequestedAction = Action;
 }
+
 void PlaceCargoAction::ActionInit() {
-    
 }
 
 CORE::COREAutonAction::actionStatus PlaceCargoAction::Action() {

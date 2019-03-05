@@ -1,5 +1,4 @@
 #include "CargoInNearSideBay.h"
-#include <Autonomous/Actions.h>
 
 CargoInNearSideBay::CargoInNearSideBay() :
 	COREAuton("Cargo Near Cargo Ship Bay Auton") {

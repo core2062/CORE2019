@@ -36,8 +36,6 @@ CORE::COREAutonAction::actionStatus RaiseLiftAction::Action() {
 		break;
     }
     return COREAutonAction::actionStatus::END;
-
-
 }
 
 void RaiseLiftAction::ActionEnd() {

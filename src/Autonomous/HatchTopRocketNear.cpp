@@ -1,6 +1,5 @@
 #include "HatchTopRocketNear.h"
-#include <Robot.h>
-#include "Actions.h"
+#include "Robot.h"
 
 HatchTopRocketNear::HatchTopRocketNear() :
 	COREAuton("Hatch Top Rocket Near Auton") {
