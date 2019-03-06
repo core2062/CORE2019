@@ -105,10 +105,10 @@ void LiftSubsystem::teleop() {
         // m_leftLiftMotor.Set(ControlMode::PercentOutput, 0);
     }
 
-    if(Robot::GetInstance()->cargoSubsystem.IsCargoSecured() && m_limitSwitchSetter) {
+    if(!Robot::GetInstance()->cargoSubsystem.IsCargoSecured() && m_limitSwitchSetter) {
         SetFirstLevelCargoHeight();
         m_limitSwitchSetter = false;
-    } else if(!Robot::GetInstance()->cargoSubsystem.IsCargoSecured()) {
+    } else if(Robot::GetInstance()->cargoSubsystem.IsCargoSecured()) {
         m_limitSwitchSetter = true;
     }
 

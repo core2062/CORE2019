@@ -17,6 +17,7 @@ void HatchScorerSubsystem::robotInit() {
 }
 
 void HatchScorerSubsystem::teleopInit() {
+    OpenClaw();
 }
 
 void HatchScorerSubsystem::teleop() {
@@ -37,7 +38,8 @@ void HatchScorerSubsystem::ScoreHatch() {
         //we have started 
         //get timer value, check against desired value.
         if(GetTime() >= m_punchSeconds.Get() && !m_isToggling) {
-            CloseClaw();
+            //CloseClaw();
+            OpenClaw();
             m_isToggling = true;
         }
         else if (GetTime() >= m_toggleClawSeconds.Get() && !m_isRetracting) {
@@ -53,28 +55,30 @@ void HatchScorerSubsystem::ScoreHatch() {
 }
 
 void HatchScorerSubsystem::LoadHatch() {
-    if (!m_isLoading){
+    //if (!m_isLoading){
         //not yet started
-        m_isLoading = true;
+    //    m_isLoading = true;
         //ExtendPunch();
-        //CloseClaw();
-        //StartTimer();
-        ToggleClaw();
-    }  else {
+    //    CloseClaw();
+    //    StartTimer();
+        //ToggleClaw();
+    //}  //else {
         //we have started 
         //get timer value, check against desired value.
-        if(GetTime() >= 0 && !m_isToggling) {
+        //if(GetTime() >= 0 && !m_isToggling) {
             //ToggleClaw();
-            m_isToggling = true;
+        //    m_isToggling = true;
         // } else if (GetTime() >= m_toggleClawSeconds.Get() && !m_isRetracting) {
         //     RetractPunch();
         //     m_isRetracting = true;
-        } else if (GetTime() >= m_retractSeconds.Get()) {
-            m_isLoading = false;
-            // m_isRetracting = false; 
-            m_isToggling = false;
-        }
-    }
+        // }
+    //else if (GetTime() >= m_retractSeconds.Get()) {
+    //    m_isLoading = false;
+        // m_isRetracting = false; 
+        //m_isToggling = false;
+    //}
+    ToggleClaw();
+    //OpenClaw();
 }
 
 void HatchScorerSubsystem::ExtendPunch() {
