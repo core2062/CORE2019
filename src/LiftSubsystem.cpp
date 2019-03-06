@@ -104,6 +104,14 @@ void LiftSubsystem::teleop() {
         // m_rightLiftMotor.Set(ControlMode::PercentOutput, 0);
         // m_leftLiftMotor.Set(ControlMode::PercentOutput, 0);
     }
+
+    if(Robot::GetInstance()->cargoSubsystem.IsCargoSecured() && m_limitSwitchSetter) {
+        SetFirstLevelCargoHeight();
+        m_limitSwitchSetter = false;
+    } else if(!Robot::GetInstance()->cargoSubsystem.IsCargoSecured()) {
+        m_limitSwitchSetter = true;
+    }
+
 }
 
 // Sets the requested position and modifies if the desired position is below the minimum
@@ -184,6 +192,7 @@ void LiftSubsystem::SetThirdLevelCargoHeight() {
 void LiftSubsystem::SetCargoBayCargoHeight() {
     SetRequestedPosition(m_cargoBayCargo.Get());
 }
+
 
 // Below are 6 functions that check if the lift is within 2 inches of the desired field target
 
