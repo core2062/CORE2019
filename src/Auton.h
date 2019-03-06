@@ -4,23 +4,26 @@
 
 #include <frc/WPILib.h>
 #include <CORERobotLib.h>
-#include <DriveSubsystem.h>
+#include <AutonNode.h>
+/*#include <DriveSubsystem.h>
 #include <CargoSubsystem.h>
 #include <LiftSubsystem.h>
 #include <HatchIntakeSubsystem.h>
-#include <HatchScorerSubsystem.h>
+#include <HatchScorerSubsystem.h>*/
 
 using namespace CORE;
 using namespace std;
 
-class Auton : public COREAuton {
-    Auton();
-    void AutonomousInit() override;
-    void AutonomousPeriodic() override;
-    
-    DriveSubsystem driveSubsystem;
-	CargoSubsystem cargoSubsystem;
+class Autonomous: public COREAuton, public CORETask {
+    public:
+    Autonomous();
+    void AddNodes() override;
+    private:
+    /*DriveSubsystem * m_driveSubsystem;
+	CargoSubsystem * m_cargoSubsystem;
 	//HatchIntakeSubsystem hatchSubsystem;
-	HatchScorerSubsystem hatchScorerSubsystem;
-	LiftSubsystem liftSubsystem;
-}
+	HatchScorerSubsystem * m_hatchScorerSubsystem;
+	LiftSubsystem * m_liftSubsystem;*/
+    Node * autonLoop;
+
+};

@@ -1,23 +1,11 @@
+#include "Auton.h"
 #include <Robot.h>
-
-#include <iostream>
-
 #include <frc/WPILib.h>
 
-Auton::Auton() : COREAuton("Sam Drive") {
-
+Autonomous::Autonomous() : COREAuton("Sam Drive") {
 }
 
-void Auton::AutonomousInit() {
-    driveSubsystem->teleopInit();
-    cargoSubsystem->teleopInit();
-    hatchScorerSubsystem->teleopInit();
-    liftSubsystem->teleopInit();
-}
-
-void Auton::AutonomousPeriodic() {
-    driveSubsystem->teleop();
-    cargoSubsystem->teleop();
-    hatchScorerSubsystem->teleop();
-    liftSubsystem->teleop();
+void Autonomous::AddNodes() {
+    autonLoop = new Node(15, new SandstormAction());
+    AddFirstNode(autonLoop);
 }
