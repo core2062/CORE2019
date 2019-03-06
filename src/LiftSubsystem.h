@@ -38,7 +38,7 @@ public:
 	bool LiftDown();
 private:
 	double m_requestedSpeed, m_requestedPosition;
-	bool m_limitSwitchSetter = true;
+	bool m_limitSwitchSetter = false;
 	DigitalInput m_limitSwitch;
 	COREConstant<double> m_cruiseVel, m_maxAcel;
 	COREConstant<double> m_topLimit, m_bottomLimit;
