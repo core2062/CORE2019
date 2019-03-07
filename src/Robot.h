@@ -57,7 +57,7 @@ Hatch Scorer
 
 /* Sensor */
 #define HATCH_INTAKE_PHOTOEYE 1
-#define LIFT_LIMIT_SWITCH_PORT 19
+#define LIFT_LIMIT_SWITCH_PORT 8
 #define CARGO_LIMIT_SWITCH_PORT 9
 
 using namespace CORE;

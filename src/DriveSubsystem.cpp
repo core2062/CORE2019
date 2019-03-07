@@ -109,7 +109,7 @@ void DriveSubsystem::SetMotorSpeed(double speedInFraction, DriveSide whichSide) 
 
 void DriveSubsystem::SetMotorSpeed(double leftPercent, double rightPercent) {
 	// Sets speed based on percent output desired 
-	SetMotorSpeed(-leftPercent, DriveSide::LEFT); //Might need to reverse this for comp robot
+	SetMotorSpeed(leftPercent, DriveSide::LEFT); //Might need to reverse this for comp robot
 	SetMotorSpeed(rightPercent, DriveSide::RIGHT);
 }
 
