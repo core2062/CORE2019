@@ -101,26 +101,28 @@ void DriveSubsystem::SetMotorSpeed(double speedInFraction, DriveSide whichSide) 
 	// Sets motor speed based on drive side and desired speed
 	if (whichSide == DriveSide::BOTH || whichSide == DriveSide::RIGHT) {
 		m_rightMaster.Set(ControlMode::PercentOutput, speedInFraction);
+		m_rightSlave.Set(ControlMode::PercentOutput, speedInFraction);
 	}
 	if (whichSide == DriveSide::BOTH || whichSide == DriveSide::LEFT) {
 		m_leftMaster.Set(ControlMode::PercentOutput, speedInFraction);
+		m_leftSlave.Set(ControlMode::PercentOutput, speedInFraction);
 	}
 }
 
 void DriveSubsystem::SetMotorSpeed(double leftPercent, double rightPercent) {
 	// Sets speed based on percent output desired 
-	SetMotorSpeed(-leftPercent, DriveSide::LEFT); //Might need to reverse this for comp robot
+	SetMotorSpeed(leftPercent, DriveSide::LEFT); //Might need to reverse this for comp robot
 	SetMotorSpeed(rightPercent, DriveSide::RIGHT);
 }
 
 void DriveSubsystem::InitTalons() {
 	// Sets up talons
-    m_leftMaster.Set(ControlMode::Follower, LEFT_BACK_PORT);
-    m_rightMaster.Set(ControlMode::Follower, RIGHT_BACK_PORT);
-
 	m_leftMaster.Set(ControlMode::PercentOutput, 0);
+	m_leftSlave.Set(ControlMode::PercentOutput, 0);
 	m_rightMaster.Set(ControlMode::PercentOutput, 0);
+	m_rightSlave.Set(ControlMode::PercentOutput, 0);
 
+	// Encoder Functions
     m_leftSlave.SetStatusFramePeriod(StatusFrameEnhanced::Status_1_General, 10, 0);
     m_rightMaster.SetStatusFramePeriod(StatusFrameEnhanced::Status_1_General, 10, 0);
 
@@ -130,8 +132,11 @@ void DriveSubsystem::InitTalons() {
 	m_leftSlave.SetSensorPhase(false);
     m_rightMaster.SetSensorPhase(true);
 
+	// Motor Inversion
 	m_leftMaster.SetInverted(false);
+	m_leftSlave.SetInverted(false);
 	m_rightMaster.SetInverted(true);
+	m_rightSlave.SetInverted(true);
 }
 
 double DriveSubsystem::GetForwardPower() {

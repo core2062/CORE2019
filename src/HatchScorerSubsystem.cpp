@@ -17,6 +17,7 @@ void HatchScorerSubsystem::robotInit() {
 }
 
 void HatchScorerSubsystem::teleopInit() {
+    OpenClaw();
 }
 
 void HatchScorerSubsystem::teleop() {
@@ -37,14 +38,15 @@ void HatchScorerSubsystem::ScoreHatch() {
         //we have started 
         //get timer value, check against desired value.
         if(GetTime() >= m_punchSeconds.Get() && !m_isToggling) {
-            CloseClaw();
+            //CloseClaw();
+            OpenClaw();
             m_isToggling = true;
         }
         else if (GetTime() >= m_toggleClawSeconds.Get() && !m_isRetracting) {
             RetractPunch();
             m_isRetracting = true;
         } else if (GetTime() >= m_retractSeconds.Get()) {
-            OpenClaw();
+            //OpenClaw();
             m_isScoring = false;
             m_isRetracting = false;
             m_isToggling = false; 
@@ -53,27 +55,30 @@ void HatchScorerSubsystem::ScoreHatch() {
 }
 
 void HatchScorerSubsystem::LoadHatch() {
-    if (!m_isLoading){
+    //if (!m_isLoading){
         //not yet started
-        m_isLoading = true;
-        ExtendPunch();
-        CloseClaw();
-        StartTimer();
-    }  else {
+    //    m_isLoading = true;
+        //ExtendPunch();
+    //    CloseClaw();
+    //    StartTimer();
+        //ToggleClaw();
+    //}  //else {
         //we have started 
         //get timer value, check against desired value.
-        if(GetTime() >= m_punchSeconds.Get() && !m_isToggling) {
-            OpenClaw();
-            m_isToggling = true;
-        } else if (GetTime() >= m_toggleClawSeconds.Get() && !m_isRetracting) {
-            RetractPunch();
-            m_isRetracting = true;
-        } else if (GetTime() >= m_retractSeconds.Get()) {
-            m_isLoading = false;
-            m_isRetracting = false; 
-            m_isToggling = false;
-        }
-    }
+        //if(GetTime() >= 0 && !m_isToggling) {
+            //ToggleClaw();
+        //    m_isToggling = true;
+        // } else if (GetTime() >= m_toggleClawSeconds.Get() && !m_isRetracting) {
+        //     RetractPunch();
+        //     m_isRetracting = true;
+        // }
+    //else if (GetTime() >= m_retractSeconds.Get()) {
+    //    m_isLoading = false;
+        // m_isRetracting = false; 
+        //m_isToggling = false;
+    //}
+    ToggleClaw();
+    //OpenClaw();
 }
 
 void HatchScorerSubsystem::ExtendPunch() {
@@ -104,12 +109,12 @@ void HatchScorerSubsystem::ToggleClaw() {
 }
 
 void HatchScorerSubsystem::OpenClaw() {
-    m_solenoidClaw.Set(frc::DoubleSolenoid::kForward);
+    m_solenoidClaw.Set(frc::DoubleSolenoid::kReverse);
     m_isOpen = true;
 }
 
 void HatchScorerSubsystem::CloseClaw() {
-    m_solenoidClaw.Set(frc::DoubleSolenoid::kReverse);
+    m_solenoidClaw.Set(frc::DoubleSolenoid::kForward);
     m_isOpen = false;
 }
 
