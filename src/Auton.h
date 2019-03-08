@@ -14,7 +14,7 @@
 using namespace CORE;
 using namespace std;
 
-class Autonomous: public COREAuton, public CORETask {
+class Autonomous: public COREAuton {
     public:
     Autonomous();
     void AddNodes() override;
