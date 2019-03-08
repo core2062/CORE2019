@@ -18,6 +18,9 @@ class Autonomous: public COREAuton {
     public:
     Autonomous();
     void AddNodes() override;
+    // void AutonInit() override;
+    // void Auton() override;
+    // bool Complete() override;
     private:
     /*DriveSubsystem * m_driveSubsystem;
 	CargoSubsystem * m_cargoSubsystem;
