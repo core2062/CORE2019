@@ -15,7 +15,8 @@ void Robot::teleop() {
 }
 
 void Robot::robotInit() {
-
+	//COREScheduler::AddAuton(&controlledAutonomous);
+	
 }
 
 void Robot::teleopInit() {
