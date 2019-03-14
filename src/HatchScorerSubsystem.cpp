@@ -2,7 +2,6 @@
 #include <frc/WPILib.h>
 #include "Robot.h"
 
-//TODO:Fill these in with actual port numbers
 HatchScorerSubsystem::HatchScorerSubsystem() : m_solenoidPunchOne(0, HATCH_SCORER_PUNCH_IN, HATCH_SCORER_PUNCH_OUT),
                                                m_solenoidClaw(0, HATCH_SCORER_CLAW_IN, HATCH_SCORER_CLAW_OUT),
                                                m_punchSeconds("Hatch Scorer Punch Time (seconds)"),
@@ -55,30 +54,7 @@ void HatchScorerSubsystem::ScoreHatch() {
 }
 
 void HatchScorerSubsystem::LoadHatch() {
-    //if (!m_isLoading){
-        //not yet started
-    //    m_isLoading = true;
-        //ExtendPunch();
-    //    CloseClaw();
-    //    StartTimer();
-        //ToggleClaw();
-    //}  //else {
-        //we have started 
-        //get timer value, check against desired value.
-        //if(GetTime() >= 0 && !m_isToggling) {
-            //ToggleClaw();
-        //    m_isToggling = true;
-        // } else if (GetTime() >= m_toggleClawSeconds.Get() && !m_isRetracting) {
-        //     RetractPunch();
-        //     m_isRetracting = true;
-        // }
-    //else if (GetTime() >= m_retractSeconds.Get()) {
-    //    m_isLoading = false;
-        // m_isRetracting = false; 
-        //m_isToggling = false;
-    //}
     ToggleClaw();
-    //OpenClaw();
 }
 
 void HatchScorerSubsystem::ExtendPunch() {

@@ -26,7 +26,11 @@ void DriveSubsystem::robotInit() {
 	driverJoystick->RegisterAxis(CORE::COREJoystick::RIGHT_STICK_X);
 	driverJoystick->RegisterButton(CORE::COREJoystick::RIGHT_TRIGGER);
     InitTalons();
-	
+    try {
+        m_gyro = new AHRS(SPI::Port::kMXP);
+    } catch (std::exception ex) {
+        CORELog::LogError("Error initializing gyro: " + string(ex.what()));
+    }
 }
 
 void DriveSubsystem::teleopInit() {
@@ -40,6 +44,7 @@ void DriveSubsystem::teleopInit() {
 void DriveSubsystem::teleop() {
 	// Code for teleop. Sets motor speed based on the values for the joystick, runs compressor, 
 	// toggles gears
+
     double mag = -driverJoystick->GetAxis(CORE::COREJoystick::JoystickAxis::LEFT_STICK_Y);
 	double rot = driverJoystick->GetAxis(CORE::COREJoystick::JoystickAxis::RIGHT_STICK_X);
 
@@ -159,4 +164,25 @@ void DriveSubsystem::FillCompressor() {
 	} else {
 		compressor.SetClosedLoopControl(true);
 	}
+}
+
+TalonSRX * DriveSubsystem::GetLeftMaster() {
+	return &m_leftMaster;
+}
+
+TalonSRX * DriveSubsystem::GetRightMaster() {
+	return &m_rightMaster;
+}
+
+AHRS * DriveSubsystem::GetGyro() {
+	return m_gyro;
+}
+
+TankRotation2d DriveSubsystem::GetGyroAngle() {
+	double degrees = GetYaw();
+	return TankRotation2d::FromDegrees(degrees);
+}
+
+double DriveSubsystem::GetYaw() {
+	return (double) m_gyro->GetAngle();
 }

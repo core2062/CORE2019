@@ -6,6 +6,7 @@
 #include <ctre/Phoenix.h>
 #include <COREFramework/COREScheduler.h>
 #include <COREHardware/COREJoystick.h>
+#include <AHRS.h>
 
 enum class DriveSide{LEFT = 1, RIGHT = 2, BOTH = 3};
 
@@ -25,6 +26,11 @@ public:
     void SetMotorSpeed(double leftPercent, double rightPercent);
     double GetForwardPower();
     void FillCompressor();
+    TalonSRX * GetRightMaster();
+    TalonSRX * GetLeftMaster();
+    AHRS * GetGyro();
+    TankRotation2d GetGyroAngle();
+    double GetYaw();
 
     COREConstant<double> driveTurnkP;
 private:
@@ -34,4 +40,5 @@ private:
     DoubleSolenoid m_leftDriveShifter;
     bool m_highGear;
     COREConstant<double> m_turnPIDMultiplier;
+    AHRS * m_gyro;
 };
