@@ -5,7 +5,8 @@
 
 using namespace CORE;
 
-DriveSubsystem::DriveSubsystem() : driveTurnkP("Drive Turn P Value", .05),
+DriveSubsystem::DriveSubsystem() : lookAhead("Waypoint follower look ahead point"),
+								   driveTurnkP("Drive Turn P Value", .05),
 								   m_etherAValue("Ether A Value", .6),
                                    m_etherBValue("Ether B Value", .4),
 								   m_etherQuickTurnValue("Ether Quick Turn Value", 1.0),
@@ -17,7 +18,14 @@ DriveSubsystem::DriveSubsystem() : driveTurnkP("Drive Turn P Value", .05),
                                    m_leftDriveShifter(DRIVE_SHIFTER_PCM, DRIVE_SHIFTER_HIGH_GEAR_PORT, DRIVE_SHIFTER_LOW_GEAR_PORT),
 								   m_highGear(true),
 								   m_turnPIDMultiplier("Turn PID Multiplier", 0.1),
-								   compressor(COMPRESSOR_PCM) {
+								   compressor(COMPRESSOR_PCM),
+								   m_pursuit(0, 0, .1, m_path, false, 0),
+								   m_tracker(TankTracker::GetInstance()) {
+	try {
+        m_gyro = new AHRS(SPI::Port::kMXP);
+    } catch (std::exception ex) {
+        CORELog::LogError("Error initializing gyro: " + string(ex.what()));
+    }
 }
 
 void DriveSubsystem::robotInit() {
@@ -185,4 +193,54 @@ TankRotation2d DriveSubsystem::GetGyroAngle() {
 
 double DriveSubsystem::GetYaw() {
 	return (double) m_gyro->GetAngle();
+}
+TankRotation2d DriveSubsystem::GetGyroAngle() {
+	return TankRotation2d::FromRadians(m_gyro->GetYaw());
+}
+
+void DriveSubsystem::FollowPath(TankPath path, bool reversed, double maxAccel, double tolerance, 
+	bool gradualStop) {
+	m_pursuit = TankAdaptivePursuit(lookAhead.Get(), maxAccel, 0.025, path, reversed, tolerance, gradualStop);
+}
+
+bool DriveSubsystem::PathDone() {
+	return m_pursuit.IsDone();
+}
+
+void DriveSubsystem::UpdatePathFollower() {
+	TankPosition2d pos;
+	
+	pos = m_tracker->GetLatestFieldToVehicle();
+	
+	TankPosition2d::TankDelta command = m_pursuit.Update(pos, Timer::GetFPGATimestamp());
+
+	VelocityPair setpoint = TankKinematics::InverseKinematics(command);
+	double maxVel = 0.0;
+	maxVel = max(maxVel, setpoint.left);
+	maxVel = max(maxVel, setpoint.right);
+	if (maxVel > 100){
+		double scaling = 100 / maxVel;
+		setpoint = VelocityPair(setpoint.left * scaling, setpoint.right * scaling);
+	}
+	SetMotorSpeed(setpoint.left * .01, setpoint.right * .01);
+} 
+
+std::pair<double, double> DriveSubsystem::GetEncoderInches() {
+	double factor = TankKinematics::wheelDiameter.Get() * 3.14;
+	return {m_leftMaster.GetSelectedSensorPosition(0) * factor, m_rightMaster.GetSelectedSensorPosition(0) * factor};
+}
+
+std::pair<double, double> DriveSubsystem::GetEncoderSpeed() {
+	double factor = TankKinematics::wheelDiameter.Get() * 3.14 * 0.016666666;
+	return {m_leftMaster.GetSelectedSensorVelocity(0) * factor, m_rightMaster.GetSelectedSensorVelocity(0) * factor};
+}
+
+void DriveSubsystem::ResetTracker(TankPosition2d initialPos) {
+	m_tracker->Reset(Timer::GetFPGATimestamp(), initialPos);
+}
+
+void DriveSubsystem::PostLoopTask() {
+	if(CORE::COREDriverstation::GetMode() == CORE::COREDriverstation::AUTON) {
+		UpdatePathFollower();
+	}
 }
