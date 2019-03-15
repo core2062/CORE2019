@@ -5,11 +5,11 @@
 
 using namespace CORE;
 
-class WaypointTestAuton : public COREAuton {
+class GrabCargoActionTestAuton : public COREAuton {
 public:
-    WaypointTestAuton();
+    GrabCargoActionTestAuton();
 	void AddNodes();
 
 private:
-	Node * m_driveForward = nullptr;
+	Node * m_grabCargo = nullptr;
 };

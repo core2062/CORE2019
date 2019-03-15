@@ -5,9 +5,9 @@
 
 using namespace CORE;
 
-class WaypointTestAuton : public COREAuton {
+class DriveDistanceTestAuton : public COREAuton {
 public:
-    WaypointTestAuton();
+    DriveDistanceTestAuton();
 	void AddNodes();
 
 private:

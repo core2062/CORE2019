@@ -1,5 +1,5 @@
 #include "WaypointTestAuton.h"
-#include <Autonomous/Actions.h>
+#include "Actions/DriveWaypointAction.h"
 
 WaypointTestAuton::WaypointTestAuton() :
 	COREAuton("Waypoint Follower Test Auton") {
