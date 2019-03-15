@@ -14,7 +14,7 @@ CORE::COREAutonAction::actionStatus PlaceHatchAction::Action() {
             Robot::GetInstance()->hatchScorerSubsystem.ToggleClaw();
             break;
         case EXTEND:
-            Robot::GetInstance()->hatchScorerSubsystem.PunchHatch();
+            Robot::GetInstance()->hatchScorerSubsystem.ScoreHatch();
         break;
     } 
     return COREAutonAction::actionStatus::END;

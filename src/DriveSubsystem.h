@@ -34,8 +34,7 @@ public:
     TankRotation2d GetGyroAngle();
     double GetYaw();
 
-        // Autonomous functions
-    TankRotation2d GetGyroAngle();
+    // Autonomous functions
     void FollowPath(TankPath path, bool reversed, double maxAccel, double tolerance, bool gradualStop);
     TankAdaptivePursuit m_pursuit;
     bool PathDone();
@@ -45,7 +44,6 @@ public:
     std::pair<double, double> GetEncoderSpeed();
     void HardResetYaw();
     void SoftResetYaw();
-    AHRS * GetGyro();
 
     AHRS * m_gyro;
 
@@ -59,5 +57,4 @@ private:
     DoubleSolenoid m_leftDriveShifter;
     bool m_highGear;
     COREConstant<double> m_turnPIDMultiplier;
-    AHRS * m_gyro;
 };

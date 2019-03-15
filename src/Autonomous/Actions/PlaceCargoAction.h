@@ -3,7 +3,7 @@
 #include <CORERobotLib.h>
 
 enum PlaceCargo{
-    OUTTAKE
+    OUTTAKE_CARGO
 };
 
 class PlaceCargoAction : public COREAutonAction {

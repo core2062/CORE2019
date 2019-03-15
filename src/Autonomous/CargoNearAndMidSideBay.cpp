@@ -8,11 +8,11 @@ CargoNearAndMidSideBay::CargoNearAndMidSideBay() :
 
 void CargoNearAndMidSideBay::AddNodes() {
     m_driveToNearSideBay = new Node(10, new DriveWaypointAction(TankPath::FromFile("path.json", false)), new RaiseLiftAction(SecondLevelCargo));
-    m_placeCargoInNearSideBay = new Node(10, new PlaceCargoAction(OUTTAKE));
+    m_placeCargoInNearSideBay = new Node(10, new PlaceCargoAction(PlaceCargo::OUTTAKE_CARGO));
     m_driveToCargoDepot = new Node(10, new DriveWaypointAction(TankPath::FromFile("path.json", false)), new RaiseLiftAction(FirstLevelHatch));
-    m_grabCargoFromCargoDepot = new Node(10, new GrabCargoAction(INTAKE));
+    m_grabCargoFromCargoDepot = new Node(10, new GrabCargoAction(GrabCargo::INTAKE));
     m_driveToMidSideBay = new Node(10, new DriveWaypointAction(TankPath::FromFile("path.json", false)), new RaiseLiftAction(SecondLevelCargo));
-    m_placeCargoInMidSideBay = new Node(10, new PlaceCargoAction(OUTTAKE));
+    m_placeCargoInMidSideBay = new Node(10, new PlaceCargoAction(PlaceCargo::OUTTAKE_CARGO));
     AddFirstNode(m_driveToNearSideBay);
     m_driveToNearSideBay->AddNext(m_placeCargoInNearSideBay);
     m_placeCargoInNearSideBay->AddNext(m_driveToCargoDepot);

@@ -11,7 +11,7 @@ void GrabHatchAction::ActionInit(){
             Robot::GetInstance()->hatchScorerSubsystem.ToggleClaw();
             break;
         case PUSH: 
-            Robot::GetInstance()->hatchScorerSubsystem.PunchHatch();
+            Robot::GetInstance()->hatchScorerSubsystem.ScoreHatch();
         break;
     }
 }

@@ -186,11 +186,6 @@ AHRS * DriveSubsystem::GetGyro() {
 	return m_gyro;
 }
 
-TankRotation2d DriveSubsystem::GetGyroAngle() {
-	double degrees = GetYaw();
-	return TankRotation2d::FromDegrees(degrees);
-}
-
 double DriveSubsystem::GetYaw() {
 	return (double) m_gyro->GetAngle();
 }

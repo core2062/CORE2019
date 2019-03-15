@@ -4,7 +4,6 @@
 
 enum GrabCargo{
     INTAKE,
-    OUTTAKE,
     NEUTRAL
 };
 

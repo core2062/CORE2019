@@ -8,7 +8,7 @@ CargoMidRocketNear::CargoMidRocketNear() :
 
 void CargoMidRocketNear::AddNodes() {
     m_driveForwardToRocket = new Node(5, new DriveWaypointAction(TankPath::FromFile("path.json", false)), new RaiseLiftAction(SecondLevelCargo));
-    m_placeCargoOnMidRocket = new Node(5, new PlaceCargoAction(OUTTAKE));
+    m_placeCargoOnMidRocket = new Node(5, new PlaceCargoAction(PlaceCargo::OUTTAKE_CARGO));
     m_lowerLiftToFirstLevel = new Node(5, new RaiseLiftAction(FirstLevelCargo));
     AddFirstNode(m_driveForwardToRocket);
     m_driveForwardToRocket->AddNext(m_placeCargoOnMidRocket);
