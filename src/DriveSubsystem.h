@@ -34,7 +34,6 @@ public:
     TankRotation2d GetGyroAngle();
     double GetYaw();
 
-    // Autonomous functions
     void FollowPath(TankPath path, bool reversed, double maxAccel, double tolerance, bool gradualStop);
     TankAdaptivePursuit m_pursuit;
     bool PathDone();
@@ -44,7 +43,6 @@ public:
     std::pair<double, double> GetEncoderSpeed();
     void HardResetYaw();
     void SoftResetYaw();
-
     AHRS * m_gyro;
 
     COREConstant<double> driveTurnkP, lookAhead;
