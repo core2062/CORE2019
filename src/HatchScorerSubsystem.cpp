@@ -51,6 +51,7 @@ void HatchScorerSubsystem::ScoreHatch() {
             m_isToggling = false; 
         }
     }
+
 }
 
 void HatchScorerSubsystem::LoadHatch() {
