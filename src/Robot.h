@@ -9,7 +9,7 @@
 #include <LiftSubsystem.h>
 #include <HatchIntakeSubsystem.h>
 #include <HatchScorerSubsystem.h>
-#include <Auton.h>
+#include <AutonRoutines.h>
 
 /* Drive Motor Ports */
 //Right Front Drive Motor
@@ -79,7 +79,7 @@ public:
 	//HatchIntakeSubsystem hatchSubsystem;
 	HatchScorerSubsystem hatchScorerSubsystem;
 	LiftSubsystem liftSubsystem;
-	Autonomous controlledAutonomous;
+	TeleoperatedAutonomous controlledAutonomous;
 
 private:
 	static Robot * m_instance;

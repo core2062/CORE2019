@@ -5,9 +5,9 @@
 
 using namespace CORE;
 
-class SandstormAction : public COREAutonAction {
+class TeleopAction : public COREAutonAction {
 public:
-    SandstormAction();
+    TeleopAction();
     void ActionInit() override;
     CORE::COREAutonAction::actionStatus Action() override;
     void ActionEnd() override;
