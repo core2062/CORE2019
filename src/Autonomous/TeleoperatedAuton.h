@@ -12,6 +12,7 @@ class TeleoperatedAutonomous: public COREAuton {
 public:
     TeleoperatedAutonomous();
     void AddNodes() override;
-    Node * autonLoop;
+private:
+    Node * m_autonLoop;
 
 };
