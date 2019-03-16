@@ -1,3 +1,15 @@
 #pragma once
 
 #include "Autonomous/TeleoperatedAuton.h"
+#include "Autonomous/DriveDistanceTestAuton.h"
+#include "Autonomous/GrabCargoActionTestAuton.h"
+#include "Autonomous/GrabHatchActionTestAuton.h"
+#include "Autonomous/LeftToRocketHatchAuton.h"
+#include "Autonomous/OneHatchCargoShipAuton.h"
+#include "Autonomous/OneHatchCargoShipToFeederAuton.h"
+#include "Autonomous/PlaceCargoActionTestAuton.h"
+#include "Autonomous/PlaceHatchActionTestAuton.h"
+#include "Autonomous/RaiseLiftActionTestAuton.h"
+#include "Autonomous/RightToRocketHatchAuton.h"
+#include "Autonomous/TeleoperatedAuton.h"
+#include "Autonomous/WaypointTestAuton.h"

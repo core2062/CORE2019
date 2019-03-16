@@ -80,6 +80,18 @@ public:
 	HatchScorerSubsystem hatchScorerSubsystem;
 	LiftSubsystem liftSubsystem;
 	TeleoperatedAutonomous controlledAutonomous;
+	// DriveDistanceTestAuton distance;
+	// GrabCargoActionTestAuton grabCargo;
+	// GrabHatchActionTestAuton grabHatch;
+	// PlaceCargoActionTestAuton placeCargo;
+	// PlaceHatchActionTestAuton placeHatch;
+	// RaiseLiftActionTestAuton raiseLift;
+	// WaypointTestAuton waypointDrive;
+	// LeftToRocketHatchAuton leftToRocketHatch;
+	// RightToRocketHatchAuton rightToRocketHatch;
+	// OneHatchCargoShipAuton oneHatchToCargoShip;
+	// OneHatchCargoShipToFeederAuton oneHatchToCargoShipToFeeder;
+
 
 private:
 	static Robot * m_instance;
