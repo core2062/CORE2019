@@ -6,6 +6,6 @@ GrabHatchActionTestAuton::GrabHatchActionTestAuton() :
 }
 
 void GrabHatchActionTestAuton::AddNodes() {
-    m_grabCargo = new Node(5, new GrabCargoAction(GrabCargo::INTAKE));
+    m_grabCargo = new Node(5, new GrabHatchAction(GrabHatch::OPEN));
     AddFirstNode(m_grabCargo);
 }
