@@ -1,0 +1,106 @@
+﻿[
+    {
+        "name": "wp",
+        "x": 0,
+        "y": 80,
+        "theta": 0,
+        "pathAngle": -1.57
+    },
+    {
+        "name": "point",
+        "x": 0.11,
+        "y": 88.08,
+        "theta": 0
+    },
+    {
+        "name": "point",
+        "x": 0.41,
+        "y": 96.14,
+        "theta": 0
+    },
+    {
+        "name": "point",
+        "x": 0.89,
+        "y": 104.19,
+        "theta": 0
+    },
+    {
+        "name": "point",
+        "x": 1.51,
+        "y": 112.23,
+        "theta": 0
+    },
+    {
+        "name": "point",
+        "x": 2.23,
+        "y": 120.26,
+        "theta": 0
+    },
+    {
+        "name": "point",
+        "x": 3.04,
+        "y": 128.28,
+        "theta": 0
+    },
+    {
+        "name": "point",
+        "x": 3.9,
+        "y": 136.31,
+        "theta": 0
+    },
+    {
+        "name": "point",
+        "x": 4.79,
+        "y": 144.33,
+        "theta": 0
+    },
+    {
+        "name": "point",
+        "x": 5.67,
+        "y": 152.35,
+        "theta": 0
+    },
+    {
+        "name": "point",
+        "x": 6.52,
+        "y": 160.37,
+        "theta": 0
+    },
+    {
+        "name": "point",
+        "x": 7.3,
+        "y": 168.39,
+        "theta": 0
+    },
+    {
+        "name": "point",
+        "x": 8,
+        "y": 176.43,
+        "theta": 0
+    },
+    {
+        "name": "point",
+        "x": 8.57,
+        "y": 184.47,
+        "theta": 0
+    },
+    {
+        "name": "point",
+        "x": 9,
+        "y": 192.52,
+        "theta": 0
+    },
+    {
+        "name": "point",
+        "x": 9.25,
+        "y": 200.59,
+        "theta": 0
+    },
+    {
+        "name": "endRobot",
+        "x": 9.3,
+        "y": 206.18,
+        "theta": 0,
+        "pathAngle": -1.57
+    }
+]
