@@ -15,7 +15,7 @@ void DriveWaypointController::PreLoopTask() {
 }
 
 void DriveWaypointController::PostLoopTask() {
-	if (m_enabled && (COREDriverstation::GetMode() == COREDriverstation::gameMode::AUTON)){
+	if (m_enabled && (COREDriverstation::IsAutonomous())){
 		EnabledLoop();
 	}
 }
