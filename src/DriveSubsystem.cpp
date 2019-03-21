@@ -175,11 +175,17 @@ void DriveSubsystem::FillCompressor() {
 }
 
 TalonSRX * DriveSubsystem::GetLeftMaster() {
-	return &m_leftMaster;
+	if (std::addressof(m_leftSlave) == nullptr) {
+		std::cout << "Left master is returning a nullptr!" << endl;
+	}
+	return std::addressof(m_leftSlave);
 }
 
 TalonSRX * DriveSubsystem::GetRightMaster() {
-	return &m_rightMaster;
+	if (std::addressof(m_rightMaster) == nullptr) {
+		std::cout << "Right master is returning a nullptr!" << endl;
+	}
+	return std::addressof(m_rightMaster);
 }
 
 AHRS * DriveSubsystem::GetGyro() {
@@ -222,12 +228,12 @@ void DriveSubsystem::UpdatePathFollower() {
 
 std::pair<double, double> DriveSubsystem::GetEncoderInches() {
 	double factor = TankKinematics::wheelDiameter.Get() * 3.14;
-	return {m_leftMaster.GetSelectedSensorPosition(0) * factor, m_rightMaster.GetSelectedSensorPosition(0) * factor};
+	return {m_leftSlave.GetSelectedSensorPosition(0) * factor, m_rightMaster.GetSelectedSensorPosition(0) * factor};
 }
 
 std::pair<double, double> DriveSubsystem::GetEncoderSpeed() {
 	double factor = TankKinematics::wheelDiameter.Get() * 3.14 * 0.016666666;
-	return {m_leftMaster.GetSelectedSensorVelocity(0) * factor, m_rightMaster.GetSelectedSensorVelocity(0) * factor};
+	return {m_leftSlave.GetSelectedSensorVelocity(0) * factor, m_rightMaster.GetSelectedSensorVelocity(0) * factor};
 }
 
 void DriveSubsystem::ResetTracker(TankPosition2d initialPos) {

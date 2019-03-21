@@ -44,6 +44,7 @@ public:
     void HardResetYaw();
     void SoftResetYaw();
     AHRS * m_gyro;
+    TalonSRX m_leftMaster, m_rightMaster, m_leftSlave, m_rightSlave;
 
     COREConstant<double> driveTurnkP, lookAhead;
 private:
@@ -51,7 +52,6 @@ private:
     TankTracker * m_tracker;
     Compressor compressor;
     COREConstant<double> m_etherAValue, m_etherBValue, m_etherQuickTurnValue, m_ticksPerInch;
-    TalonSRX m_leftMaster, m_rightMaster, m_leftSlave, m_rightSlave;
     DoubleSolenoid m_leftDriveShifter;
     bool m_highGear;
     COREConstant<double> m_turnPIDMultiplier;
