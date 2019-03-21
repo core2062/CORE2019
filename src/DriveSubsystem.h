@@ -7,6 +7,7 @@
 #include <COREFramework/COREScheduler.h>
 #include <COREHardware/COREJoystick.h>
 #include <WaypointFollower/tank/TankWaypointFollower.h>
+#include <Controllers/DriveWaypointController.h>
 #include <AHRS.h>
 
 enum class DriveSide{LEFT = 1, RIGHT = 2, BOTH = 3};
@@ -43,6 +44,8 @@ public:
     std::pair<double, double> GetEncoderSpeed();
     void HardResetYaw();
     void SoftResetYaw();
+    void SetFrame(TankRobotFrame * frame);
+    void SetPos(TankPosition2d pos);
     AHRS * m_gyro;
     TalonSRX m_leftMaster, m_rightMaster, m_leftSlave, m_rightSlave;
 
@@ -51,6 +54,7 @@ private:
     TankPath m_path;
     TankTracker * m_tracker;
     Compressor compressor;
+    DriveWaypointController * m_driveWaypointController = 0;
     COREConstant<double> m_etherAValue, m_etherBValue, m_etherQuickTurnValue, m_ticksPerInch;
     DoubleSolenoid m_leftDriveShifter;
     bool m_highGear;

@@ -39,15 +39,31 @@ void DriveSubsystem::robotInit() {
     } catch (std::exception ex) {
         CORELog::LogError("Error initializing gyro: " + string(ex.what()));
     }
+
+	if (m_driveWaypointController == nullptr) {
+		m_driveWaypointController = new DriveWaypointController();
+	}
 }
 
 void DriveSubsystem::teleopInit() {
 	// Sets ether drive values, inits talons
 	COREEtherDrive::SetAB(m_etherAValue.Get(), m_etherBValue.Get());
 	COREEtherDrive::SetQuickturn(m_etherQuickTurnValue.Get());
+	m_driveWaypointController->Disable();
 	InitTalons();
 }
 
+void DriveSubsystem::SetFrame(TankRobotFrame * frame) {
+	if (m_driveWaypointController) {
+		m_driveWaypointController->frame = frame;
+	}
+}
+
+void DriveSubsystem::SetPos(TankPosition2d pos) {
+	if(m_driveWaypointController != nullptr){
+		m_driveWaypointController->ResetTracker(pos);
+	}
+}
 
 void DriveSubsystem::teleop() {
 	// Code for teleop. Sets motor speed based on the values for the joystick, runs compressor, 
@@ -205,7 +221,10 @@ void DriveSubsystem::FollowPath(TankPath path, bool reversed, double maxAccel, d
 }
 
 bool DriveSubsystem::PathDone() {
-	return m_pursuit.IsDone();
+	if(m_driveWaypointController){
+		return m_driveWaypointController->IsDone();
+	}
+	return true;
 }
 
 void DriveSubsystem::UpdatePathFollower() {

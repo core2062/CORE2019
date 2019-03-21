@@ -1,18 +1,18 @@
-#pragma once
+// #pragma once
 
-#include <string>
+// #include <string>
 
-#include <frc/WPILib.h>
-#include <CORERobotLib.h>
+// #include <frc/WPILib.h>
+// #include <CORERobotLib.h>
 
-using namespace CORE;
-using namespace std;
+// using namespace CORE;
+// using namespace std;
 
-class RightToRocketHatchAuton: public COREAuton {
-    public:
-    RightToRocketHatchAuton();
-    void AddNodes() override;
-    Node * m_driveToRocket;
-    Node * m_placeHatch;
+// class RightToRocketHatchAuton: public COREAuton {
+//     public:
+//     RightToRocketHatchAuton();
+//     void AddNodes() override;
+//     Node * m_driveToRocket;
+//     Node * m_placeHatch;
 
-};
+// };
