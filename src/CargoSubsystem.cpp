@@ -3,8 +3,8 @@
 CargoSubsystem::CargoSubsystem() : m_rightSideIntake(RIGHT_INTAKE_PORT),
                                    m_leftSideIntake(LEFT_INTAKE_PORT),
                                    m_cargoLimitSwitch(CARGO_LIMIT_SWITCH_PORT),
-                                   m_cargoIntakeSpeed("Cargo Intake Speed"),
-                                   m_cargoOuttakeSpeed("Cargo Outtake Speed"){
+                                   m_cargoIntakeSpeed("Cargo Intake Speed", 0.4),
+                                   m_cargoOuttakeSpeed("Cargo Outtake Speed", 0.5){
 }
 
 void CargoSubsystem::robotInit() {
