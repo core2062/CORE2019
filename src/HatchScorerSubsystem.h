@@ -13,19 +13,19 @@ public:
 	void robotInit() override; 
 	void teleopInit() override;
 	void teleop() override;
-	void ToggleClaw();
-	void ScoreHatch();
-	void LoadHatch();
+	void ScoreHatchOnRocket();
 	void ExtendPunch();
 	void RetractPunch();
-	void OpenClaw();
-	void CloseClaw();
+	void IntakeHatch();
+	void OuttakeHatch();
+	void StopMotors();
 	bool GetIsScoring();
 	bool GetIsLoading();
 
 private:
 	COREConstant<double> m_punchSeconds, m_retractSeconds, m_toggleClawSeconds;
-	DoubleSolenoid m_solenoidPunchOne, m_solenoidClaw; 
+	DoubleSolenoid m_solenoidPunchOne; 
+	TalonSRX m_IntakeMotor;
 	bool m_isExtended = false;
 	bool m_isOpen = false;
 	bool m_isScoring = false;

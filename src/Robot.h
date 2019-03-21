@@ -31,6 +31,8 @@
 #define RIGHT_LIFT_PORT 30
 //Hatch Intake Motor
 #define HATCH_INTAKE_PORT 21
+//Hatch Scorer Motor
+#define HATCH_SCORER_MOTOR 34 
 
 /* Solenoids */
 // Drive 
