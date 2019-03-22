@@ -39,6 +39,7 @@ void DriveSubsystem::robotInit() {
     } catch (std::exception ex) {
         CORELog::LogError("Error initializing gyro: " + string(ex.what()));
     }
+	
 }
 
 void DriveSubsystem::teleopInit() {
