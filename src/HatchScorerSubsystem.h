@@ -23,8 +23,7 @@ public:
 	bool GetIsLoading();
 
 private:
-	COREConstant<double> m_punchSeconds, m_retractSeconds, m_toggleClawSeconds;
-	DoubleSolenoid m_solenoidPunchOne; 
+	COREConstant<double> m_punchSeconds, m_retractSeconds, m_toggleClawSeconds, m_hatchIntakeSpeed, m_hatchOuttakeSpeed;
 	TalonSRX m_IntakeMotor;
 	bool m_isExtended = false;
 	bool m_isOpen = false;

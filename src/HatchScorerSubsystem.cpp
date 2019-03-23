@@ -3,11 +3,12 @@
 #include "Robot.h"
 
 //TODO:Fill these in with actual port numbers
-HatchScorerSubsystem::HatchScorerSubsystem() : m_solenoidPunchOne(0, HATCH_SCORER_PUNCH_IN, HATCH_SCORER_PUNCH_OUT),
-                                               m_IntakeMotor(HATCH_SCORER_MOTOR),
+HatchScorerSubsystem::HatchScorerSubsystem() : m_IntakeMotor(HATCH_SCORER_MOTOR),
                                                m_punchSeconds("Hatch Scorer Punch Time (seconds)"),
                                                m_retractSeconds("Hatch Scorer Retract Time (seconds)"),
-                                               m_toggleClawSeconds("Claw Toggle Time (seconds)") {
+                                               m_toggleClawSeconds("Claw Toggle Time (seconds)"),
+                                               m_hatchIntakeSpeed("Hatch Intake Speed"),
+                                               m_hatchOuttakeSpeed("Hatch Outtake Speed") {
 
 }
 
@@ -22,12 +23,10 @@ void HatchScorerSubsystem::teleopInit() {
 }
 
 void HatchScorerSubsystem::teleop() {
-    if (operatorJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::RIGHT_BUTTON) || GetIsScoring()) {
-        ScoreHatchOnRocket();
+    if (operatorJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::RIGHT_BUTTON)) {
+        IntakeHatch();
     } else if (operatorJoystick->GetButton(CORE::COREJoystick::JoystickButton::RIGHT_TRIGGER)) {
         OuttakeHatch();
-    } else if (operatorJoystick->GetButton(CORE::COREJoystick::JoystickButton::X_BUTTON)) {
-        IntakeHatch();
     } else {
         StopMotors();
     }
@@ -58,12 +57,12 @@ void HatchScorerSubsystem::ScoreHatchOnRocket() {
 }
 
 void HatchScorerSubsystem::ExtendPunch() {
-    m_solenoidPunchOne.Set(frc::DoubleSolenoid::kReverse);
+    //m_solenoidPunchOne.Set(frc::DoubleSolenoid::kReverse);
     m_isExtended = true;
 }
 
 void HatchScorerSubsystem::RetractPunch() {
-    m_solenoidPunchOne.Set(frc::DoubleSolenoid::kForward);
+    //m_solenoidPunchOne.Set(frc::DoubleSolenoid::kForward);
     m_isExtended = false;
 }
 
@@ -77,11 +76,11 @@ double HatchScorerSubsystem::GetTime() {
 }
 
 void HatchScorerSubsystem::IntakeHatch() {
-    m_IntakeMotor.Set(ControlMode::PercentOutput, -0.6);
+    m_IntakeMotor.Set(ControlMode::PercentOutput, m_hatchIntakeSpeed.Get());
 }
 
 void HatchScorerSubsystem::OuttakeHatch() {
-    m_IntakeMotor.Set(ControlMode::PercentOutput, 1);
+    m_IntakeMotor.Set(ControlMode::PercentOutput, m_hatchOuttakeSpeed.Get());
 }
 
 void HatchScorerSubsystem::StopMotors() {
