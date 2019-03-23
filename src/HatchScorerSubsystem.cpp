@@ -24,9 +24,9 @@ void HatchScorerSubsystem::teleopInit() {
 void HatchScorerSubsystem::teleop() {
     if (operatorJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::RIGHT_BUTTON) || GetIsScoring()) {
         ScoreHatchOnRocket();
-    } else if (operatorJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::RIGHT_TRIGGER)) {
+    } else if (operatorJoystick->GetButton(CORE::COREJoystick::JoystickButton::RIGHT_TRIGGER)) {
         OuttakeHatch();
-    } else if (operatorJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::X_BUTTON)) {
+    } else if (operatorJoystick->GetButton(CORE::COREJoystick::JoystickButton::X_BUTTON)) {
         IntakeHatch();
     } else {
         StopMotors();
@@ -77,11 +77,11 @@ double HatchScorerSubsystem::GetTime() {
 }
 
 void HatchScorerSubsystem::IntakeHatch() {
-    m_IntakeMotor.Set(ControlMode::PercentOutput, -0.2);
+    m_IntakeMotor.Set(ControlMode::PercentOutput, -0.6);
 }
 
 void HatchScorerSubsystem::OuttakeHatch() {
-    m_IntakeMotor.Set(ControlMode::PercentOutput, 0.2);
+    m_IntakeMotor.Set(ControlMode::PercentOutput, 1);
 }
 
 void HatchScorerSubsystem::StopMotors() {
