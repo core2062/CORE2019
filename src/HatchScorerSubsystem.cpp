@@ -8,7 +8,7 @@ HatchScorerSubsystem::HatchScorerSubsystem() : m_IntakeMotor(HATCH_SCORER_MOTOR)
                                                m_retractSeconds("Hatch Scorer Retract Time (seconds)"),
                                                m_toggleClawSeconds("Claw Toggle Time (seconds)"),
                                                m_hatchIntakeSpeed("Hatch Intake Speed"),
-                                               m_hatchOuttakeSpeed("Hatch Outtake Speed") {
+                                               m_hatchOuttakeSpeed("Hatch Outtake Speed", 0.8) {
 
 }
 
