@@ -16,6 +16,7 @@ using namespace frc;
 class DriveSubsystem : public CORESubsystem, public CORETask {
 public:
     DriveSubsystem();
+    ~DriveSubsystem();
     void robotInit() override;
     void teleopInit() override;
     void teleop() override;

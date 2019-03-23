@@ -9,6 +9,7 @@ private:
 	TankPath m_path;
 	TankTracker * m_tracker;
 	TankAdaptivePursuit m_pursuit;
+	
 
 public:
 	DriveWaypointController();
