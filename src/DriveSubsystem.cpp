@@ -191,12 +191,13 @@ TalonSRX * DriveSubsystem::GetRightMaster() {
 }
 
 AHRS * DriveSubsystem::GetGyro() {
-	if (m_gyro == nullptr) {
-		std::cout << "Get Gyro is returning a null pointer" << endl;
-		return nullptr;
-	} else {
-		return m_gyro;
-	}
+	// if (m_gyro == nullptr) {
+	// 	std::cout << "Get Gyro is returning a null pointer" << endl;
+	// 	return nullptr;
+	// } else {
+	// 	return m_gyro;
+	// }
+	return nullptr;
 }
 
 double DriveSubsystem::GetYaw() {
