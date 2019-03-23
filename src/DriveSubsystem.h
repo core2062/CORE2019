@@ -43,9 +43,8 @@ public:
     std::pair<double, double> GetEncoderSpeed();
     void HardResetYaw();
     void SoftResetYaw();
-    AHRS * m_gyro;
     TalonSRX m_leftMaster, m_rightMaster, m_leftSlave, m_rightSlave;
-
+    AHRS * m_gyro;
     COREConstant<double> driveTurnkP, lookAhead;
 private:
     TankPath m_path;
@@ -55,4 +54,5 @@ private:
     DoubleSolenoid m_leftDriveShifter;
     bool m_highGear;
     COREConstant<double> m_turnPIDMultiplier;
+
 };

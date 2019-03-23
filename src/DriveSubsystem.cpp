@@ -2,6 +2,7 @@
 #include <Robot.h>
 #include <frc/WPILib.h>
 #include <COREFramework/COREScheduler.h>
+#include <AHRS.h>
 
 using namespace CORE;
 
@@ -22,7 +23,7 @@ DriveSubsystem::DriveSubsystem() : lookAhead("Waypoint follower look ahead point
 								   m_pursuit(0, 0, .1, m_path, false, 0),
 								   m_tracker(TankTracker::GetInstance()) {
 	try {
-        m_gyro = new AHRS(SPI::Port::kMXP);
+        m_gyro = new AHRS(SPI::Port::kMXP);;
     } catch (std::exception ex) {
         CORELog::LogError("Error initializing gyro: " + string(ex.what()));
     }
@@ -34,11 +35,11 @@ void DriveSubsystem::robotInit() {
 	driverJoystick->RegisterAxis(CORE::COREJoystick::RIGHT_STICK_X);
 	driverJoystick->RegisterButton(CORE::COREJoystick::RIGHT_TRIGGER);
     InitTalons();
-    try {
-        m_gyro = new AHRS(SPI::Port::kMXP);
-    } catch (std::exception ex) {
-        CORELog::LogError("Error initializing gyro: " + string(ex.what()));
-    }
+    // try {
+    //     m_gyro = new AHRS(SPI::Port::kMXP);
+    // } catch (std::exception ex) {
+    //     CORELog::LogError("Error initializing gyro: " + string(ex.what()));
+    // }
 	
 }
 
@@ -190,7 +191,12 @@ TalonSRX * DriveSubsystem::GetRightMaster() {
 }
 
 AHRS * DriveSubsystem::GetGyro() {
-	return m_gyro;
+	if (m_gyro == nullptr) {
+		std::cout << "Get Gyro is returning a null pointer" << endl;
+		return nullptr;
+	} else {
+		return m_gyro;
+	}
 }
 
 double DriveSubsystem::GetYaw() {
