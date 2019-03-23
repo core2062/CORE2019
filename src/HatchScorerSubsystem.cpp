@@ -23,7 +23,7 @@ void HatchScorerSubsystem::teleopInit() {
 }
 
 void HatchScorerSubsystem::teleop() {
-    if (operatorJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::RIGHT_BUTTON)) {
+    if (operatorJoystick->GetButton(CORE::COREJoystick::JoystickButton::RIGHT_BUTTON)) {
         IntakeHatch();
     } else if (operatorJoystick->GetButton(CORE::COREJoystick::JoystickButton::RIGHT_TRIGGER)) {
         OuttakeHatch();
