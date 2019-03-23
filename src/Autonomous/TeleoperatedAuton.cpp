@@ -7,6 +7,7 @@ TeleoperatedAutonomous::TeleoperatedAutonomous() : COREAuton("Teleop in Autonomo
 }
 
 void TeleoperatedAutonomous::AddNodes() {
-    autonLoop = new Node(15, new TeleopAction());
-    AddFirstNode(autonLoop);
+    std::cout << "Reached auton" << endl;
+    m_autonLoop = new Node(15, new TeleopAction());
+    AddFirstNode(m_autonLoop);
 }

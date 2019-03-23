@@ -2,6 +2,7 @@
 #include <Robot.h>
 #include <frc/WPILib.h>
 #include <COREFramework/COREScheduler.h>
+#include <AHRS.h>
 
 using namespace CORE;
 
@@ -22,12 +23,16 @@ DriveSubsystem::DriveSubsystem() : lookAhead("Waypoint follower look ahead point
 								   m_pursuit(0, 0, .1, m_path, false, 0),
 								   m_tracker(TankTracker::GetInstance()) {
 	try {
-        m_gyro = new AHRS(SPI::Port::kMXP);
+        m_gyro = new AHRS(SPI::Port::kMXP);;
     } catch (std::exception ex) {
         CORELog::LogError("Error initializing gyro: " + string(ex.what()));
     }
+	std::cout << "This is the gyro angle from drive subsystem: " << m_gyro->GetAngle() << endl;
 }
 
+DriveSubsystem::~DriveSubsystem() {
+	cout << "You have reached the drive subsystem destructor"<< endl;
+}
 void DriveSubsystem::robotInit() {
 	// Registers joystick axis and buttons, does inital setup for talons
 	driverJoystick->RegisterAxis(CORE::COREJoystick::LEFT_STICK_Y);
@@ -205,7 +210,14 @@ TalonSRX * DriveSubsystem::GetRightMaster() {
 }
 
 AHRS * DriveSubsystem::GetGyro() {
-	return m_gyro;
+	try {
+	if (m_gyro == nullptr) {
+		std::cout << "Get Gyro is returning a null pointer" << endl;
+		return nullptr;
+	} else {
+		return m_gyro;
+	}
+	//return nullptr;
 }
 
 double DriveSubsystem::GetYaw() {

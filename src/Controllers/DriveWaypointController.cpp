@@ -5,8 +5,9 @@ DriveWaypointController::DriveWaypointController():
 	m_path(),
     m_tracker(TankTracker::GetInstance()),
 	m_pursuit(0,0,.1,m_path,false,0) {
-    	TankTracker::GetInstance()->Init(Robot::GetInstance()->driveSubsystem.GetLeftMaster(), Robot::GetInstance()->driveSubsystem.GetRightMaster(), 
-			Robot::GetInstance()->driveSubsystem.GetGyro()),
+    	TankTracker::GetInstance()->Init(Robot::GetInstance()->driveSubsystem.GetLeftMaster(), 
+			Robot::GetInstance()->driveSubsystem.GetRightMaster(), 
+			Robot::GetInstance()->driveSubsystem.GetGyro());
     	std::cout << "Waypoint Controller Init" << std::endl;
 }
 

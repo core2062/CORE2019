@@ -10,6 +10,9 @@
 #include <HatchIntakeSubsystem.h>
 #include <HatchScorerSubsystem.h>
 #include <AutonRoutines.h>
+#include <Controllers/DriveWaypointController.h>
+#include <Controllers/DriveGyroController.h>
+
 
 /* Drive Motor Ports */
 //Right Front Drive Motor
@@ -80,6 +83,20 @@ public:
 	HatchScorerSubsystem hatchScorerSubsystem;
 	LiftSubsystem liftSubsystem;
 	TeleoperatedAutonomous controlledAutonomous;
+	DriveWaypointController driveWaypointController;
+	DriveGyroController driveGyroController;
+	// DriveDistanceTestAuton distance;
+	// GrabCargoActionTestAuton grabCargo;
+	// GrabHatchActionTestAuton grabHatch;
+	// PlaceCargoActionTestAuton placeCargo;
+	// PlaceHatchActionTestAuton placeHatch;
+	// RaiseLiftActionTestAuton raiseLift;
+	// WaypointTestAuton waypointDrive;
+	// LeftToRocketHatchAuton leftToRocketHatch;
+	// RightToRocketHatchAuton rightToRocketHatch;
+	// OneHatchCargoShipAuton oneHatchToCargoShip;
+	// OneHatchCargoShipToFeederAuton oneHatchToCargoShipToFeeder;
+
 
 private:
 	static Robot * m_instance;

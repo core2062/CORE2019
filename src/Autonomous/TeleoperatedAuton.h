@@ -9,9 +9,10 @@ using namespace CORE;
 using namespace std;
 
 class TeleoperatedAutonomous: public COREAuton {
-    public:
+public:
     TeleoperatedAutonomous();
     void AddNodes() override;
-    Node * autonLoop;
+private:
+    Node * m_autonLoop;
 
 };
