@@ -47,7 +47,6 @@ public:
     void SoftResetYaw();
     void SetFrame(TankRobotFrame * frame);
     void SetPos(TankPosition2d pos);
-    AHRS * m_gyro;
     TalonSRX m_leftMaster, m_rightMaster, m_leftSlave, m_rightSlave;
     AHRS * m_gyro;
     COREConstant<double> driveTurnkP, lookAhead;

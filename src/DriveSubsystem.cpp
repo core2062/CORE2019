@@ -22,6 +22,15 @@ DriveSubsystem::DriveSubsystem() : lookAhead("Waypoint follower look ahead point
 								   compressor(COMPRESSOR_PCM),
 								   m_pursuit(0, 0, .1, m_path, false, 0),
 								   m_tracker(TankTracker::GetInstance()) {
+	if (std::addressof(m_leftSlave) == nullptr) {
+		std::cout << "Left master is returning a nullptr!" << endl;
+	}
+	if (std::addressof(m_rightMaster) == nullptr) {
+		std::cout << "Right master is returning a nullptr!" << endl;
+	}
+		if (m_gyro == nullptr) {
+		std::cout << "GetGyro is returning a nullptr!" << endl;
+	}
 	try {
         m_gyro = new AHRS(SPI::Port::kMXP);;
     } catch (std::exception ex) {
@@ -196,28 +205,34 @@ void DriveSubsystem::FillCompressor() {
 }
 
 TalonSRX * DriveSubsystem::GetLeftMaster() {
-	if (std::addressof(m_leftSlave) == nullptr) {
+	if (&m_leftSlave == nullptr) {
 		std::cout << "Left master is returning a nullptr!" << endl;
+	} else{
+		bool Inverted = m_leftMaster.GetInverted();
 	}
-	return std::addressof(m_leftSlave);
+	return &m_leftSlave;
 }
 
 TalonSRX * DriveSubsystem::GetRightMaster() {
-	if (std::addressof(m_rightMaster) == nullptr) {
+	if (&m_rightMaster == nullptr) {
 		std::cout << "Right master is returning a nullptr!" << endl;
-	}
-	return std::addressof(m_rightMaster);
+	} else{
+		bool Inverted = m_rightMaster.GetInverted();
+		}
+	return &m_rightMaster;
 }
 
 AHRS * DriveSubsystem::GetGyro() {
 	try {
-	if (m_gyro == nullptr) {
-		std::cout << "Get Gyro is returning a null pointer" << endl;
-		return nullptr;
-	} else {
-		return m_gyro;
+		if (m_gyro == nullptr) {
+			std::cout << "Get Gyro is returning a null pointer" << endl;
+			return nullptr;
+		} else {
+			return m_gyro;
+		}
+	}catch (std::exception ex) {
+		CORELog::LogError("Error getting gyro: " + string(ex.what()));
 	}
-	//return nullptr;
 }
 
 double DriveSubsystem::GetYaw() {
