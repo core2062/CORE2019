@@ -32,13 +32,13 @@ void LiftSubsystem::robotInit(){
     m_leftLiftMotor.SetInverted(true);
     //m_leftLiftMotor.Follow(m_rightLiftMotor);
     operatorJoystick->RegisterAxis(CORE::COREJoystick::JoystickAxis::LEFT_STICK_Y);
-    operatorJoystick->RegisterButton(COREJoystick::JoystickButton::DPAD_N);
-    operatorJoystick->RegisterButton(COREJoystick::JoystickButton::DPAD_S);
-    operatorJoystick->RegisterButton(COREJoystick::JoystickButton::DPAD_W);
-    operatorJoystick->RegisterButton(COREJoystick::JoystickButton::DPAD_E);
-    operatorJoystick->RegisterButton(COREJoystick::JoystickButton::A_BUTTON);
-    operatorJoystick->RegisterButton(COREJoystick::JoystickButton::B_BUTTON);
-    operatorJoystick->RegisterButton(COREJoystick::JoystickButton::Y_BUTTON);
+    // operatorJoystick->RegisterButton(COREJoystick::JoystickButton::DPAD_N);
+    // operatorJoystick->RegisterButton(COREJoystick::JoystickButton::DPAD_S);
+    // operatorJoystick->RegisterButton(COREJoystick::JoystickButton::DPAD_W);
+    // operatorJoystick->RegisterButton(COREJoystick::JoystickButton::DPAD_E);
+    // operatorJoystick->RegisterButton(COREJoystick::JoystickButton::A_BUTTON);
+    // operatorJoystick->RegisterButton(COREJoystick::JoystickButton::B_BUTTON);
+    // operatorJoystick->RegisterButton(COREJoystick::JoystickButton::Y_BUTTON);
     m_leftLiftMotor.ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::CTRE_MagEncoder_Relative, 0, 0);
     m_leftLiftMotor.SetSelectedSensorPosition(0,0,0);
     m_leftLiftMotor.SetSensorPhase(true);
@@ -65,21 +65,21 @@ void LiftSubsystem::teleop() {
     // Sets the requested speed to the value from the joystick
     SetRequestedSpeed(-operatorJoystick->GetAxis(CORE::COREJoystick::JoystickAxis::LEFT_STICK_Y));
 
-    if (operatorJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::Y_BUTTON)) {
-        SetThirdLevelHatchHeight();
-    } else if (operatorJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::B_BUTTON)) {
-        SetSecondLevelHatchHeight();
-    } else if (operatorJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::A_BUTTON)) {
-        SetFirstLevelHatchHeight();
-    } else if (operatorJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::DPAD_N)) {
-        SetThirdLevelCargoHeight();
-    } else if (operatorJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::DPAD_W)) {
-        SetSecondLevelCargoHeight();
-    } else if (operatorJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::DPAD_S)) {
-        SetFirstLevelCargoHeight();
-    } else if (operatorJoystick->GetRisingEdge(COREJoystick::JoystickButton::DPAD_E)) {
-        SetCargoBayCargoHeight();
-    }
+    // if (operatorJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::Y_BUTTON)) {
+    //     SetThirdLevelHatchHeight();
+    // } else if (operatorJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::B_BUTTON)) {
+    //     SetSecondLevelHatchHeight();
+    // } else if (operatorJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::A_BUTTON)) {
+    //     SetFirstLevelHatchHeight();
+    // } else if (operatorJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::DPAD_N)) {
+    //     SetThirdLevelCargoHeight();
+    // } else if (operatorJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::DPAD_W)) {
+    //     SetSecondLevelCargoHeight();
+    // } else if (operatorJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::DPAD_S)) {
+    //     SetFirstLevelCargoHeight();
+    // } else if (operatorJoystick->GetRisingEdge(COREJoystick::JoystickButton::DPAD_E)) {
+    //     SetCargoBayCargoHeight();
+    // }
 
     // Stops the motors if we are at the top or bottom position, and resets encoders at the bottom of the lift
     if (m_requestedSpeed > 0 && liftPosition > m_topLimit.Get()) {
