@@ -18,6 +18,11 @@ DriveSubsystem::DriveSubsystem() : driveTurnkP("Drive Turn P Value", .05),
 								   m_highGear(true),
 								   m_turnPIDMultiplier("Turn PID Multiplier", 0.1),
 								   compressor(COMPRESSOR_PCM) {
+									   IR1 = new AnalogInput(0);
+									   IR2 = new AnalogInput(1);
+									   IR3 = new AnalogInput(2);
+									   IR4 = new AnalogInput(3);
+									   IR5 = new AnalogInput(9);
 }
 
 void DriveSubsystem::robotInit() {
@@ -54,6 +59,7 @@ void DriveSubsystem::teleop() {
 		ToggleGear();
 	}
 	FillCompressor();
+	LineFollower();
 
 }
 
@@ -159,4 +165,8 @@ void DriveSubsystem::FillCompressor() {
 	} else {
 		compressor.SetClosedLoopControl(true);
 	}
+}
+
+void DriveSubsystem::LineFollower() {
+	SmartDashboard::PutNumber("IR1", IR1->GetValue());
 }

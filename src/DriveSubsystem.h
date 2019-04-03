@@ -25,6 +25,7 @@ public:
     void SetMotorSpeed(double leftPercent, double rightPercent);
     double GetForwardPower();
     void FillCompressor();
+    void LineFollower();
 
     COREConstant<double> driveTurnkP;
 private:
@@ -34,4 +35,9 @@ private:
     DoubleSolenoid m_leftDriveShifter;
     bool m_highGear;
     COREConstant<double> m_turnPIDMultiplier;
+    AnalogInput *IR1;
+    AnalogInput *IR2;
+    AnalogInput *IR3;
+    AnalogInput *IR4;
+    AnalogInput *IR5;
 };
