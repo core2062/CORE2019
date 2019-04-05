@@ -17,12 +17,17 @@ DriveSubsystem::DriveSubsystem() : driveTurnkP("Drive Turn P Value", .05),
                                    m_leftDriveShifter(DRIVE_SHIFTER_PCM, DRIVE_SHIFTER_HIGH_GEAR_PORT, DRIVE_SHIFTER_LOW_GEAR_PORT),
 								   m_highGear(true),
 								   m_turnPIDMultiplier("Turn PID Multiplier", 0.1),
+								   m_photoEyeLimit("Photoeye Cutoff Limit"),
+								   m_constantForwardSpeed("Constant Forward Speed"),
+								   m_rightConstant("Right Line Follower Speed"),
+								   m_middleConstant("Middle Line Follower Speed"),
+								   m_leftConstant("Left Line Follower Speed"),
 								   compressor(COMPRESSOR_PCM) {
-									   IR1 = new AnalogInput(0);
+									   IR1 = new AnalogInput(7);
 									   IR2 = new AnalogInput(1);
 									   IR3 = new AnalogInput(2);
 									   IR4 = new AnalogInput(3);
-									   IR5 = new AnalogInput(9);
+									   IR5 = new AnalogInput(0);
 }
 
 void DriveSubsystem::robotInit() {
@@ -30,6 +35,7 @@ void DriveSubsystem::robotInit() {
 	driverJoystick->RegisterAxis(CORE::COREJoystick::LEFT_STICK_Y);
 	driverJoystick->RegisterAxis(CORE::COREJoystick::RIGHT_STICK_X);
 	driverJoystick->RegisterButton(CORE::COREJoystick::RIGHT_TRIGGER);
+	driverJoystick->RegisterButton(CORE::COREJoystick::RIGHT_BUTTON);
     InitTalons();
 	
 }
@@ -49,17 +55,47 @@ void DriveSubsystem::teleop() {
 	double rot = driverJoystick->GetAxis(CORE::COREJoystick::JoystickAxis::RIGHT_STICK_X);
 
 	VelocityPair speeds = COREEtherDrive::Calculate(mag, rot, .1);
-	SetMotorSpeed(speeds.left, speeds.right);
 	SmartDashboard::PutNumber("Left side speed", speeds.left);
 	SmartDashboard::PutNumber("Right side speed", speeds.right);
 	SmartDashboard::PutNumber("Left side encoder", m_leftSlave.GetSelectedSensorPosition(0));
 	SmartDashboard::PutNumber("Right side encoder", m_rightMaster.GetSelectedSensorPosition(0));
+	SmartDashboard::PutNumber("Direction of Line Follower", m_rightSpeed - m_leftSpeed);
+
+
+	SmartDashboard::PutNumber("IR1", IR1->GetValue());
+	SmartDashboard::PutNumber("IR2", IR2->GetValue());
+	SmartDashboard::PutNumber("IR3", IR3->GetValue());
+	SmartDashboard::PutNumber("IR4", IR4->GetValue());
+	SmartDashboard::PutNumber("IR5", IR5->GetValue());
+
+	SmartDashboard::PutBoolean("IR1B", IR1->GetValue() >= m_photoEyeLimit.Get());
+	SmartDashboard::PutBoolean("IR2B", IR2->GetValue() >= m_photoEyeLimit.Get());
+	SmartDashboard::PutBoolean("IR3B", IR3->GetValue() >= m_photoEyeLimit.Get());
+	SmartDashboard::PutBoolean("IR4B", IR4->GetValue() >= m_photoEyeLimit.Get());
+	SmartDashboard::PutBoolean("IR5B", IR5->GetValue() >= m_photoEyeLimit.Get());
+
+	SmartDashboard::PutNumber("Right Line Follower Speed", m_rightSpeed);
+	SmartDashboard::PutNumber("Left Line Follower Speed", m_leftSpeed);
 
 	if(driverJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::RIGHT_TRIGGER)) {
 		ToggleGear();
 	}
 	FillCompressor();
-	LineFollower();
+
+	if(driverJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::RIGHT_BUTTON) && m_highGear) {
+		ToggleGear();
+	}
+	if(driverJoystick->GetFallingEdge(CORE::COREJoystick::JoystickButton::RIGHT_BUTTON) && !m_highGear) {
+		ToggleGear();
+		m_leftSpeed = 0;
+		m_rightSpeed = 0;
+	}
+	if(driverJoystick->GetButton(CORE::COREJoystick::JoystickButton::RIGHT_BUTTON)) {
+		LineFollower();
+	} else {
+		SetMotorSpeed(speeds.left, speeds.right);
+	}
+
 
 }
 
@@ -168,5 +204,34 @@ void DriveSubsystem::FillCompressor() {
 }
 
 void DriveSubsystem::LineFollower() {
-	SmartDashboard::PutNumber("IR1", IR1->GetValue());
+	m_leftSpeed = 0;
+	m_rightSpeed = 0;
+	if(IR1->GetValue() >= m_photoEyeLimit.Get()) {
+		m_leftSpeed += (1 * m_leftConstant.Get());
+		//m_leftSpeed = 0.2;
+		//m_rightSpeed += -0.1;
+	}
+	if(IR2->GetValue() >= m_photoEyeLimit.Get()) {
+		m_leftSpeed += (-0.5 * m_leftConstant.Get());
+		//m_rightSpeed += -0.05;
+	}
+	if(IR3->GetValue() >= m_photoEyeLimit.Get()) {
+		m_leftSpeed += (1 * m_middleConstant.Get());
+		m_rightSpeed += (1 * m_middleConstant.Get());
+	}
+	if(IR4->GetValue() >= m_photoEyeLimit.Get()) {
+		//m_leftSpeed += -0.05;
+		m_rightSpeed += (-0.5 * m_rightConstant.Get());	
+	}
+	if(IR5->GetValue() >= m_photoEyeLimit.Get()) {
+		//m_leftSpeed += -0.1;
+		m_rightSpeed += (1 * m_rightConstant.Get());	
+	}
+	if (m_leftSpeed == 0 && m_rightSpeed == 0) {
+		SetMotorSpeed(0.2, 0.2);
+	} else {
+		m_leftSpeed += m_constantForwardSpeed.Get();
+		m_rightSpeed += m_constantForwardSpeed.Get(); 
+		SetMotorSpeed(m_leftSpeed, m_rightSpeed);
+	}
 }

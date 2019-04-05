@@ -34,10 +34,13 @@ private:
     TalonSRX m_leftMaster, m_rightMaster, m_leftSlave, m_rightSlave;
     DoubleSolenoid m_leftDriveShifter;
     bool m_highGear;
-    COREConstant<double> m_turnPIDMultiplier;
+    COREConstant<double> m_turnPIDMultiplier, m_photoEyeLimit, m_constantForwardSpeed, 
+    m_rightConstant, m_middleConstant, m_leftConstant;
     AnalogInput *IR1;
     AnalogInput *IR2;
     AnalogInput *IR3;
     AnalogInput *IR4;
     AnalogInput *IR5;
+    double m_rightSpeed;
+	double m_leftSpeed;
 };
