@@ -5,6 +5,7 @@
 
 using namespace CORE;
 
+
 DriveSubsystem::DriveSubsystem() : driveTurnkP("Drive Turn P Value", .05),
 								   m_etherAValue("Ether A Value", .6),
                                    m_etherBValue("Ether B Value", .4),
@@ -17,17 +18,23 @@ DriveSubsystem::DriveSubsystem() : driveTurnkP("Drive Turn P Value", .05),
                                    m_leftDriveShifter(DRIVE_SHIFTER_PCM, DRIVE_SHIFTER_HIGH_GEAR_PORT, DRIVE_SHIFTER_LOW_GEAR_PORT),
 								   m_highGear(true),
 								   m_turnPIDMultiplier("Turn PID Multiplier", 0.1),
-								   m_photoEyeLimit("Photoeye Cutoff Limit"),
+								   m_photoEyeLimitLeft("Photoeye Cutoff Limit (left)"),
+								   m_photoEyeLimitRight("Photoeye Cutoff Limit (right)"),
 								   m_constantForwardSpeed("Constant Forward Speed"),
 								   m_rightConstant("Right Line Follower Speed"),
 								   m_middleConstant("Middle Line Follower Speed"),
 								   m_leftConstant("Left Line Follower Speed"),
 								   compressor(COMPRESSOR_PCM) {
-									   IR1 = new AnalogInput(7);
-									   IR2 = new AnalogInput(1);
-									   IR3 = new AnalogInput(2);
-									   IR4 = new AnalogInput(3);
-									   IR5 = new AnalogInput(0);
+									   IR1 = new AnalogInput(0);
+									   //IR2 = new AnalogInput(1);
+									   IR3 = new AnalogInput(1);
+									   IR4 = new AnalogInput(2);
+									   IR5 = new AnalogInput(3);
+									   IR6 = new AnalogInput(4);
+									   IR7 = new AnalogInput(5);
+									   IR8 = new AnalogInput(6);
+									   //IR9 = new AnalogInput(3);
+									   IR10 = new AnalogInput(7);
 }
 
 void DriveSubsystem::robotInit() {
@@ -63,16 +70,26 @@ void DriveSubsystem::teleop() {
 
 
 	SmartDashboard::PutNumber("IR1", IR1->GetValue());
-	SmartDashboard::PutNumber("IR2", IR2->GetValue());
+	//SmartDashboard::PutNumber("IR2", IR2->GetValue());
 	SmartDashboard::PutNumber("IR3", IR3->GetValue());
 	SmartDashboard::PutNumber("IR4", IR4->GetValue());
 	SmartDashboard::PutNumber("IR5", IR5->GetValue());
+	SmartDashboard::PutNumber("IR6", IR6->GetValue());
+	SmartDashboard::PutNumber("IR7", IR7->GetValue());
+	SmartDashboard::PutNumber("IR8", IR8->GetValue());
+	//SmartDashboard::PutNumber("IR9", IR9->GetValue());
+	SmartDashboard::PutNumber("IR10", IR10->GetValue());
 
-	SmartDashboard::PutBoolean("IR1B", IR1->GetValue() >= m_photoEyeLimit.Get());
-	SmartDashboard::PutBoolean("IR2B", IR2->GetValue() >= m_photoEyeLimit.Get());
-	SmartDashboard::PutBoolean("IR3B", IR3->GetValue() >= m_photoEyeLimit.Get());
-	SmartDashboard::PutBoolean("IR4B", IR4->GetValue() >= m_photoEyeLimit.Get());
-	SmartDashboard::PutBoolean("IR5B", IR5->GetValue() >= m_photoEyeLimit.Get());
+	SmartDashboard::PutBoolean("IR1B", IR1->GetValue() >= m_photoEyeLimitLeft.Get());
+	//SmartDashboard::PutBoolean("IR2B", IR2->GetValue() >= m_photoEyeLimitLeft.Get());
+	SmartDashboard::PutBoolean("IR3B", IR3->GetValue() >= m_photoEyeLimitLeft.Get());
+	SmartDashboard::PutBoolean("IR4B", IR4->GetValue() >= m_photoEyeLimitLeft.Get());
+	SmartDashboard::PutBoolean("IR5B", IR5->GetValue() >= m_photoEyeLimitLeft.Get());
+	SmartDashboard::PutBoolean("IR6B", IR6->GetValue() >= m_photoEyeLimitLeft.Get());
+	SmartDashboard::PutBoolean("IR7B", IR7->GetValue() >= m_photoEyeLimitLeft.Get());
+	SmartDashboard::PutBoolean("IR8B", IR8->GetValue() >= m_photoEyeLimitLeft.Get());
+	//SmartDashboard::PutBoolean("IR9B", IR9->GetValue() >= m_photoEyeLimitLeft.Get());
+	SmartDashboard::PutBoolean("IR10B", IR10->GetValue() >= m_photoEyeLimitLeft.Get());
 
 	SmartDashboard::PutNumber("Right Line Follower Speed", m_rightSpeed);
 	SmartDashboard::PutNumber("Left Line Follower Speed", m_leftSpeed);
@@ -206,32 +223,69 @@ void DriveSubsystem::FillCompressor() {
 void DriveSubsystem::LineFollower() {
 	m_leftSpeed = 0;
 	m_rightSpeed = 0;
-	if(IR1->GetValue() >= m_photoEyeLimit.Get()) {
-		m_leftSpeed += (1 * m_leftConstant.Get());
-		//m_leftSpeed = 0.2;
-		//m_rightSpeed += -0.1;
+	
+	if(IR1->GetValue() >= m_photoEyeLimitLeft.Get()) {
+		// += (1 * m_leftConstant.Get());
+		m_leftSpeed += 4;
 	}
-	if(IR2->GetValue() >= m_photoEyeLimit.Get()) {
-		m_leftSpeed += (-0.5 * m_leftConstant.Get());
-		//m_rightSpeed += -0.05;
+
+	if(IR3->GetValue() >= m_photoEyeLimitLeft.Get()) {
+		// if(IR1->GetValue() >= m_photoEyeLimitLeft.Get()) {
+		// 	m_leftSpeed += (-0.6 * m_leftConstant.Get());
+		// } else {
+		// 	m_leftSpeed += (0.4 * m_leftConstant.Get());
+		// }
+		m_leftSpeed += 3;
 	}
-	if(IR3->GetValue() >= m_photoEyeLimit.Get()) {
-		m_leftSpeed += (1 * m_middleConstant.Get());
-		m_rightSpeed += (1 * m_middleConstant.Get());
+
+	if(IR4->GetValue() >= m_photoEyeLimitLeft.Get()) {
+		// if(IR1->GetValue() >= m_photoEyeLimitLeft.Get() && IR3->GetValue() >= m_photoEyeLimitLeft.Get()) {
+		// 	m_leftSpeed += (-0.2 * m_leftConstant.Get());	
+		// } else if(IR3->GetValue() >= m_photoEyeLimitLeft.Get()){
+		// 	m_leftSpeed += (-0.2 * m_leftConstant.Get());
+		// } else {
+
+		// }
+		m_leftSpeed += 2;
 	}
-	if(IR4->GetValue() >= m_photoEyeLimit.Get()) {
-		//m_leftSpeed += -0.05;
-		m_rightSpeed += (-0.5 * m_rightConstant.Get());	
+
+	if(IR5->GetValue() >= m_photoEyeLimitLeft.Get()) {	
+		// m_rightSpeed += (1 * m_middleConstant.Get());
+		// m_leftSpeed += (1 * m_middleConstant.Get());
+		m_leftSpeed += 1;
 	}
-	if(IR5->GetValue() >= m_photoEyeLimit.Get()) {
-		//m_leftSpeed += -0.1;
-		m_rightSpeed += (1 * m_rightConstant.Get());	
+	
+	if(IR6->GetValue() >= m_photoEyeLimitRight.Get()) {
+		// m_rightSpeed += (1 * m_middleConstant.Get());
+		// m_leftSpeed += (1 * m_middleConstant.Get());
+		m_leftSpeed += -1;
 	}
-	if (m_leftSpeed == 0 && m_rightSpeed == 0) {
-		SetMotorSpeed(0.2, 0.2);
-	} else {
-		m_leftSpeed += m_constantForwardSpeed.Get();
-		m_rightSpeed += m_constantForwardSpeed.Get(); 
-		SetMotorSpeed(m_leftSpeed, m_rightSpeed);
+	
+	if(IR7->GetValue() >= m_photoEyeLimitRight.Get()) {
+		// if(IR8->GetValue() >= m_photoEyeLimitRight.Get() && IR10->GetValue() >= m_photoEyeLimitRight.Get()) {
+		// 	m_rightSpeed -= (0.15 * m_rightConstant.Get())			
+		// } else {
+		// 	m_rightSpeed += (0 * m_rightConstant.Get());
+		// }
+		m_leftSpeed += -2;
 	}
+	
+	if(IR8->GetValue() >= m_photoEyeLimitRight.Get()) {
+		// if(IR10->GetValue() >= m_photoEyeLimitRight.Get()){
+		// 	m_rightSpeed -= (0.25 * m_rightConstant.Get())
+		// } else {
+		// 	m_rightSpeed += (0.44 * m_rightConstant.Get());
+		// }
+		m_leftSpeed += -3;
+	}
+	
+	if(IR10->GetValue() >= m_photoEyeLimitRight.Get()) {
+		// m_rightSpeed += (0.56 * m_rightConstant.Get());
+		m_leftSpeed += -4;	
+	}
+
+	// m_leftSpeed += m_constantForwardSpeed.Get();
+	// m_rightSpeed += m_constantForwardSpeed.Get();
+	SetMotorSpeed(-(m_leftSpeed/12.0) + m_constantForwardSpeed.Get(), m_leftSpeed/12.0 + m_constantForwardSpeed.Get());
+	//SetMotorSpeed(m_leftSpeed, m_rightSpeed);
 }
