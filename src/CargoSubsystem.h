@@ -18,7 +18,7 @@ public:
 	void SetOff();
 
 private:
-	TalonSRX m_rightSideIntake, m_leftSideIntake;
+	TalonSRX m_rightSideIntake;
 	frc::DigitalInput m_cargoLimitSwitch;
 	COREConstant<double> m_cargoIntakeSpeed, m_cargoOuttakeSpeed;
 
