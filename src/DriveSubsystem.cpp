@@ -79,18 +79,18 @@ void DriveSubsystem::teleop() {
 	SmartDashboard::PutNumber("IR8", IR8->GetValue());
 	//SmartDashboard::PutNumber("IR9", IR9->GetValue());
 	SmartDashboard::PutNumber("IR10", IR10->GetValue());
-
-	SmartDashboard::PutBoolean("IR1B", IR1->GetValue() >= m_photoEyeLimitLeft.Get());
-	//SmartDashboard::PutBoolean("IR2B", IR2->GetValue() >= m_photoEyeLimitLeft.Get());
-	SmartDashboard::PutBoolean("IR3B", IR3->GetValue() >= m_photoEyeLimitLeft.Get());
-	SmartDashboard::PutBoolean("IR4B", IR4->GetValue() >= m_photoEyeLimitLeft.Get());
-	SmartDashboard::PutBoolean("IR5B", IR5->GetValue() >= m_photoEyeLimitLeft.Get());
-	SmartDashboard::PutBoolean("IR6B", IR6->GetValue() >= m_photoEyeLimitLeft.Get());
-	SmartDashboard::PutBoolean("IR7B", IR7->GetValue() >= m_photoEyeLimitLeft.Get());
-	SmartDashboard::PutBoolean("IR8B", IR8->GetValue() >= m_photoEyeLimitLeft.Get());
-	//SmartDashboard::PutBoolean("IR9B", IR9->GetValue() >= m_photoEyeLimitLeft.Get());
-	SmartDashboard::PutBoolean("IR10B", IR10->GetValue() >= m_photoEyeLimitLeft.Get());
-
+	
+	SmartDashboard::PutBoolean("IR1B", IR1->GetValue() >= m_photoEyeThresholdLeft.Get());
+	//SmartDashboard::PutBoolean("IR2B", IR2->GetValue() >= m_photoEyeThresholdLeft.Get());
+	SmartDashboard::PutBoolean("IR3B", IR3->GetValue() >= m_photoEyeThresholdLeft.Get());
+	SmartDashboard::PutBoolean("IR4B", IR4->GetValue() >= m_photoEyeThresholdLeft.Get());
+	SmartDashboard::PutBoolean("IR5B", IR5->GetValue() >= m_photoEyeThresholdLeft.Get());
+	SmartDashboard::PutBoolean("IR6B", IR6->GetValue() >= m_photoEyeThresholdLeft.Get());
+	SmartDashboard::PutBoolean("IR7B", IR7->GetValue() >= m_photoEyeThresholdLeft.Get());
+	SmartDashboard::PutBoolean("IR8B", IR8->GetValue() >= m_photoEyeThresholdLeft.Get());
+	//SmartDashboard::PutBoolean("IR9B", IR9->GetValue() >= m_photoEyeThresholdLeft.Get());
+	SmartDashboard::PutBoolean("IR10B", IR10->GetValue() >= m_photoEyeThresholdLeft.Get());
+	
 	SmartDashboard::PutNumber("Right Line Follower Speed", m_rightSpeed);
 	SmartDashboard::PutNumber("Left Line Follower Speed", m_leftSpeed);
 
