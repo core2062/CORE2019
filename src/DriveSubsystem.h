@@ -35,6 +35,7 @@ public:
     AHRS * GetGyro();
     TankRotation2d GetGyroAngle();
     double GetYaw();
+    AHRS * m_gyro;
 
     void FollowPath(TankPath path, bool reversed, double maxAccel, double tolerance, bool gradualStop);
     TankAdaptivePursuit m_pursuit;

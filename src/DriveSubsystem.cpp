@@ -28,14 +28,14 @@ DriveSubsystem::DriveSubsystem() : lookAhead("Waypoint follower look ahead point
 	if (std::addressof(m_rightMaster) == nullptr) {
 		std::cout << "Right master is returning a nullptr!" << endl;
 	}
-		if (m_gyro == nullptr) {
-		std::cout << "GetGyro is returning a nullptr!" << endl;
-	}
 	try {
         m_gyro = new AHRS(SPI::Port::kMXP);;
     } catch (std::exception ex) {
         CORELog::LogError("Error initializing gyro: " + string(ex.what()));
     }
+	if (m_gyro == nullptr) {
+		std::cout << "GetGyro is returning a nullptr!" << endl;
+	}
 	std::cout << "This is the gyro angle from drive subsystem: " << m_gyro->GetAngle() << endl;
 }
 
