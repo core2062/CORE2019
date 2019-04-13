@@ -7,7 +7,6 @@
 #include <DriveSubsystem.h>
 #include <CargoSubsystem.h>
 #include <LiftSubsystem.h>
-#include <HatchIntakeSubsystem.h>
 #include <HatchScorerSubsystem.h>
 #include <Auton.h>
 
@@ -78,7 +77,6 @@ public:
 
 	DriveSubsystem driveSubsystem;
 	CargoSubsystem cargoSubsystem;
-	//HatchIntakeSubsystem hatchSubsystem;
 	HatchScorerSubsystem hatchScorerSubsystem;
 	LiftSubsystem liftSubsystem;
 	Autonomous controlledAutonomous;
