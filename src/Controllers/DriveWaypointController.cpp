@@ -5,15 +5,11 @@ DriveWaypointController::DriveWaypointController():
 	m_path(),
     m_tracker(TankTracker::GetInstance()),
 	m_pursuit(0,0,.1,m_path,false,0) {
-		TalonSRX* Left = Robot::GetInstance()->driveSubsystem.GetLeftMaster();
-		TalonSRX* Right = Robot::GetInstance()->driveSubsystem.GetRightMaster();
-		AHRS* Gyro = Robot::GetInstance()->driveSubsystem.GetGyro();
-    	TankTracker::GetInstance()->Init(Left, Right, Gyro);
-    	std::cout << "Waypoint Controller Init" << std::endl;
+
 }
 
 void DriveWaypointController::PreLoopTask() {
-
+//	TankTracker::GetInstance()->Loop();
 }
 
 void DriveWaypointController::PostLoopTask() {
@@ -71,4 +67,16 @@ void DriveWaypointController::UpdatePathFollower() {
 }
 
 void DriveWaypointController::AutonInitTask(){
+	cout<<"Waypoint Controller Init Start"<<endl;
+	TalonSRX* Left = Robot::GetInstance()->driveSubsystem.GetLeftMaster();
+	TalonSRX* Right = Robot::GetInstance()->driveSubsystem.GetRightMaster();
+	AHRS* Gyro = Robot::GetInstance()->driveSubsystem.GetGyro();
+	if (Left != nullptr) {
+		cout<<"Left is not a null ptr" <<endl;
+	} 
+	if (Right != nullptr) {
+		cout<<"Right is not a null ptr" <<endl;
+	} 
+   	TankTracker::GetInstance()->Init(Left, Right, Gyro);
+   	std::cout << "Waypoint Controller Init End" << std::endl;
 }

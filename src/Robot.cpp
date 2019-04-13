@@ -7,7 +7,7 @@ Robot * Robot::m_instance;
 
 Robot::Robot() {
 	m_instance = this;
-
+	std::cout<<"Robot Constructor"<<endl;
 }
 
 void Robot::teleop() {
@@ -16,7 +16,6 @@ void Robot::teleop() {
 
 void Robot::robotInit() {
 	//COREScheduler::AddAuton(&controlledAutonomous);
-	
 }
 
 void Robot::teleopInit() {

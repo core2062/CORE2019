@@ -205,20 +205,20 @@ void DriveSubsystem::FillCompressor() {
 }
 
 TalonSRX * DriveSubsystem::GetLeftMaster() {
-	if (&m_leftSlave == nullptr) {
-		std::cout << "Left master is returning a nullptr!" << endl;
-	} else{
-		bool Inverted = m_leftMaster.GetInverted();
-	}
+	// if (&m_leftSlave == nullptr) {
+	// 	std::cout << "Left master is returning a nullptr!" << endl;
+	// } else{
+	// 	bool Inverted = m_leftMaster.GetInverted();
+	// }
 	return &m_leftSlave;
 }
 
 TalonSRX * DriveSubsystem::GetRightMaster() {
-	if (&m_rightMaster == nullptr) {
-		std::cout << "Right master is returning a nullptr!" << endl;
-	} else{
-		bool Inverted = m_rightMaster.GetInverted();
-		}
+	// if (&m_rightMaster == nullptr) {
+	// 	std::cout << "Right master is returning a nullptr!" << endl;
+	// } else{
+	// 	bool Inverted = m_rightMaster.GetInverted();
+	// 	}
 	return &m_rightMaster;
 }
 

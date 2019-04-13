@@ -4,6 +4,7 @@
 #include "TeleoperatedAuton.h"
 
 TeleoperatedAutonomous::TeleoperatedAutonomous() : COREAuton("Teleop in Autonomous") {
+    cout<<"Teleoperated Autonomous Constructor"<<endl;
 }
 
 void TeleoperatedAutonomous::AddNodes() {
