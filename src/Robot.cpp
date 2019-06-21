@@ -15,12 +15,15 @@ void Robot::teleop() {
 }
 
 void Robot::robotInit() {
-	//COREScheduler::AddAuton(&controlledAutonomous);
-	
+	CORE::COREScheduler::AddAuton(&controlledAutonomous);
+	CORE::COREScheduler::AddSubsystem(&driveSubsystem);
+	CORE::COREScheduler::AddSubsystem(&cargoSubsystem);
+	CORE::COREScheduler::AddSubsystem(&hatchScorerSubsystem);
+	CORE::COREScheduler::AddSubsystem(&liftSubsystem);
 }
 
 void Robot::teleopInit() {
-    
+    cout<<"Robot Subsystem Init"<< endl;
 }
 
 void Robot::test() {

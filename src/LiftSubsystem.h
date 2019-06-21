@@ -15,8 +15,7 @@ public:
 	void teleop() override;
 	void SetRequestedPosition(double positionInInches);
 	void SetRequestedSpeed(double speed);
-
-void SetFirstLevelCargoHeight();
+	void SetFirstLevelCargoHeight();
 	double GetLiftPosition();
 	double GetLiftInches();
 	void ResetEncoder();

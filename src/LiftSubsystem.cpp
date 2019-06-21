@@ -20,6 +20,7 @@ LiftSubsystem::LiftSubsystem() : m_ticksPerInch("Lift Ticks per inch", 368.667),
 
 // Configuration for robot turn on 
 void LiftSubsystem::robotInit(){
+
     m_leftLiftMotor.Set(ControlMode::PercentOutput, 0.0);
     m_rightLiftMotor.Set(ControlMode::PercentOutput, 0.0);
     m_leftLiftMotor.SetInverted(true);
@@ -29,6 +30,7 @@ void LiftSubsystem::robotInit(){
     m_leftLiftMotor.ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::CTRE_MagEncoder_Relative, 0, 0);
     m_leftLiftMotor.SetSelectedSensorPosition(0,0,0);
     m_leftLiftMotor.SetSensorPhase(true);
+    cout<<"Lift Subsystem Init"<< endl;
 }
 
 // Configuration for teleop
@@ -37,6 +39,7 @@ void LiftSubsystem::teleopInit(){
     m_rightLiftMotor.ConfigMotionCruiseVelocity(m_cruiseVel.Get(), 0);
     m_rightLiftMotor.ConfigMotionAcceleration(m_maxAcel.Get(), 0);
     //SetRequestedPosition(0);
+    cout<<"Lift Subsystem Init"<< endl;
 }
 
 void LiftSubsystem::teleop() {
