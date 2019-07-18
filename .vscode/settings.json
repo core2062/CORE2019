@@ -14,7 +14,8 @@
   "wpilib.online": true,
   "files.associations": {
     "*.inc": "cpp",
-    "iostream": "cpp"
+    "iostream": "cpp",
+    "ostream": "cpp"
   },
   "C_Cpp.configurationWarnings": "Disabled"
 }
