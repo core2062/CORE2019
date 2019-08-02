@@ -8,6 +8,7 @@ Robot* Robot::m_instance;
 Robot::Robot() {
     m_instance = this;
     CORE::COREScheduler::AddSubsystem(m_instance);
+    CORE::COREScheduler::AddTask(&cOREJoystick);
 }
 
 void Robot::teleop() {
@@ -17,9 +18,9 @@ void Robot::teleop() {
 void Robot::robotInit() {
     CORE::COREScheduler::AddAuton(&controlledAutonomous);
     CORE::COREScheduler::AddSubsystem(&driveSubsystem);
-    CORE::COREScheduler::AddSubsystem(&cargoSubsystem);
-    CORE::COREScheduler::AddSubsystem(&hatchScorerSubsystem);
-    CORE::COREScheduler::AddSubsystem(&liftSubsystem);
+    // CORE::COREScheduler::AddSubsystem(&cargoSubsystem);
+    // CORE::COREScheduler::AddSubsystem(&hatchScorerSubsystem);
+    // CORE::COREScheduler::AddSubsystem(&liftSubsystem);
 }
 
 void Robot::teleopInit() {

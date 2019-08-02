@@ -9,6 +9,7 @@
 #include <LiftSubsystem.h>
 #include <HatchScorerSubsystem.h>
 #include <Auton.h>
+#include <COREHardware/COREJoystick.h>
 
 /* Drive Motor Ports */
 //Right Front Drive Motor
@@ -80,6 +81,8 @@ public:
 	HatchScorerSubsystem hatchScorerSubsystem;
 	LiftSubsystem liftSubsystem;
 	Autonomous controlledAutonomous;
+	COREJoystick cOREJoystick;
+
 
 private:
 	static Robot * m_instance;
