@@ -7,7 +7,6 @@
 #include <DriveSubsystem.h>
 #include <CargoSubsystem.h>
 #include <LiftSubsystem.h>
-#include <HatchIntakeSubsystem.h>
 #include <HatchScorerSubsystem.h>
 #include <AutonRoutines.h>
 #include <Controllers/DriveWaypointController.h>
@@ -34,6 +33,8 @@
 #define RIGHT_LIFT_PORT 30
 //Hatch Intake Motor
 #define HATCH_INTAKE_PORT 21
+//Hatch Scorer Motor
+#define HATCH_SCORER_MOTOR 34 
 
 /* Solenoids */
 // Drive 
@@ -79,7 +80,6 @@ public:
 
 	DriveSubsystem driveSubsystem;
 	CargoSubsystem cargoSubsystem;
-	//HatchIntakeSubsystem hatchSubsystem;
 	HatchScorerSubsystem hatchScorerSubsystem;
 	LiftSubsystem liftSubsystem;
 	//TeleoperatedAutonomous controlledAutonomous;
