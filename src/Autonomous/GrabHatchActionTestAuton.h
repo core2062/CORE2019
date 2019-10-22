@@ -1,15 +1,15 @@
-#pragma once
+// #pragma once
 
-#include <memory>
-#include <CORERobotLib.h>
+// #include <memory>
+// #include <CORERobotLib.h>
 
-using namespace CORE;
+// using namespace CORE;
 
-class GrabHatchActionTestAuton : public COREAuton {
-public:
-    GrabHatchActionTestAuton();
-	void AddNodes();
+// class GrabHatchActionTestAuton : public COREAuton {
+// public:
+//     GrabHatchActionTestAuton();
+// 	void AddNodes();
 
-private:
-	Node * m_grabCargo = nullptr;
-};
+// private:
+// 	Node * m_grabCargo = nullptr;
+// };

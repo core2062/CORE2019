@@ -1,16 +1,16 @@
-#pragma once
+// #pragma once
 
-#include <memory>
-#include <CORERobotLib.h>
-#include "Actions/PlaceCargoAction.h"
+// #include <memory>
+// #include <CORERobotLib.h>
+// #include "Actions/PlaceCargoAction.h"
 
-using namespace CORE;
+// using namespace CORE;
 
-class PlaceCargoActionTestAuton : public COREAuton {
-public:
-    PlaceCargoActionTestAuton();
-	void AddNodes();
+// class PlaceCargoActionTestAuton : public COREAuton {
+// public:
+//     PlaceCargoActionTestAuton();
+// 	void AddNodes();
 
-private:
-	Node * m_placeCargo = nullptr;
-};
+// private:
+// 	Node * m_placeCargo = nullptr;
+// };

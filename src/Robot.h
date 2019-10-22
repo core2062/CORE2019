@@ -82,7 +82,7 @@ public:
 	//HatchIntakeSubsystem hatchSubsystem;
 	HatchScorerSubsystem hatchScorerSubsystem;
 	LiftSubsystem liftSubsystem;
-	TeleoperatedAutonomous controlledAutonomous;
+	//TeleoperatedAutonomous controlledAutonomous;
 	DriveWaypointController driveWaypointController;
 	DriveGyroController driveGyroController;
 	// DriveDistanceTestAuton distance;
@@ -91,7 +91,7 @@ public:
 	// PlaceCargoActionTestAuton placeCargo;
 	// PlaceHatchActionTestAuton placeHatch;
 	// RaiseLiftActionTestAuton raiseLift;
-	// WaypointTestAuton waypointDrive;
+	WaypointTestAuton waypointDrive;
 	// LeftToRocketHatchAuton leftToRocketHatch;
 	// RightToRocketHatchAuton rightToRocketHatch;
 	// OneHatchCargoShipAuton oneHatchToCargoShip;

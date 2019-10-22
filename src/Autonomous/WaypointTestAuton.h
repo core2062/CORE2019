@@ -1,15 +1,15 @@
-// #pragma once
+#pragma once
 
-// #include <memory>
-// #include <CORERobotLib.h>
+#include <memory>
+#include <CORERobotLib.h>
 
-// using namespace CORE;
+using namespace CORE;
 
-// class WaypointTestAuton : public COREAuton {
-// public:
-//     WaypointTestAuton();
-// 	void AddNodes();
+class WaypointTestAuton : public COREAuton {
+public:
+    WaypointTestAuton();
+	void AddNodes();
 
-// private:
-// 	Node * m_driveForward = nullptr;
-// };
+private:
+	Node * m_driveForward = nullptr;
+};
