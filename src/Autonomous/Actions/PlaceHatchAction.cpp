@@ -11,10 +11,10 @@ void PlaceHatchAction::ActionInit() {
 CORE::COREAutonAction::actionStatus PlaceHatchAction::Action() {
     switch(m_placeHatchRequestedAction){
         case CLOSE:
-            Robot::GetInstance()->hatchScorerSubsystem.ToggleClaw();
+            //Robot::GetInstance()->hatchScorerSubsystem.ToggleClaw();
             break;
         case EXTEND:
-            Robot::GetInstance()->hatchScorerSubsystem.ScoreHatch();
+            //Robot::GetInstance()->hatchScorerSubsystem.IntakeHatch();
         break;
     } 
     return COREAutonAction::actionStatus::END;

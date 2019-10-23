@@ -8,10 +8,10 @@ GrabHatchAction::GrabHatchAction(GrabHatch Action){
 void GrabHatchAction::ActionInit(){
     switch(m_grabHatchRequestedAction){
         case OPEN:
-            Robot::GetInstance()->hatchScorerSubsystem.ToggleClaw();
+            //Robot::GetInstance()->hatchScorerSubsystem.ToggleClaw();
             break;
         case PUSH: 
-            Robot::GetInstance()->hatchScorerSubsystem.ScoreHatch();
+            //Robot::GetInstance()->hatchScorerSubsystem.ScoreHatch();
         break;
     }
 }
