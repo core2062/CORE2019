@@ -79,9 +79,9 @@ public:
 	static Robot * GetInstance();
 
 	DriveSubsystem driveSubsystem;
-	CargoSubsystem cargoSubsystem;
-	HatchScorerSubsystem hatchScorerSubsystem;
-	LiftSubsystem liftSubsystem;
+	// CargoSubsystem cargoSubsystem;
+	// HatchScorerSubsystem hatchScorerSubsystem;
+	// LiftSubsystem liftSubsystem;
 	//TeleoperatedAutonomous controlledAutonomous;
 	DriveWaypointController driveWaypointController;
 	DriveGyroController driveGyroController;

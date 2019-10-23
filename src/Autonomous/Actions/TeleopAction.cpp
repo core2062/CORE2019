@@ -9,10 +9,10 @@ void TeleopAction::ActionInit() {
 }
 
 CORE::COREAutonAction::actionStatus TeleopAction::Action() {
-	Robot::GetInstance()->hatchScorerSubsystem.teleop();
-	Robot::GetInstance()->liftSubsystem.teleop();
+	// Robot::GetInstance()->hatchScorerSubsystem.teleop();
+	// Robot::GetInstance()->liftSubsystem.teleop();
 	Robot::GetInstance()->driveSubsystem.teleop();
-	Robot::GetInstance()->cargoSubsystem.teleop();
+	//Robot::GetInstance()->cargoSubsystem.teleop();
 	return COREAutonAction::actionStatus::CONTINUE;
 }
 
