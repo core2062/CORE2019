@@ -14,9 +14,12 @@ void DriveWaypointAction::ActionInit() {
 }
 
 CORE::COREAutonAction::actionStatus DriveWaypointAction::Action() {
+    SmartDashboard::PutNumber("Gyro Yaw", Robot::GetInstance()->driveSubsystem.GetYaw());
     if (!Robot::GetInstance()->driveSubsystem.PathDone()) {
+        SmartDashboard::PutNumber("Gyro Yaw", Robot::GetInstance()->driveSubsystem.GetYaw());
         return COREAutonAction::actionStatus::CONTINUE;
     }
+    SmartDashboard::PutNumber("Gyro Yaw", Robot::GetInstance()->driveSubsystem.GetYaw());
     return COREAutonAction::actionStatus::END;
 }
 

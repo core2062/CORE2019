@@ -11,5 +11,5 @@ public:
 	void AddNodes();
 
 private:
-	Node * m_driveForward = nullptr;
+	Node * m_driveForward;
 };

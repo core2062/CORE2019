@@ -1,8 +1,8 @@
 #include "WaypointTestAuton.h"
 #include "Actions/DriveWaypointAction.h"
+#include <frc/WPILib.h>
 
-WaypointTestAuton::WaypointTestAuton() :
-	COREAuton("Waypoint Follower Test Auton") {
+WaypointTestAuton::WaypointTestAuton() : COREAuton("Waypoint Follower Test Auton", true) {
 }
 
 void WaypointTestAuton::AddNodes() {
