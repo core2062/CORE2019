@@ -12,4 +12,5 @@ public:
 
 private:
 	Node * m_driveForward;
+	TankPath tankPath;
 };

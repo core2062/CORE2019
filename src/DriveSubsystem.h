@@ -37,7 +37,7 @@ public:
     double GetYaw();
     AHRS * m_gyro;
 
-    void FollowPath(TankPath path, bool reversed, double maxAccel, double tolerance, bool gradualStop);
+    void FollowPath(TankPath * path, bool reversed, double maxAccel, double tolerance, bool gradualStop);
     TankAdaptivePursuit m_pursuit;
     bool PathDone();
     void ResetTracker(TankPosition2d initialPos);
@@ -51,7 +51,7 @@ public:
     TalonSRX m_leftMaster, m_rightMaster, m_leftSlave, m_rightSlave;
     COREConstant<double> driveTurnkP, lookAhead;
 private:
-    TankPath m_path;
+    TankPath * m_path;
     TankTracker * m_tracker;
     Compressor compressor;
     DriveWaypointController * m_driveWaypointController = 0;

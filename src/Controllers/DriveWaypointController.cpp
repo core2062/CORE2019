@@ -31,7 +31,7 @@ void DriveWaypointController::Disable() {
 	m_enabled = false;
 }
 
-void DriveWaypointController::StartPath(TankPath path, bool reversed,
+void DriveWaypointController::StartPath(TankPath * path, bool reversed,
 		double maxAccel, double tolerance, bool gradualStop, double lookahead) {
 	m_pursuit = TankAdaptivePursuit(lookahead, maxAccel, .025, path, reversed, tolerance, gradualStop);
 }

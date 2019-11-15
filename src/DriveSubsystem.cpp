@@ -22,7 +22,7 @@ DriveSubsystem::DriveSubsystem() : lookAhead("Waypoint follower look ahead point
 								   compressor(COMPRESSOR_PCM),
 								   m_pursuit(0, 0, .1, m_path, false, 0),
 								   m_tracker(TankTracker::GetInstance()) {
-	if (std::addressof(m_leftSlave) == nullptr) {
+	if (std::addressof(m_leftMaster) == nullptr) {
 		std::cout << "Left master is returning a nullptr!" << endl;
 	}
 	if (std::addressof(m_rightMaster) == nullptr) {
@@ -83,20 +83,21 @@ void DriveSubsystem::teleop() {
 	// Code for teleop. Sets motor speed based on the values for the joystick, runs compressor, 
 	// toggles gears
 
-    double mag = -driverJoystick->GetAxis(CORE::COREJoystick::JoystickAxis::LEFT_STICK_Y);
-	double rot = driverJoystick->GetAxis(CORE::COREJoystick::JoystickAxis::RIGHT_STICK_X);
+    double mag = -driverJoystick->GetAxis(CORE::COREJoystick::JoystickAxis::RIGHT_STICK_X);
+	double rot = driverJoystick->GetAxis(CORE::COREJoystick::JoystickAxis::LEFT_STICK_Y);
 
 	VelocityPair speeds = COREEtherDrive::Calculate(mag, rot, .1);
 	SetMotorSpeed(speeds.left, speeds.right);
+	SmartDashboard::PutNumber("Actual Gyro Yaw", GetYaw());
 	SmartDashboard::PutNumber("Left side speed", speeds.left);
 	SmartDashboard::PutNumber("Right side speed", speeds.right);
-	SmartDashboard::PutNumber("Left side encoder", m_leftSlave.GetSelectedSensorPosition(0));
+	SmartDashboard::PutNumber("Left side encoder", m_leftMaster.GetSelectedSensorPosition(0));
 	SmartDashboard::PutNumber("Right side encoder", m_rightMaster.GetSelectedSensorPosition(0));
 
-	if(driverJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::RIGHT_TRIGGER)) {
-		ToggleGear();
-	}
-	FillCompressor();
+	// if(driverJoystick->GetRisingEdge(CORE::COREJoystick::JoystickButton::RIGHT_TRIGGER)) {
+	// 	ToggleGear();
+	// }
+	//FillCompressor();
 
 }
 
@@ -119,8 +120,8 @@ void DriveSubsystem::ResetEncoders(DriveSide whichSide){
 		m_rightMaster.SetSelectedSensorPosition(0, 0, 10);
 	}
 	if (whichSide == DriveSide::BOTH || whichSide == DriveSide::LEFT){
-		m_leftSlave.GetSensorCollection().SetQuadraturePosition(0, 10);
-		m_leftSlave.SetSelectedSensorPosition(0, 0, 10);
+		m_leftMaster.GetSensorCollection().SetQuadraturePosition(0, 10);
+		m_leftMaster.SetSelectedSensorPosition(0, 0, 10);
 	}
 }
 
@@ -166,25 +167,25 @@ void DriveSubsystem::InitTalons() {
 	m_rightSlave.Set(ControlMode::PercentOutput, 0);
 
 	// Encoder Functions
-    m_leftSlave.SetStatusFramePeriod(StatusFrameEnhanced::Status_1_General, 10, 0);
+    m_leftMaster.SetStatusFramePeriod(StatusFrameEnhanced::Status_1_General, 10, 0);
     m_rightMaster.SetStatusFramePeriod(StatusFrameEnhanced::Status_1_General, 10, 0);
 
-    m_leftSlave.ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::CTRE_MagEncoder_Relative, 0, 0);
+    m_leftMaster.ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::CTRE_MagEncoder_Relative, 0, 0);
     m_rightMaster.ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::CTRE_MagEncoder_Relative, 0, 0);
 
-	m_leftSlave.SetSensorPhase(false);
+	m_leftMaster.SetSensorPhase(false);
     m_rightMaster.SetSensorPhase(true);
 
 	// Motor Inversion
-	m_leftMaster.SetInverted(false);
-	m_leftSlave.SetInverted(false);
+	m_leftMaster.SetInverted(true);
+	m_leftSlave.SetInverted(true);
 	m_rightMaster.SetInverted(true);
 	m_rightSlave.SetInverted(true);
 }
 
 double DriveSubsystem::GetForwardPower() {
 	// Returns current power being exerted
-	double left = m_leftSlave.GetSelectedSensorPosition(0);
+	double left = m_leftMaster.GetSelectedSensorPosition(0);
 	double right = m_rightMaster.GetSelectedSensorPosition(0);
 	double power  = 0;
 	if(left > 0 || right > 0) {
@@ -210,7 +211,7 @@ TalonSRX * DriveSubsystem::GetLeftMaster() {
 	// } else{
 	// 	bool Inverted = m_leftMaster.GetInverted();
 	// }
-	return &m_leftSlave;
+	return &m_leftMaster;
 }
 
 TalonSRX * DriveSubsystem::GetRightMaster() {
@@ -237,13 +238,13 @@ AHRS * DriveSubsystem::GetGyro() {
 
 double DriveSubsystem::GetYaw() {
 	return (double) m_gyro->GetAngle();
-}
+} 
 
 TankRotation2d DriveSubsystem::GetGyroAngle() {
 	return TankRotation2d::FromRadians(m_gyro->GetYaw());
 }
 
-void DriveSubsystem::FollowPath(TankPath path, bool reversed, double maxAccel, double tolerance, 
+void DriveSubsystem::FollowPath(TankPath * path, bool reversed, double maxAccel, double tolerance, 
 	bool gradualStop) {
 	m_pursuit = TankAdaptivePursuit(lookAhead.Get(), maxAccel, 0.025, path, reversed, tolerance, gradualStop);
 }
@@ -275,12 +276,12 @@ void DriveSubsystem::UpdatePathFollower() {
 
 std::pair<double, double> DriveSubsystem::GetEncoderInches() {
 	double factor = TankKinematics::wheelDiameter.Get() * 3.14;
-	return {m_leftSlave.GetSelectedSensorPosition(0) * factor, m_rightMaster.GetSelectedSensorPosition(0) * factor};
+	return {m_leftMaster.GetSelectedSensorPosition(0) * factor, m_rightMaster.GetSelectedSensorPosition(0) * factor};
 }
 
 std::pair<double, double> DriveSubsystem::GetEncoderSpeed() {
 	double factor = TankKinematics::wheelDiameter.Get() * 3.14 * 0.016666666;
-	return {m_leftSlave.GetSelectedSensorVelocity(0) * factor, m_rightMaster.GetSelectedSensorVelocity(0) * factor};
+	return {m_leftMaster.GetSelectedSensorVelocity(0) * factor, m_rightMaster.GetSelectedSensorVelocity(0) * factor};
 }
 
 void DriveSubsystem::ResetTracker(TankPosition2d initialPos) {

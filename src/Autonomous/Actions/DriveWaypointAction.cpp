@@ -1,8 +1,8 @@
 #include <Robot.h>
 #include <Autonomous/Actions/DriveWaypointAction.h>
 
-DriveWaypointAction::DriveWaypointAction(TankPath path){
-    m_path = std::move(path);
+DriveWaypointAction::DriveWaypointAction(TankPath * path){
+    m_path = path; // Why is this std::move necessary?
     m_reversed = false;
     m_tolerance = 0.25;
     m_maxAccel = 40;
@@ -14,12 +14,9 @@ void DriveWaypointAction::ActionInit() {
 }
 
 CORE::COREAutonAction::actionStatus DriveWaypointAction::Action() {
-    SmartDashboard::PutNumber("Gyro Yaw", Robot::GetInstance()->driveSubsystem.GetYaw());
     if (!Robot::GetInstance()->driveSubsystem.PathDone()) {
-        SmartDashboard::PutNumber("Gyro Yaw", Robot::GetInstance()->driveSubsystem.GetYaw());
         return COREAutonAction::actionStatus::CONTINUE;
     }
-    SmartDashboard::PutNumber("Gyro Yaw", Robot::GetInstance()->driveSubsystem.GetYaw());
     return COREAutonAction::actionStatus::END;
 }
 

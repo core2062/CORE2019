@@ -6,6 +6,7 @@ WaypointTestAuton::WaypointTestAuton() : COREAuton("Waypoint Follower Test Auton
 }
 
 void WaypointTestAuton::AddNodes() {
-    m_driveForward = new Node(5, new DriveWaypointAction(TankPath::FromFile("path.json", false)));
+    tankPath = TankPath::FromFile("path.json", false);
+    m_driveForward = new Node(5, new DriveWaypointAction(&tankPath));
     AddFirstNode(m_driveForward);
-}
+} //Pointers instead of what we currently have 
