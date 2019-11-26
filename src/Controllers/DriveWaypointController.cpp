@@ -40,8 +40,8 @@ void DriveWaypointController::ResetTracker(TankPosition2d initialPos) {
 	m_tracker->Reset(Timer::GetFPGATimestamp(), initialPos);
 }
 
-bool DriveWaypointController::IsDone() {
-	return m_pursuit.IsDone();
+bool DriveWaypointController::IsDone(TankPath * m_path) {
+	return m_pursuit.IsDone(m_path);
 }
 
 bool DriveWaypointController::CheckEvent(std::string event) {

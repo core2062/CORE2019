@@ -22,7 +22,7 @@ public:
 
 	void StartPath(TankPath * path, bool reversed = false, double maxAccel = 25.0, double tolerance = .25, bool gradualStop = true, double lookahead = 24.0);
 	void ResetTracker(TankPosition2d initialPos);
-	bool IsDone();
+	bool IsDone(TankPath * m_path);
 	bool CheckEvent(std::string event);
 	void UpdatePathFollower();
 

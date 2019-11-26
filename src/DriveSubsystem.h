@@ -39,7 +39,7 @@ public:
 
     void FollowPath(TankPath * path, bool reversed, double maxAccel, double tolerance, bool gradualStop);
     TankAdaptivePursuit m_pursuit;
-    bool PathDone();
+    bool PathDone(TankPath * m_path);
     void ResetTracker(TankPosition2d initialPos);
     void UpdatePathFollower();
     std::pair<double, double> GetEncoderInches();

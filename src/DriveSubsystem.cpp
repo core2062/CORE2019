@@ -249,9 +249,9 @@ void DriveSubsystem::FollowPath(TankPath * path, bool reversed, double maxAccel,
 	m_pursuit = TankAdaptivePursuit(lookAhead.Get(), maxAccel, 0.025, path, reversed, tolerance, gradualStop);
 }
 
-bool DriveSubsystem::PathDone() {
+bool DriveSubsystem::PathDone(TankPath * m_path) {
 	if(m_driveWaypointController){
-		return m_driveWaypointController->IsDone();
+		return m_driveWaypointController->IsDone(m_path);
 	}
 	return true;
 }
